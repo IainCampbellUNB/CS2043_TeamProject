@@ -18,8 +18,8 @@ public class ExcelIO
 	{
 		try 
 		{
-		writeExcel();
-		readExcel();
+			writeExcel();
+			readExcel();
 		}
 		catch(IOException e) 
 		{
