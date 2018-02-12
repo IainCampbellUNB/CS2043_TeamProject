@@ -100,7 +100,7 @@ public class GUI extends JFrame{
 		table.setTableHeader(null);
 		table.setFillsViewportHeight(true);
 		table.setRowHeight(130);
-	    JScrollPane scrollTable = new JScrollPane(table);
+	    	JScrollPane scrollTable = new JScrollPane(table);
 		panelCenter.add(scrollTable, BorderLayout.CENTER);
 		
 	}
