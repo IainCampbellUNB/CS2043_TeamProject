@@ -1,6 +1,7 @@
 package project.group4;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,39 +16,65 @@ import javax.swing.table.DefaultTableModel;
 public class GUI extends JFrame{
 	
 	private JLabel idLabel,label2,hoursLabel,reasonLabel;
-	private JButton addButton,submitButton;
+	private JButton addButton,submitButton, deleteButton,mainButton, absenceButton;
 	private JTextField idField,textfield2,hoursField;
 	private JTable table;
 	private JComboBox<String> comboBox;
 	private DefaultTableModel model;
+	private JPanel containerPanel, absencePanel, mainPanel;
+	private CardLayout cl = new CardLayout();
 	
 	public GUI() {
-		createUI();
 		
 		setTitle("CS2043 Project - Group 4");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1200,750);
+		setSize(1400,875);
 		setLocationRelativeTo(null);
-	}
-	
-	private void createUI() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		getContentPane().add(panel);
+		setVisible(true);
 		
-		//north panel
+		containerPanel = new JPanel();
+		absencePanel = new JPanel(new BorderLayout());
+		mainPanel = new JPanel();
+		
+		containerPanel.setLayout(cl);
+		add(containerPanel);
+		
+		try 
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}catch(Exception e) 
+		{
+			System.out.println(e.getMessage());
+		}
+				
+		getContentPane().add(absencePanel);
+		
+		//north panel----------------------------------
 		JPanel panelNorth = new JPanel(new BorderLayout());
-		panel.add(panelNorth, BorderLayout.NORTH);
+		absencePanel.add(panelNorth, BorderLayout.NORTH);
 		JLabel head = new JLabel("Teacher absences form", SwingConstants.CENTER);
 		head.setFont(new Font("Times new roman", Font.BOLD, 30));
 		head.setForeground(Color.BLACK);
 		panelNorth.add(head, BorderLayout.CENTER);
-		panelNorth.setBackground(Color.BLUE);
 		
-		//south panel
+		mainButton = new JButton("Main menu");
+		mainButton.setPreferredSize(new Dimension(140,25));
+		mainButton.addActionListener(new ButtonActionListener());
+		JPanel mainMenuPanel = new JPanel(new FlowLayout());
+		panelNorth.add(mainMenuPanel, BorderLayout.WEST);
+		mainMenuPanel.add(mainButton);
+		
+		submitButton = new JButton("Submit form");
+		submitButton.setPreferredSize(new Dimension(140,25));
+		submitButton.addActionListener(new ButtonActionListener());
+		JPanel submitPanel = new JPanel(new FlowLayout());
+		panelNorth.add(submitPanel, BorderLayout.EAST);
+		submitPanel.add(submitButton);
+		
+		//south panel----------------------------------
 		JPanel panelSouth = new JPanel();
 		panelSouth.setLayout(new FlowLayout());
-		panel.add(panelSouth, BorderLayout.SOUTH);
+		absencePanel.add(panelSouth, BorderLayout.SOUTH);
 		
 		idLabel = new JLabel("Teacher ID", SwingConstants.RIGHT);
 		idLabel.setPreferredSize(new Dimension(80,25));
@@ -82,20 +109,20 @@ public class GUI extends JFrame{
 		panelSouth.add(comboBox);
 		
 		addButton = new JButton("Add teacher");
-		addButton.setPreferredSize(new Dimension(120,25));
+		addButton.setPreferredSize(new Dimension(140,25));
 		addButton.addActionListener(new ButtonActionListener());
 		panelSouth.add(addButton);
 		
-		submitButton = new JButton("Submit report");
-		submitButton.setPreferredSize(new Dimension(120,25));
-		submitButton.addActionListener(new ButtonActionListener());
-		panelSouth.add(submitButton);
+		deleteButton = new JButton("Delete selected");
+		deleteButton.setPreferredSize(new Dimension(140,25));
+		deleteButton.addActionListener(new ButtonActionListener());
+		panelSouth.add(deleteButton);
 		
-		//center panel
+		//center panel----------------------------------
 		JPanel panelCenter = new JPanel(new BorderLayout());
-		panel.add(panelCenter, BorderLayout.CENTER);
+		absencePanel.add(panelCenter, BorderLayout.CENTER);
 		
-		String [] header = {"a","b","c","d"};
+		String [] header = {"","","",""};
 		String [][] data = {};
 		model = new DefaultTableModel(data,header);
 		table = new JTable(model);
@@ -105,17 +132,31 @@ public class GUI extends JFrame{
 	    JScrollPane scrollTable = new JScrollPane(table);
 		panelCenter.add(scrollTable, BorderLayout.CENTER);
 		
+		containerPanel.add(absencePanel,"absence");
+		containerPanel.add(mainPanel,"main menu");
+		cl.show(containerPanel,"absence");
+		
+		//main menu stuff
+		mainPanel.setBackground(Color.BLUE);
+		absenceButton = new JButton("Absence menu");
+		absenceButton.addActionListener(new ButtonActionListener());
+		mainPanel.add(absenceButton);
+		
+
+		
+		
 	}
 		
-	public static void main(String [] args) {	
-		new GUI().setVisible(true);
+	public static void main(String [] args) throws Exception{	
+		new GUI();
 	}
 	
 	private class ButtonActionListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			
-			if(e.getSource() == addButton) {
+			if(e.getSource() == addButton)
+			{
 				String id = idField.getText();
 				String something = textfield2.getText();
 				String hours = hoursField.getText();
@@ -127,23 +168,39 @@ public class GUI extends JFrame{
 				model.addRow(row);
 			}
 			
-			if(e.getSource() == submitButton) {
+			if(e.getSource() == submitButton) 
+			{
 				try {
 					boolean complete = table.print();
 					
 					if(complete) {
-						JOptionPane.showMessageDialog(null, "Printing...", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Printing...", null, JOptionPane.INFORMATION_MESSAGE);
 					}else {
-						JOptionPane.showMessageDialog(null, "Failed to print...", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Failed to print...", null, JOptionPane.INFORMATION_MESSAGE);
 					}
 					
 				}catch(PrinterException pe) {
-					JOptionPane.showMessageDialog(null, pe.getCause(), "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pe.getCause(), null, JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 				//will need to update the excel system later so we can make up who covers what class
 			}
+			
+			if(e.getSource() == deleteButton)
+			{
+				if (table.getSelectedRow() != -1) 
+				{
+		            model.removeRow(table.getSelectedRow());
+		        }
+			}
+			
+			if(e.getSource() == mainButton) {
+				cl.show(containerPanel, "main menu");
+			}
+			
+			if(e.getSource() == absenceButton) {
+				cl.show(containerPanel, "absence");
+			}
 		}
 	}
-	
 }
