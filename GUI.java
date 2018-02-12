@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -126,7 +128,20 @@ public class GUI extends JFrame{
 			}
 			
 			if(e.getSource() == submitButton) {
-				//do something
+				try {
+					boolean complete = table.print();
+					
+					if(complete) {
+						JOptionPane.showMessageDialog(null, "Printing...", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, "Failed to print...", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+				}catch(PrinterException pe) {
+					JOptionPane.showMessageDialog(null, pe.getCause(), "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				//will need to update the excel system later so we can make up who covers what class
 			}
 		}
 	}
