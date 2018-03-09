@@ -1,53 +1,44 @@
 package project.group4;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 public class GUI extends JFrame
 {
-	private JLabel idLabel,nameLabel,periodsLabel,reasonLabel, mainLabel;
-	private JButton addButton,submitButton, deleteButton,mainButton, mainButton2, absenceButton, onCallButton;
-	private JTextField idField,nameField;
-	private JTable table;
-	private JComboBox<String> reasonBox;
-	private DefaultTableModel model;
-	private JPanel containerPanel, absencePanel, mainPanel, onCallPanel, mainPanelNorth;
-	private CardLayout cl = new CardLayout();
-	private JRadioButton p1,p2,p3a,p3b,p4,p5,p6, allDay;
-	private JTextArea textArea;
+	private static final long serialVersionUID = 7214392589058560804L;
 	
-	private String id;
-	private String name;
-	private String reason;
+	private JPanel mainPanel, mainCenterPanel;
+	private JTable table1, table2, table3;
+	private JComboBox<String> dateSelecter;
+	private JLabel dateLabel;
+	private JButton printButton, updateOnCalls, SelectFileButton;
+	private JFileChooser fileChooser;
+	
+	private Dimension dim;
+	private DefaultTableModel model1, model2, model3;
+	private String [] dates;
+	private String date;
 	
 	public GUI() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CS2043 Project - Group 4");
-		setSize(1500,920);
-		setLocationRelativeTo(null);
-		setVisible(true);
-		setResizable(false);
-		
-		containerPanel = new JPanel();
-		absencePanel = new JPanel(new BorderLayout());
-		mainPanel = new JPanel();
-		onCallPanel = new JPanel();
-		
-		containerPanel.setLayout(cl);
-		add(containerPanel);
 		
 		try
 		{
@@ -66,302 +57,249 @@ public class GUI extends JFrame
 			e.printStackTrace();
 		}
 	
+		mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setPreferredSize(new Dimension(1200,750));
 		getContentPane().add(mainPanel);
+		dim = new Dimension(140,25);
 		
-		cardLayout();
 		northPanelSetup();
 		southPanelSetup();
-		centerPanelSetup();
-		westPanelSetup();
-		mainMenuPanelSetup();
-		onCallMenuPanelSetup();
+		centerPanelInit();
+	
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 	
 	private void northPanelSetup() 
 	{
 		JPanel panelNorth = new JPanel(new BorderLayout());
-		panelNorth.setBackground(Color.GRAY);
-		absencePanel.add(panelNorth, BorderLayout.NORTH);
-		JLabel head = new JLabel("Teacher absences form", SwingConstants.CENTER);
-		head.setFont(new Font("Times new roman", Font.BOLD, 30));
-		head.setForeground(Color.BLACK);
-		panelNorth.add(head, BorderLayout.CENTER);
+		JPanel headerEastPanel = new JPanel(new FlowLayout());
+		JPanel headerWestPanel = new JPanel(new FlowLayout());
 		
-		mainButton = new JButton("Main menu");
-		mainButton.addActionListener(new EventHandling());
-		JPanel mainMenuPanel = new JPanel(new FlowLayout());
-		panelNorth.add(mainMenuPanel, BorderLayout.WEST);
-		mainMenuPanel.add(mainButton);
-		mainMenuPanel.setBackground(panelNorth.getBackground());
+		JLabel header = new JLabel("On-Call form", SwingConstants.CENTER);
+		header.setFont(new Font("Times new roman", Font.BOLD, 30));
+		header.setForeground(Color.WHITE);
 		
-		submitButton = new JButton("Submit form");
-		submitButton.setPreferredSize(new Dimension(140,25));
-		submitButton.addActionListener(new EventHandling());
-		JPanel submitPanel = new JPanel(new FlowLayout());
-		panelNorth.add(submitPanel, BorderLayout.EAST);
-		submitPanel.add(submitButton);
-		submitPanel.setBackground(panelNorth.getBackground());
-	}
-	
-	private void westPanelSetup() 
-	{
-		JPanel panelWest = new JPanel(new BorderLayout());
-		JPanel north = new JPanel();
-		JPanel south = new JPanel();
-		JPanel center = new JPanel();
+		panelNorth.setBackground(Color.DARK_GRAY);
+		panelNorth.add(headerEastPanel, BorderLayout.WEST);
+		panelNorth.add(headerWestPanel, BorderLayout.EAST);
+		panelNorth.add(header, BorderLayout.CENTER);
+		mainPanel.add(panelNorth, BorderLayout.NORTH);
 		
-		panelWest.setMaximumSize(new Dimension(300,800));
-		panelWest.setPreferredSize(new Dimension(300,800));
-		
-		north.setMinimumSize(new Dimension(300,340));
-		north.setPreferredSize(new Dimension(300,340));
-		north.setBackground(Color.GRAY);
-		
-		south.setMinimumSize(new Dimension(300,340));
-		south.setPreferredSize(new Dimension(300,340));
-		south.setBackground(Color.GRAY);
-		
-		center.setMinimumSize(new Dimension(300,120));
-		center.setPreferredSize(new Dimension(300,120));
-		center.setBackground(Color.GRAY);
-		
-		absencePanel.add(panelWest, BorderLayout.WEST);
-		panelWest.add(north, BorderLayout.NORTH);
-		panelWest.add(south, BorderLayout.SOUTH);
-		panelWest.add(center, BorderLayout.CENTER);
+		printButton = new JButton("Print form");
+		printButton.setPreferredSize(dim);
+		printButton.addActionListener(new EventHandling());
 
-		idLabel = new JLabel("Teacher ID");
-		idLabel.setMaximumSize(new Dimension(130,25));
-		idLabel.setPreferredSize(new Dimension(130,25));
-		center.add(idLabel);
+		SelectFileButton = new JButton("Open File");
+		SelectFileButton.setPreferredSize(dim);
+		SelectFileButton.addActionListener(new EventHandling());
 		
-		idField = new JTextField();
-		idField.setPreferredSize(new Dimension(130,25));
-		center.add(idField);
-		
-		nameLabel = new JLabel("Name");
-		nameLabel.setPreferredSize(new Dimension(130,25));
-		center.add(nameLabel);
-		
-		nameField = new JTextField();
-		nameField.setPreferredSize(new Dimension(130,25));
-		center.add(nameField);
-		
-		reasonLabel = new JLabel("Reason for absence: ");
-		reasonLabel.setPreferredSize(new Dimension(130,25));
-		center.add(reasonLabel);
-		
-		String [] combo = {"","Personal","Work related","Unknown","Personal illness"};
-		reasonBox = new JComboBox<String>(combo);
-		reasonBox.setMaximumSize(new Dimension(130,25));
-		reasonBox.setPreferredSize(new Dimension(130,25));
-		center.add(reasonBox);
-	        
-		periodsLabel = new JLabel("Period(s) absent: ");
-		periodsLabel.setPreferredSize(new Dimension(275,25));
-		center.add(periodsLabel);
-		
-		p1 = new JRadioButton("1");
-		p2 = new JRadioButton("2");
-		p3a = new JRadioButton("3a");
-		p3b = new JRadioButton("3b");
-		p4 = new JRadioButton("4");
-		p5 = new JRadioButton("5");
-		p6 = new JRadioButton("6");
-		allDay = new JRadioButton("All");
-		
-		p1.setBackground(south.getBackground());
-		p2.setBackground(south.getBackground());
-		p3a.setBackground(south.getBackground());
-		p3b.setBackground(south.getBackground());
-		p4.setBackground(south.getBackground());
-		p5.setBackground(south.getBackground());
-		p6.setBackground(south.getBackground());
-		allDay.setBackground(south.getBackground());
-		
-		Box box1 = Box.createVerticalBox();
-		box1.add(p1);
-		box1.add(p2);
-		
-		Box box2 = Box.createVerticalBox();
-		box2.add(p3a);
-		box2.add(p3b);
-		
-		Box box3 = Box.createVerticalBox();
-		box3.add(p4);
-		box3.add(p5);
-		
-		Box box4 = Box.createVerticalBox();
-		box4.add(p6);
-		box4.add(allDay);
-		
-		south.setLayout(new GridLayout(1, 4));
-		
-		south.add(box1);
-		south.add(box2);
-		south.add(box3);
-		south.add(box4);
+		headerWestPanel.add(SelectFileButton);
+		headerEastPanel.add(printButton);
+		headerWestPanel.setBackground(panelNorth.getBackground());
+		headerEastPanel.setBackground(panelNorth.getBackground());
 	}
 	
 	private void southPanelSetup() 
 	{
-		JPanel panelSouth = new JPanel();
-		panelSouth.setLayout(new FlowLayout());
-		panelSouth.setBackground(Color.GRAY);
-		absencePanel.add(panelSouth, BorderLayout.SOUTH);
+		JPanel mainSouthPanel = new JPanel(new BorderLayout());
+		mainSouthPanel.setBackground(Color.DARK_GRAY);
+		mainPanel.add(mainSouthPanel, BorderLayout.SOUTH);
 		
+		JPanel subWestPanel = new JPanel();
+		JPanel subEastPanel = new JPanel();
+		JPanel subCenterPanel = new JPanel();
 		
-		addButton = new JButton("Add Absentee");
-		addButton.setPreferredSize(new Dimension(140,25));
-		addButton.addActionListener(new EventHandling());
-		panelSouth.add(addButton);
+		date = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+		dates = new String[] {"",date};
+		dateLabel = new JLabel("Today's date: " + date);
+		dateLabel.setFont(new Font("Times new roman", Font.BOLD, 18));
+		dateLabel.setForeground(Color.WHITE);
+		dateLabel.setPreferredSize(new Dimension(200,25));
+		subEastPanel.add(dateLabel);
+		subEastPanel.setBackground(mainSouthPanel.getBackground());
 		
-		deleteButton = new JButton("Delete selected");
-		deleteButton.setPreferredSize(new Dimension(140,25));
-		deleteButton.addActionListener(new EventHandling());
-		panelSouth.add(deleteButton);
+		JLabel dateSelectorLabel = new JLabel("Please select the date (dd/mm/yyyy):");
+		dateSelectorLabel.setPreferredSize(new Dimension(240,25));
+		dateSelecter = new JComboBox<String>(dates);
+		dateSelecter.setPreferredSize(dim);
+		subCenterPanel.add(dateSelectorLabel);
+		subCenterPanel.add(dateSelecter);
+		subCenterPanel.setBackground(mainSouthPanel.getBackground());
+		
+		updateOnCalls = new JButton("Update On-Calls");
+		updateOnCalls.setPreferredSize(dim);
+		updateOnCalls.addActionListener(new EventHandling());
+		subWestPanel.setBackground(mainSouthPanel.getBackground());
+		subWestPanel.add(updateOnCalls);
+		
+		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
+		mainSouthPanel.add(subEastPanel, BorderLayout.EAST);
+		mainSouthPanel.add(subCenterPanel, BorderLayout.CENTER);
 	}
 
+	private void centerPanelInit() 
+	{
+		mainCenterPanel = new JPanel(new BorderLayout());
+		mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
+		
+		JPanel temp = new JPanel();
+		temp.setBackground(Color.GRAY);
+		mainCenterPanel.setBackground(Color.BLACK);
+		mainCenterPanel.add(temp, BorderLayout.CENTER);
+		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
+		temp.add(new JLabel("Once the excel file is saved, find the file, "
+				+ "select the date of interest, and press update On-Calls."));
+	}
+	
 	private void centerPanelSetup()
 	{
-		JPanel panelCenter = new JPanel(new BorderLayout());
-		absencePanel.add(panelCenter, BorderLayout.CENTER);
+		//Absent teacher info will be placed inside the .setDataVector method
+		mainCenterPanel.removeAll();
+		mainCenterPanel.setBackground(Color.GRAY);
+		mainCenterPanel.setLayout(new GridBagLayout());
 		
-		String [] header = {"col1","col2","col3"};
-		String [][] data = {};
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(15,15,15,15);
+		gbc.weightx = gbc.weighty = 1.0;
+		gbc.fill = GridBagConstraints.BOTH; 
+
 		
-		model = new DefaultTableModel(data,header) 
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		
+		model1 = new DefaultTableModel() 
 		{
-		       public boolean isCellEditable(int row, int column)
+			private static final long serialVersionUID = 8650052207374641604L;
+
+			public boolean isCellEditable(int row, int column)
 		       {
 		          return false;
 		       }
 		};
-		    
-		table = new JTable(model);	
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		table.setTableHeader(null);
-		table.setFillsViewportHeight(true);
-		table.setRowHeight(120);
-		table.setGridColor(Color.BLACK);
-		table.getColumnModel().getColumn(1).setMaxWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		
-	    JScrollPane scrollTable = new JScrollPane(table);
-		panelCenter.add(scrollTable, BorderLayout.CENTER);
-	}
-	
-	private void cardLayout() 
-	{
-		containerPanel.add(absencePanel,"absence");
-		containerPanel.add(mainPanel,"main menu");
-		containerPanel.add(onCallPanel,"on call");
-		cl.show(containerPanel,"main menu");
-	}
+		model1.setDataVector(new Object[][] {{ "Example\ntext","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."}},
+				new Object[]{ "Name","Spare","Week","Month","Total/term"});
 		
-	private void mainMenuPanelSetup() 
-	{
-		mainPanelNorth = new JPanel(new BorderLayout());
-		absenceButton = new JButton("Absence menu");
-		onCallButton = new JButton("On call form");
-		mainLabel = new JLabel("Main menu", SwingConstants.CENTER);
-		mainLabel.setFont(new Font("Times new roman", Font.BOLD, 30));
+		table1 = new JTable(model1);
+		table1.getColumn("Name").setCellRenderer(new TextAreaRenderer());
+		table1.getColumn("Spare").setCellRenderer(new TextAreaRenderer());
+		table1.getColumn("Week").setCellRenderer(new TextAreaRenderer());
+		table1.getColumn("Month").setCellRenderer(new TextAreaRenderer());
+		table1.getColumn("Total/term").setCellRenderer(new TextAreaRenderer());
 		
-		onCallButton.addActionListener(new EventHandling());
-		absenceButton.addActionListener(new EventHandling());
+		table1.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table1.setFillsViewportHeight(true);
+		table1.setRowHeight(100);
+		table1.setGridColor(Color.BLACK);
 		
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(mainPanelNorth, BorderLayout.NORTH);
+	    JScrollPane scrollTable1 = new JScrollPane(table1);
+		
+		mainCenterPanel.add(scrollTable1, gbc);
+		
+		//-------------------------------------------------------------
+		
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		
+		model2 = new DefaultTableModel() 
+		{
+			private static final long serialVersionUID = 8650052207374641604L;
 
-		mainPanelNorth.add(onCallButton, BorderLayout.WEST);
-		mainPanelNorth.add(mainLabel, BorderLayout.CENTER);
-		mainPanelNorth.add(absenceButton, BorderLayout.EAST);
-		mainPanel.setBackground(Color.GRAY);
+			public boolean isCellEditable(int row, int column)
+		       {
+		          return false;
+		       }
+		};
 		
+		model2.setDataVector(new Object[][] {{ "Example\\ntext","Week will\ngo here","Month here...","next in line here.."},{"...","...","...","..."},{"...","...","...","..."}},
+				new Object[]{ "Period","Week","Month","Who's next in line?"});
+		
+		table2 = new JTable(model2);
+		table2.getColumn("Period").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Week").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Month").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Who's next in line?").setCellRenderer(new TextAreaRenderer());
+		
+		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table2.setFillsViewportHeight(true);
+		table2.setRowHeight(100);
+		table2.setGridColor(Color.BLACK);
+		
+	    JScrollPane scrollTable2 = new JScrollPane(table2);
+		
+		mainCenterPanel.add(scrollTable2, gbc);
+		
+		//-------------------------------------------------------------
+		
+		gbc.gridheight = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		
+		model3 = new DefaultTableModel() 
+		{
+			private static final long serialVersionUID = 8650052207374641604L;
+
+			public boolean isCellEditable(int row, int column)
+		       {
+		          return false;
+		       }
+		};
+		
+		model3.setDataVector(new Object[][] {{ "period here...","Absentee name","name of teacher\ncovering them"},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."}},
+				new Object[]{ "Period","Absentee","Covered by"});
+		
+		table3 = new JTable(model3);
+		table3.getColumn("Period").setCellRenderer(new TextAreaRenderer());
+		table3.getColumn("Absentee").setCellRenderer(new TextAreaRenderer());
+		table3.getColumn("Covered by").setCellRenderer(new TextAreaRenderer());
+		
+		table3.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table3.setFillsViewportHeight(true);
+		table3.setRowHeight(100);
+		table3.setGridColor(Color.BLACK);
+		
+	    JScrollPane scrollTable3 = new JScrollPane(table3);
+		
+		mainCenterPanel.add(scrollTable3, gbc);
 		revalidate();
-	}
-	
-	private void onCallMenuPanelSetup() 
-	{
-		mainButton2 = new JButton("main menu");
-		mainButton2.addActionListener(new EventHandling());
-		onCallPanel.add(mainButton2);
-		onCallPanel.setBackground(Color.GRAY);
 	}
 	
 	private class EventHandling implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
-		{
-			
-			if(e.getSource() == addButton)
+		{	
+			if(e.getSource() == updateOnCalls) 
 			{
-				addAbsence();
+				//this is how we know which excel sheet to go into
+				String selectedDate = (String) dateSelecter.getSelectedItem();
+				System.out.println(selectedDate);
+				centerPanelSetup();
 			}
 			
-			if(e.getSource() == submitButton) 
+			if(e.getSource() == SelectFileButton)
 			{
-				submitRequest();
+				fileChooser = new JFileChooser();
+				int returnedVal = fileChooser.showOpenDialog(GUI.this);
+				
+				if(returnedVal == JFileChooser.APPROVE_OPTION)
+				{
+					File file = fileChooser.getSelectedFile();
+					System.out.println(file.getName());
+				}
 			}
-			
-			if(e.getSource() == mainButton || e.getSource() == mainButton2) 
-			{
-				cl.show(containerPanel, "main menu");
-			}
-			
-			if(e.getSource() == absenceButton)
-			{
-				cl.show(containerPanel, "absence");
-			}
-			
-			if(e.getSource() == onCallButton)
-			{
-				cl.show(containerPanel, "on call");
-			}
-			
-			if(e.getSource() == deleteButton && table.getSelectedRow() != -1)
-			{
-				model.removeRow(table.getSelectedRow()); 
-			}
+
+			if(e.getSource() == printButton)	printRequest();
 		}
 		
-		private void addAbsence() {
-			
-			id = idField.getText();
-			name = nameField.getText();
-			reason = (String) reasonBox.getSelectedItem();
-			
-			idField.setText("");
-			nameField.setText("");
-			reasonBox.setSelectedItem("");
-			
-			p1.setSelected(false);
-			p2.setSelected(false);
-			p3a.setSelected(false);
-			p3b.setSelected(false);
-			p4.setSelected(false);
-			p5.setSelected(false);
-			p6.setSelected(false);
-			allDay.setSelected(false);
-			
-			String [] temp = new String[3];
-			model.addRow(temp);
-			
-			table.getColumn("col1").setCellRenderer(new TextAreaRenderer());
-			table.getColumn("col2").setCellRenderer(new TextAreaRenderer());
-			table.getColumn("col3").setCellRenderer(new TextAreaRenderer());
-		}
-		
-		private void submitRequest() 
+		private void printRequest() 
 		{
 			try
 			{
-				boolean complete = table.print();
+				boolean complete = table1.print(); //there is more than one table now
 				
-				if(complete) 
-				{
-					JOptionPane.showMessageDialog(null, "Print successful", null, JOptionPane.INFORMATION_MESSAGE);
-				}else 
+				if(!complete) 
 				{
 					JOptionPane.showMessageDialog(null, "Failed to print...", null, JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -370,49 +308,53 @@ public class GUI extends JFrame
 			{
 				JOptionPane.showMessageDialog(null, pe.getCause(), null, JOptionPane.INFORMATION_MESSAGE);
 			}
-			
-			//will need to update the excel system later so we can make up who covers what class
 		}
 	}
 	
+	//credit for TextAreaRenderer: http://esus.com/embedding-a-jtextarea-in-a-jtable-cell/
 	private class TextAreaRenderer extends JScrollPane implements TableCellRenderer
 	{
-	   JTextArea textArea;
-	   
-	   public TextAreaRenderer()
-	   {
-	      textArea = new JTextArea();
-	      textArea.setLineWrap(true);
-		  viewport.add(textArea);
-	   }
-	  
-	   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-	   {
-	      if (isSelected) {
-	         setForeground(table.getSelectionForeground());
-	         setBackground(table.getSelectionBackground());
-	         textArea.setForeground(table.getSelectionForeground());
-	         textArea.setBackground(table.getSelectionBackground());
-	      } else {
-	         setForeground(table.getForeground());
-	         setBackground(table.getBackground());
-	         textArea.setForeground(table.getForeground());
-	         textArea.setBackground(table.getBackground());
-	      }
-	      
-	      switch(column)
-	      {
-	      case 0: textArea.setText("Name: " + name + "\t\t\t\tTeacher ID: " + id); break;
-	      case 1: textArea.setText("Sched-days\nMon: \nTue: \nWed: \nThu: \nFri: "); break;
-	      case 2: textArea.setText("period(s) absent: " + "\nReason: " + reason); break;
-	      }
-	      
-	      return this;
-	   }
+		private static final long serialVersionUID = -1342133979182047460L;
+		JTextArea textArea;
+	
+		public TextAreaRenderer() {
+			textArea = new JTextArea();
+			textArea.setLineWrap(true);
+			textArea.setWrapStyleWord(true);
+			getViewport().add(textArea);
+		}
+		  
+		   public Component getTableCellRendererComponent(JTable table, Object value,
+		                                  boolean isSelected, boolean hasFocus,
+		                                  int row, int column)
+		   {
+		      if (isSelected) {
+		         setForeground(table.getSelectionForeground());
+		         setBackground(table.getSelectionBackground());
+		         textArea.setForeground(table.getSelectionForeground());
+		         textArea.setBackground(table.getSelectionBackground());
+		      } else {
+		         setForeground(table.getForeground());
+		         setBackground(table.getBackground());
+		         textArea.setForeground(table.getForeground());
+		         textArea.setBackground(table.getBackground());
+		      }
+		  
+		      textArea.setText((String) value);
+		      textArea.setCaretPosition(0);
+		      return this;
+		   }
 	}
 	
-	public static void main(String [] args) throws Exception
+	public static void main(String [] args)
 	{	
-		new GUI();
+		try 
+		{
+			new GUI();
+		}
+		catch(Exception e) 
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 }
