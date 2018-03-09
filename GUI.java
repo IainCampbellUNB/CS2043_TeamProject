@@ -16,6 +16,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -122,6 +123,7 @@ public class GUI extends JFrame
 		
 		JLabel dateSelectorLabel = new JLabel("Please select the date (dd/mm/yyyy):");
 		dateSelectorLabel.setPreferredSize(new Dimension(240,25));
+		dateSelectorLabel.setForeground(Color.WHITE);
 		dateSelecter = new JComboBox<String>(dates);
 		dateSelecter.setPreferredSize(dim);
 		subCenterPanel.add(dateSelectorLabel);
@@ -162,9 +164,12 @@ public class GUI extends JFrame
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(15,15,15,15);
-		gbc.weightx = gbc.weighty = 1.0;
+		gbc.weightx = 1;
+		gbc.weighty = 0.1;
 		gbc.fill = GridBagConstraints.BOTH; 
 
+		//---------------------------------------------------------
+		
 		
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -179,7 +184,8 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model1.setDataVector(new Object[][] {{ "Example\ntext","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."}},
+		model1.setDataVector(new Object[][] {{ "Example\ntext","...","...","...","..."},{"...","...","...","...","..."},
+				{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."}},
 				new Object[]{ "Name","Spare","Week","Month","Total/term"});
 		
 		table1 = new JTable(model1);
@@ -195,10 +201,12 @@ public class GUI extends JFrame
 		table1.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable1 = new JScrollPane(table1);
-		
+	    TitledBorder border = new TitledBorder("Coverage Counts to Date");
+	    scrollTable1.setBorder(border);
+	    
 		mainCenterPanel.add(scrollTable1, gbc);
 		
-		//-------------------------------------------------------------
+		//------------------------------------------------------------
 		
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -213,7 +221,8 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model2.setDataVector(new Object[][] {{ "Example\\ntext","Week will\ngo here","Month here...","next in line here.."},{"...","...","...","..."},{"...","...","...","..."}},
+		model2.setDataVector(new Object[][] {{ "Example\ntext","Week will\ngo here","Month here...","next in line here.."},
+				{"...","...","...","..."},{"...","...","...","..."}},
 				new Object[]{ "Period","Week","Month","Who's next in line?"});
 		
 		table2 = new JTable(model2);
@@ -228,10 +237,12 @@ public class GUI extends JFrame
 		table2.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable2 = new JScrollPane(table2);
+	    TitledBorder border2 = new TitledBorder("Availability Counts");
+	    scrollTable2.setBorder(border2);
 		
 		mainCenterPanel.add(scrollTable2, gbc);
 		
-		//-------------------------------------------------------------
+		//------------------------------------------------------------
 		
 		gbc.gridheight = 2;
 		gbc.gridx = 0;
@@ -247,7 +258,9 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model3.setDataVector(new Object[][] {{ "period here...","Absentee name","name of teacher\ncovering them"},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."}},
+		model3.setDataVector(new Object[][] {{ "period here...","Absentee name","name of teacher\ncovering them"},
+				{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},
+				{"...","...","..."},{"...","...","..."}},
 				new Object[]{ "Period","Absentee","Covered by"});
 		
 		table3 = new JTable(model3);
@@ -261,7 +274,9 @@ public class GUI extends JFrame
 		table3.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable3 = new JScrollPane(table3);
-		
+	    TitledBorder border3 = new TitledBorder("Assignments");
+	    scrollTable3.setBorder(border3);
+	    
 		mainCenterPanel.add(scrollTable3, gbc);
 		revalidate();
 	}
