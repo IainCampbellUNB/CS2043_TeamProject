@@ -165,11 +165,10 @@ public class GUI extends JFrame
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(15,15,15,15);
 		gbc.weightx = 1;
-		gbc.weighty = 0.1;
+		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH; 
 
 		//---------------------------------------------------------
-		
 		
 		gbc.gridx = 1;
 		gbc.gridy = 0;
