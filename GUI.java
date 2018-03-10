@@ -26,7 +26,7 @@ public class GUI extends JFrame
 	
 	private JPanel mainPanel, mainCenterPanel;
 	private JTable table1, table2, table3;
-	private JComboBox<String> dateSelecter;
+	private JComboBox<String> dateSelecter, printOptions;
 	private JLabel dateLabel;
 	private JButton printButton, updateOnCalls, SelectFileButton;
 	private JFileChooser fileChooser;
@@ -88,15 +88,20 @@ public class GUI extends JFrame
 		panelNorth.add(header, BorderLayout.CENTER);
 		mainPanel.add(panelNorth, BorderLayout.NORTH);
 		
-		printButton = new JButton("Print form");
+		printButton = new JButton("Print");
 		printButton.setPreferredSize(dim);
 		printButton.addActionListener(new EventHandling());
+		
+		String [] printList = {"Assignments","Coverage","Availability"};
+		printOptions = new JComboBox<String>(printList);
+		printOptions.setPreferredSize(dim);
 
 		SelectFileButton = new JButton("Open File");
 		SelectFileButton.setPreferredSize(dim);
 		SelectFileButton.addActionListener(new EventHandling());
 		
 		headerWestPanel.add(SelectFileButton);
+		headerEastPanel.add(printOptions);
 		headerEastPanel.add(printButton);
 		headerWestPanel.setBackground(panelNorth.getBackground());
 		headerEastPanel.setBackground(panelNorth.getBackground());
@@ -288,6 +293,11 @@ public class GUI extends JFrame
 			{
 				//this is how we know which excel sheet to go into
 				String selectedDate = (String) dateSelecter.getSelectedItem();
+				if(selectedDate.equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "Please select a date first", null, JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
 				System.out.println(selectedDate);
 				centerPanelSetup();
 			}
@@ -311,11 +321,32 @@ public class GUI extends JFrame
 		{
 			try
 			{
-				boolean complete = table1.print(); //there is more than one table now
+				boolean complete = false;
+				
+				if(table1 == null || table2 == null || table3 == null) 
+				{
+					JOptionPane.showMessageDialog(null, "Please select \"Update On-Calls\" first", null, JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				
+				if(printOptions.getSelectedItem().equals("Coverage"))
+				{
+					complete = table1.print();
+				}
+				
+				if(printOptions.getSelectedItem().equals("Availability"))
+				{
+					complete = table2.print();
+				}
+				
+				if(printOptions.getSelectedItem().equals("Assignments")) 
+				{
+					complete = table3.print();
+				}
 				
 				if(!complete) 
 				{
-					JOptionPane.showMessageDialog(null, "Failed to print...", null, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Failed To Print...", null, JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}catch(PrinterException pe)
