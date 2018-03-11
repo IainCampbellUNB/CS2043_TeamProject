@@ -1,5 +1,3 @@
-package project.group4;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -30,6 +28,7 @@ public class GUI extends JFrame
 	private JLabel dateLabel;
 	private JButton printButton, updateOnCalls, SelectFileButton;
 	private JFileChooser fileChooser;
+	private File file;
 	
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
@@ -117,8 +116,8 @@ public class GUI extends JFrame
 		JPanel subEastPanel = new JPanel();
 		JPanel subCenterPanel = new JPanel();
 		
-		date = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
-		dates = new String[] {"",date};
+		date = new SimpleDateFormat("dd/mm/yyyy").format(Calendar.getInstance().getTime());
+		dates = new String[] {"DD/MM/YYYY",date};
 		dateLabel = new JLabel("Today's date: " + date);
 		dateLabel.setFont(new Font("Times new roman", Font.BOLD, 18));
 		dateLabel.setForeground(Color.WHITE);
@@ -126,8 +125,8 @@ public class GUI extends JFrame
 		subEastPanel.add(dateLabel);
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
 		
-		JLabel dateSelectorLabel = new JLabel("Please select the date (dd/mm/yyyy):");
-		dateSelectorLabel.setPreferredSize(new Dimension(240,25));
+		JLabel dateSelectorLabel = new JLabel("Select a date: ");
+		dateSelectorLabel.setPreferredSize(new Dimension(90,25));
 		dateSelectorLabel.setForeground(Color.WHITE);
 		dateSelecter = new JComboBox<String>(dates);
 		dateSelecter.setPreferredSize(dim);
@@ -217,7 +216,7 @@ public class GUI extends JFrame
 		
 		model2 = new DefaultTableModel() 
 		{
-			private static final long serialVersionUID = 8650052207374641604L;
+			private static final long serialVersionUID = 5234114342913495413L;
 
 			public boolean isCellEditable(int row, int column)
 		       {
@@ -254,7 +253,7 @@ public class GUI extends JFrame
 		
 		model3 = new DefaultTableModel() 
 		{
-			private static final long serialVersionUID = 8650052207374641604L;
+			private static final long serialVersionUID = 3072435220329162498L;
 
 			public boolean isCellEditable(int row, int column)
 		       {
@@ -288,20 +287,7 @@ public class GUI extends JFrame
 	private class EventHandling implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
-		{	
-			if(e.getSource() == updateOnCalls) 
-			{
-				//this is how we know which excel sheet to go into
-				String selectedDate = (String) dateSelecter.getSelectedItem();
-				if(selectedDate.equals(""))
-				{
-					JOptionPane.showMessageDialog(null, "Please select a date first", null, JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				System.out.println(selectedDate);
-				centerPanelSetup();
-			}
-			
+		{
 			if(e.getSource() == SelectFileButton)
 			{
 				fileChooser = new JFileChooser();
@@ -309,9 +295,30 @@ public class GUI extends JFrame
 				
 				if(returnedVal == JFileChooser.APPROVE_OPTION)
 				{
-					File file = fileChooser.getSelectedFile();
+					file = fileChooser.getSelectedFile();
 					System.out.println(file.getName());
 				}
+				return;
+			}
+			
+			if(file == null) 
+			{
+				JOptionPane.showMessageDialog(null, "You must first select a file", null, JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			
+			if(e.getSource() == updateOnCalls) 
+			{
+				//this is how we know which excel sheet to go into
+				String selectedDate = (String) dateSelecter.getSelectedItem();
+				if(selectedDate.equals("DD/MM/YYYY"))
+				{
+					JOptionPane.showMessageDialog(null, "Please select a date first", null, JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				System.out.println(selectedDate);
+				centerPanelSetup();
+				return;
 			}
 
 			if(e.getSource() == printButton)	printRequest();
