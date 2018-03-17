@@ -12,9 +12,11 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -26,9 +28,9 @@ public class GUI extends JFrame
 	private JTable table1, table2, table3;
 	private JComboBox<String> dateSelecter, printOptions;
 	private JLabel dateLabel;
-	private JButton printButton, updateOnCalls, SelectFileButton;
+	private JButton printButton, updateOnCalls, selectFileButton, initializeButton;
 	private JFileChooser fileChooser;
-	private File file;
+	private ArrayList<File> fileList = new ArrayList<File>();
 	
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
@@ -77,13 +79,13 @@ public class GUI extends JFrame
 		JPanel headerEastPanel = new JPanel(new FlowLayout());
 		JPanel headerWestPanel = new JPanel(new FlowLayout());
 		
-		JLabel header = new JLabel("On-Call form", SwingConstants.CENTER);
+		JLabel header = new JLabel("On-Call Tracker", SwingConstants.CENTER);
 		header.setFont(new Font("Times new roman", Font.BOLD, 30));
 		header.setForeground(Color.WHITE);
 		
 		panelNorth.setBackground(Color.DARK_GRAY);
-		panelNorth.add(headerEastPanel, BorderLayout.WEST);
-		panelNorth.add(headerWestPanel, BorderLayout.EAST);
+		panelNorth.add(headerEastPanel, BorderLayout.EAST);
+		panelNorth.add(headerWestPanel, BorderLayout.WEST);
 		panelNorth.add(header, BorderLayout.CENTER);
 		mainPanel.add(panelNorth, BorderLayout.NORTH);
 		
@@ -95,13 +97,18 @@ public class GUI extends JFrame
 		printOptions = new JComboBox<String>(printList);
 		printOptions.setPreferredSize(dim);
 
-		SelectFileButton = new JButton("Open File");
-		SelectFileButton.setPreferredSize(dim);
-		SelectFileButton.addActionListener(new EventHandling());
+		initializeButton = new JButton("Initialize");
+		initializeButton.setPreferredSize(dim);
+		initializeButton.addActionListener(new EventHandling());
 		
-		headerWestPanel.add(SelectFileButton);
-		headerEastPanel.add(printOptions);
-		headerEastPanel.add(printButton);
+		selectFileButton = new JButton("Open File");
+		selectFileButton.setPreferredSize(dim);
+		selectFileButton.addActionListener(new EventHandling());
+		
+		headerEastPanel.add(selectFileButton);
+		headerEastPanel.add(initializeButton);
+		headerWestPanel.add(printOptions);
+		headerWestPanel.add(printButton);
 		headerWestPanel.setBackground(panelNorth.getBackground());
 		headerEastPanel.setBackground(panelNorth.getBackground());
 	}
@@ -116,7 +123,7 @@ public class GUI extends JFrame
 		JPanel subEastPanel = new JPanel();
 		JPanel subCenterPanel = new JPanel();
 		
-		date = new SimpleDateFormat("dd/mm/yyyy").format(Calendar.getInstance().getTime());
+		date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
 		dates = new String[] {"DD/MM/YYYY",date};
 		dateLabel = new JLabel("Today's date: " + date);
 		dateLabel.setFont(new Font("Times new roman", Font.BOLD, 18));
@@ -125,7 +132,7 @@ public class GUI extends JFrame
 		subEastPanel.add(dateLabel);
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
 		
-		JLabel dateSelectorLabel = new JLabel("Select a date: ");
+		JLabel dateSelectorLabel = new JLabel("Select a date:");
 		dateSelectorLabel.setPreferredSize(new Dimension(90,25));
 		dateSelectorLabel.setForeground(Color.WHITE);
 		dateSelecter = new JComboBox<String>(dates);
@@ -150,13 +157,13 @@ public class GUI extends JFrame
 		mainCenterPanel = new JPanel(new BorderLayout());
 		mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
 		
-		JPanel temp = new JPanel();
-		temp.setBackground(Color.GRAY);
-		mainCenterPanel.setBackground(Color.BLACK);
-		mainCenterPanel.add(temp, BorderLayout.CENTER);
+		mainCenterPanel.setBackground(Color.GRAY);
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
-		temp.add(new JLabel("Once the excel file is saved, find the file, "
-				+ "select the date of interest, and press update On-Calls."));
+		JLabel info = new JLabel("Once the excel files are saved, find the files, "
+				+ "select the date of interest, and press update On-Calls.");
+		info.setHorizontalAlignment(JLabel.CENTER);
+		info.setFont(new Font("Times new roman", Font.PLAIN, 18));
+		mainCenterPanel.add(info, BorderLayout.NORTH);
 	}
 	
 	private void centerPanelSetup()
@@ -203,9 +210,9 @@ public class GUI extends JFrame
 		table1.setRowHeight(100);
 		table1.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable1 = new JScrollPane(table1);
-	    TitledBorder border = new TitledBorder("Coverage Counts to Date");
-	    scrollTable1.setBorder(border);
+	   	JScrollPane scrollTable1 = new JScrollPane(table1);
+	    	TitledBorder border = new TitledBorder("Coverage Counts to Date");
+	    	scrollTable1.setBorder(border);
 	    
 		mainCenterPanel.add(scrollTable1, gbc);
 		
@@ -224,7 +231,7 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model2.setDataVector(new Object[][] {{ "Example\ntext","Week will\ngo here","Month here...","next in line here.."},
+		model2.setDataVector(new Object[][] {{ "Example\ntext","Weekly on tally count\nwill go here","Monthly tally\ncount here...","next in line here.."},
 				{"...","...","...","..."},{"...","...","...","..."}},
 				new Object[]{ "Period","Week","Month","Who's next in line?"});
 		
@@ -239,9 +246,9 @@ public class GUI extends JFrame
 		table2.setRowHeight(100);
 		table2.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable2 = new JScrollPane(table2);
-	    TitledBorder border2 = new TitledBorder("Availability Counts");
-	    scrollTable2.setBorder(border2);
+	    	JScrollPane scrollTable2 = new JScrollPane(table2);
+	    	TitledBorder border2 = new TitledBorder("Availability Counts");
+	    	scrollTable2.setBorder(border2);
 		
 		mainCenterPanel.add(scrollTable2, gbc);
 		
@@ -276,35 +283,65 @@ public class GUI extends JFrame
 		table3.setRowHeight(100);
 		table3.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable3 = new JScrollPane(table3);
-	    TitledBorder border3 = new TitledBorder("Assignments");
-	    scrollTable3.setBorder(border3);
+	  	JScrollPane scrollTable3 = new JScrollPane(table3);
+	    	TitledBorder border3 = new TitledBorder("Assignments");
+	    	scrollTable3.setBorder(border3);
 	    
 		mainCenterPanel.add(scrollTable3, gbc);
-		revalidate();
+		mainCenterPanel.revalidate();
+		mainCenterPanel.repaint();
 	}
 	
 	private class EventHandling implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			if(e.getSource() == SelectFileButton)
+			if(e.getSource() == selectFileButton)
 			{
+				if(fileList.size() >= 2)
+				{
+					JOptionPane.showMessageDialog(null, "Already two files selected", null, JOptionPane.INFORMATION_MESSAGE);
+				}
+				
 				fileChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel files", "xls", "xlsx");
+				fileChooser.setFileFilter(filter);
 				int returnedVal = fileChooser.showOpenDialog(GUI.this);
 				
 				if(returnedVal == JFileChooser.APPROVE_OPTION)
 				{
-					file = fileChooser.getSelectedFile();
-					System.out.println(file.getName());
+					File file = fileChooser.getSelectedFile();
+		
+					fileList.add(file);
+					
+					JLabel fileSelected = new JLabel("File #" + fileList.size() + ": " +  file.getName());
+					fileSelected.setFont(new Font("Times new roman", Font.BOLD, 18));
+					fileSelected.setHorizontalAlignment(JLabel.CENTER);
+					
+					if(fileList.size() == 1) 
+					{
+						mainCenterPanel.add(fileSelected, BorderLayout.CENTER);
+					}
+					
+					if(fileList.size() == 2)
+					{
+						mainCenterPanel.add(fileSelected, BorderLayout.SOUTH);
+					}
+
+					revalidate();
 				}
 				return;
 			}
 			
-			if(file == null) 
+			if(fileList.size() != 2) 
 			{
-				JOptionPane.showMessageDialog(null, "You must first select a file", null, JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You must first select two excel files", null, JOptionPane.INFORMATION_MESSAGE);
 				return;
+			}
+			
+			if(e.getSource() == initializeButton) 
+			{
+				//initialize the system
 			}
 			
 			if(e.getSource() == updateOnCalls) 
@@ -410,3 +447,4 @@ public class GUI extends JFrame
 		}
 	}
 }
+
