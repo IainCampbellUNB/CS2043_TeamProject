@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-
-public class Schedule
+public class AbsenceTracker
 {
   private String p1;
   private String p2;
@@ -8,7 +6,7 @@ public class Schedule
   private String p3b;
   private String p4;
 
-  public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
+  public AbsenceTracker(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
   {
     p1 = p1In;
     p2 = p2In;
@@ -17,8 +15,8 @@ public class Schedule
     p4 = p4In;
   }
 
-  public Schedule getSchedule()
+  public AbsenceTracker getAbsences()
   {
-    return this.Schedule;
+    return this.AbsenceTracker;
   }
 }
