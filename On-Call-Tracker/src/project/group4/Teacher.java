@@ -2,10 +2,10 @@ package project.group4;
 	
 public abstract class Teacher
 {
+	private final String ID;
 	private final String NAME;
-	private final int ID;
 	
-	public Teacher(String NAME, int ID)
+	public Teacher(String ID, String NAME)
 	{
 		this.NAME = NAME;
 		this.ID = ID;
@@ -16,13 +16,13 @@ public abstract class Teacher
 		return NAME;
 	}
 	
-	public int getID() 
+	public String getID() 
 	{
 		return ID;
 	}
 	public String toString()
 	{
-		String result = NAME + " " + ID;
+		String result = "ID: " +  ID + " NAME: " + NAME;
 		
 		return result;
 		
