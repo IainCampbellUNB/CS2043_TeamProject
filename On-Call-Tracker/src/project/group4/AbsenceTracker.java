@@ -38,7 +38,10 @@ public class AbsenceTracker
 	  return absentPresent;
   }
   
-  
+  public String getPeriodValueAtIndex(int index)
+  {
+	  return absences.get(index);
+  }
   
   public String toString(){
 	  String result = " ";

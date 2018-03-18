@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class DriverTest {
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, IOException {
 		
 		
 		/* **************************************************
@@ -147,10 +147,13 @@ public class DriverTest {
 			System.out.println(teacherList.get(i).toString());
 		}
 			
-			
-			
+		AbsenceWorkerReader.writeToAbsenceTracker(teacherList, "2018-03-16");
+		/*******************************************************************
+		 * THIS DOESN'T WORK
+		 ******************************************************************/
+		//System.out.println(teacherList.get(0).getSubmittedAbsenceSchedule().getPeriodValueAtIndex(4));
 	
-		
+		System.out.println(teacherList.get(0).getName());
 		
 		
 	}
