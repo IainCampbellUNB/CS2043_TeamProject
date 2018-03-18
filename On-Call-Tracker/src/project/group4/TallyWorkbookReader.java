@@ -2,6 +2,7 @@ package project.group4;
 
 //import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 //import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -65,6 +66,34 @@ public class TallyWorkbookReader {
 		workbook.close();
 		return allData;
 	}
+	
+	public static void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
+	{
+		FileInputStream file = new FileInputStream("AbsenceWorkBook.xls");
+		HSSFWorkbook workbook = new HSSFWorkbook(file);
+		HSSFSheet sheet = workbook.getSheet(selectedDate);
+		
+		/************************************************
+		 * SET AT RIGHT INDEXES
+		 ************************************************/
+		
+		for(int i = 2; i < 10; i++) {
+		
+				sheet.getRow(i).getCell(1).setCellValue("Hi");
+				sheet.getRow(i).getCell(2).setCellValue("HI");
+				sheet.getRow(i).getCell(3).setCellValue("hi");
+				sheet.getRow(i).getCell(4).setCellValue("HI");
+			
+			
+		}
+		
+       file.close();
+
+        FileOutputStream fileOut = new FileOutputStream("B.xls");
+        workbook.write(fileOut);
+        workbook.close();
+	}
+	
 	public void printData(ArrayList<ArrayList<String>> allData)
 	{
 		for(int i = 0; i < allData.size(); i++){

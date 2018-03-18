@@ -153,7 +153,7 @@ public class DriverTest {
 		 ******************************************************************/
 		//System.out.println(teacherList.get(0).getSubmittedAbsenceSchedule().getPeriodValueAtIndex(4));
 	
-		System.out.println(teacherList.get(0).getName());
+		//System.out.println(teacherList.get(0).);
 		
 		
 	}
