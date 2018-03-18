@@ -19,6 +19,12 @@ public class OnCallTeacher extends Teacher
 			this.absent = false;
 		}
 		
+		
+		public void setSparePeriod()
+		{
+			
+		}
+		
 		public void setToAbsent(){
 			absent = true;
 		}
@@ -35,6 +41,8 @@ public class OnCallTeacher extends Teacher
 			this.assignments = assignments;
 		}
 		
+		
+	
 		
 		public AbsenceTracker getSubmittedAbsenceSchedule()
 		{
