@@ -41,7 +41,10 @@ public class OnCallTeacher extends Teacher
 			this.assignments = assignments;
 		}
 		
-		
+		public AssignmentTracker getAssignmentSchedule()
+		{
+			return assignments;
+		}
 	
 		
 		public AbsenceTracker getSubmittedAbsenceSchedule()
@@ -72,11 +75,7 @@ public class OnCallTeacher extends Teacher
 		{
 			 termTallyCount = count;
 		}
-		
-		
-		
-		
-		
+	
 		
 		public String getWeeklyTally() 
 		{
@@ -120,7 +119,7 @@ public class OnCallTeacher extends Teacher
 			/******************************************************
 			 * BUG WITH THIS CAUSE NULL (what is commented out)
 			 ******************************************************/
-			//result += "\nASSIGNMENTS: " + assignments.toString();
+			//result += "\nASSIGNMENTS: " + getAssignmentSchedule().toString();
 			result += "\nCOUNTS: WeeklyTally: " + weeklyTallyCount + " ";
 			result += "MonltyTally: " + monthlyTallyCount + " ";
 			result += "TermTally: " + termTallyCount +" \n";
