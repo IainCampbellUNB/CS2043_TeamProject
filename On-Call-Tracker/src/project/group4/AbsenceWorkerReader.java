@@ -27,27 +27,55 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AbsenceWorkerReader {
-
+	static boolean skillsFilled = false;
+	
+	public  boolean getSkillsFilled(){
+		return skillsFilled;
+	}
 	
 	public static ArrayList<ArrayList<String>> readTermSchedule() throws IOException, ParseException {
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
-		
-		//CreateWork
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("Test.xls"));
-
-		//Get the sheet
-		HSSFSheet sheet = workbook.getSheetAt(0);
 	
-		for(int i = 1; i < 25; i++) {
-			//This is needed to restart with a fresh ArrayList.
-			perRowData = new ArrayList<String>();
-			for(int j = 0; j < 7; j++) {
-			perRowData.add(sheet.getRow(i).getCell(j).toString());
-			}	
-			allData.add(perRowData);
-		}
+		
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("Test.xls"));
+		
+		HSSFSheet sheet = workbook.getSheetAt(0);
+		
+		int skillIndex = searchColIndex("Skills",sheet);
+		
+		if(!(sheet.getRow(1).getCell(skillIndex).toString().equals("")))
+		{
+			
+			skillsFilled = true;
 
+		}
+		
+		boolean done = false;
+		int i = 1;
+		while(!done){
+		
+			if(sheet.getRow(i) == null){
+				done = true;
+				break;
+			}
+			perRowData = new ArrayList<String>();
+				
+			if(!skillsFilled)
+			{
+				for(int j = 0; j < skillIndex+1; j++) {
+					perRowData.add(sheet.getRow(i).getCell(j).toString());
+				}
+				
+			}else{
+				for(int j = 0; j < skillIndex; j++) {
+					perRowData.add(sheet.getRow(i).getCell(j).toString());
+				}
+			}
+			allData.add(perRowData);
+			i++;
+		}
+	
 		workbook.close();
 		return allData;
 	}
@@ -62,13 +90,20 @@ public class AbsenceWorkerReader {
 
 		//Get the sheet
 		HSSFSheet sheet = workbook.getSheetAt(1);
+		boolean done = false;
+		int i = 1;
+		while(!done){
 		
-		for(int i = 1; i < 12; i++) {
+			if(sheet.getRow(i) == null){
+				done = true;
+				break;
+			}
 			perRowData = new ArrayList<String>();
 			for(int j = 0; j < 2; j++) {
 			perRowData.add(sheet.getRow(i).getCell(j).toString());
 			}	
 			allData.add(perRowData);
+			i++;
 		}
 		
 		workbook.close();
@@ -101,13 +136,21 @@ public class AbsenceWorkerReader {
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		
 		
-		for(int i = 2; i < 14; i++) {
+		boolean done = false;
+		int i = 2;
+		while(!done){
+		
+			if(sheet.getRow(i) == null){
+				done = true;
+				break;
+			}
 			perRowData = new ArrayList<String>();
 			perRowData.add(sheet.getRow(i).getCell(0).toString());
 			for(int j = 1; j < 6; j++){
 				perRowData.add(sheet.getRow(i).getCell(j).toString());
 			}
 			allData.add(perRowData);
+			i++;
 		}
 
 		workbook.close();
@@ -142,6 +185,29 @@ public class AbsenceWorkerReader {
         workbook.write(fileOut);
         workbook.close();
 	}
+	
+	public static int searchColIndex(String searchWord, HSSFSheet sheet){
+		boolean done = false;
+		int col = 0;
+		while(!done){
+			if(sheet.getRow(0).getCell(col) == null){
+				done = true;
+				break;
+			}
+			String value = sheet.getRow(0).getCell(col).toString();
+		
+			if(value.equals(searchWord))
+			{
+				done = true;
+				break;
+			}
+			col++;
+		}
+		
+		return col;
+	}
+	
+	
 	public void printData(ArrayList<ArrayList<String>> allData)
 	{
 		for(int i = 0; i < allData.size(); i++){
