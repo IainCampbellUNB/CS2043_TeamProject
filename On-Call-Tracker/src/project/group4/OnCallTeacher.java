@@ -9,26 +9,40 @@ public class OnCallTeacher extends Teacher
 		private String termTallyCount;
 		private AbsenceTracker submittedAbsence;
 		private boolean absent;
-		private AssignmentTracker assignments;
+		//private AssignmentTracker assignments;
 		//set up a method to set period of spare
-		
+		private int spareIndex;
+		private boolean assigned;
 		
 		public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) {
 			super(NAME,ID);
 			this.dailySchedule = dailySchedule;
 			this.absent = false;
+			this.assigned = false;
+			spareIndex = -1;
+		}
+		//They are being assigned so no longer available for assignments.
+		public void hasBeenAssigned()
+		{
+			this.assigned = true;
 		}
 		
+		public boolean getHasBeenAssigned(){
+			return this.assigned;
+		}
 		
-		public void setSparePeriod()
-		{
-			
+		public int getSparePeriodByIndex(){
+			return spareIndex = this.dailySchedule.determineSparePeriodByIndex();
+		}
+		
+		public String getSparePeriodByValue(){
+			return this.dailySchedule.getSpareByString();
 		}
 		
 		public void setToAbsent(){
 			absent = true;
 		}
-		
+		//AttachAbsentScheduleToTeacher
 		public void submitAbsenceSchedule(AbsenceTracker submittedAbsence){
 			if(this.absent = true)
 			{
@@ -36,16 +50,20 @@ public class OnCallTeacher extends Teacher
 			}
 		}
 		
-		
+		//AttachAssignmentTrackerToTeacherObject
+		//This might not be needed and just use the get spare period
+		//to determine where the assignment took place.
+		/*
 		public void attachAssignmentTrackerToTeacherObject(AssignmentTracker assignments){
 			this.assignments = assignments;
 		}
-		
+		//This might not be needed
+		//and uses the getSparePeriod instead because that is when they can be assigned.
 		public AssignmentTracker getAssignmentSchedule()
 		{
 			return assignments;
 		}
-	
+		*/
 		
 		public AbsenceTracker getSubmittedAbsenceSchedule()
 		{
@@ -92,6 +110,27 @@ public class OnCallTeacher extends Teacher
 			return termTallyCount;
 		}
 		
+		public boolean hasReachedweeklyMax()
+		{
+			boolean maxReached = false;
+			if(weeklyTallyCount.equals("2.0"))
+			{
+				maxReached = true;
+			}
+			return maxReached;
+		}
+		
+		public boolean hasReachedMonthlyMax()
+		{
+			boolean maxReached = false;
+			if(monthlyTallyCount.equals("4.0"))
+			{
+				
+				maxReached = true;
+			}
+			return maxReached;
+		}
+		
 		/*public void increaseWeeklyTally(String weeklyTallyCount) 
 		{
 			this.weeklyTallyCount++;
@@ -116,10 +155,7 @@ public class OnCallTeacher extends Teacher
 			{
 				result += "\nABSENT" + submittedAbsence.toString();
 			}
-			/******************************************************
-			 * BUG WITH THIS CAUSE NULL (what is commented out)
-			 ******************************************************/
-			//result += "\nASSIGNMENTS: " + getAssignmentSchedule().toString();
+
 			result += "\nCOUNTS: WeeklyTally: " + weeklyTallyCount + " ";
 			result += "MonltyTally: " + monthlyTallyCount + " ";
 			result += "TermTally: " + termTallyCount +" \n";

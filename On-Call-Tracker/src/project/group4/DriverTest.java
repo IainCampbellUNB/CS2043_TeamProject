@@ -8,7 +8,6 @@ public class DriverTest {
 
 	public static void main(String[] args) throws ParseException, IOException {
 		
-		
 		/* **************************************************
 		 * Read Information
 		 ****************************************************/
@@ -124,7 +123,7 @@ public class DriverTest {
 			String monthTally = tallyCountData.get(row).get(7);
 			String TermTally = tallyCountData.get(row).get(8);
 			//System.out.println(TermTally);
-			AssignmentTracker assign = new AssignmentTracker(p1,p2,p3a,p3b,p4);
+			//AssignmentTracker assign = new AssignmentTracker(p1,p2,p3a,p3b,p4);
 			int i = 0;
 			boolean match = false;
 			while( i< teacherList.size() && !match)
@@ -132,7 +131,7 @@ public class DriverTest {
 				if(teacherList.get(i).getName().equals(name) ){
 					
 					//attach assignement schedule Teacher object
-					teacherList.get(i).attachAssignmentTrackerToTeacherObject(assign);
+					//teacherList.get(i).attachAssignmentTrackerToTeacherObject(assign);
 					
 					//Set the tallies to teacher object
 					teacherList.get(i).setWeeklyTally(weeklyTally);
@@ -143,89 +142,49 @@ public class DriverTest {
 				}
 				i++;
 			}
-			
-			
 		}
-		/*******************************************************************
-		 * BUG - NEED TO TRACE WHERE IT'S BREAKING BUG
-		 ******************************************************************/
+		System.out.println("Teacher List Starts here");
 		for(int i = 0; i < teacherList.size(); i++){
-			System.out.println(teacherList.get(i).toString());
+					System.out.println(teacherList.get(i).toString());
 		}
-			
-		/*******************************************************************
-		 * SAVE WRITE METHODS
-		 ******************************************************************/
-		AbsenceWorkerReader.writeToAbsenceTracker(teacherList, "2018-03-16");
-		
 	
+		/* **************************************************
+		 * Coverage View 1
+		 ****************************************************/
 		
+		ArrayList<ArrayList<String>> coverageViewData = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<String>> countViewData = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<String>>  availabilityViewData = new ArrayList<ArrayList<String>>();
 		
-		/*******************************************************************
-		 * Inside of method for View 1
-		 ******************************************************************/
-		//Period-Absentee-Covered_by
-		ArrayList<String> rowData = new ArrayList<String>();
-		for(int i = 0; i < teacherList.size(); i++){
-			if(teacherList.get(i).getAbsentStatus())
-			{
-				OnCallTeacher teacher = teacherList.get(i);
-				AbsenceTracker obj1 = teacher.getSubmittedAbsenceSchedule();
-				int j = 0;
-				while(j<5){
-					String value = obj1.getPeriodValueAtIndex(j);
-					if(!(value.equals("0.0")) && !(value.equals("X")) )
-					{
-						System.out.println("value " + value);
-						
-						//Is it a supply teacher or on-Call
-						//int num = Integer.parseInt(value);
-						String coveredBy ="";
-						//if(num > 30)
-						//{
-						//Search Supply Teacher
-							
-							for(int k = 0; k < supplyList.size();k++)
-							{
-								if(supplyList.get(k).getID().equals(value))
-								{
-									coveredBy = supplyList.get(k).getName();
-								}
-								
-							}
-							
-						//}else{
-						//Search On-Call Teacher
-						//	for(int f = 0; f < teacherList.size();f++){
-						//		if(teacherList.get(f).getID().equals(value)){
-						//			coveredBy = teacherList.get(f).getName();
-						//		}
-								
-						//	}
-						
-					System.out.println("Period: " + j + " Absent " + teacherList.get(i).getName() + "CoveredBy: " + coveredBy);
-					}
-					j++;
-				}
-				
-				
-			}
-			
-		}
+		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
+		System.out.println("Coverage View Starts");
+		GenerateView.printData(coverageViewData);
+		/* **************************************************
+		 * Coverage View 2
+		 ****************************************************/
+		System.out.println("\nCountView Starts");
+		countViewData = GenerateView.generateCountView(teacherList);
+		GenerateView.printData(countViewData);
 		
-		
-		/*******************************************************************
-		 * Inside of method for View 2
-		 ******************************************************************/
+		/* **************************************************
+		 * Coverage View 3   (first 3 columns)
+		 ****************************************************/
+		/***************************************************
+		 * To-DO: Figure out the who's next column
+		 **************************************************/
+		/***************************************************
+		 * BUG: NullPointer Exception because of null value in Teacher Object
+		 * FIX : I think the reader is the problem, but will need to look into this.
+		 **************************************************/
+		System.out.println("\nAvailabilityView Starts");
+		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
+		GenerateView.printData(availabilityViewData);
 		
 		
 		
 		
-		/*******************************************************************
-		 * Inside of method for View 3
-		 ******************************************************************/
 		
-		
+		//AbsenceWorkerReader.writeToAbsenceTracker(teacherList, "2018-03-16");
 		
 	}
 
