@@ -125,15 +125,15 @@ public class GenerateView {
 						}
 						monthlyCount++;
 					}
-				perRowData.add(schedule.convertIndexToPeriod(periodIndex));
-				
-				
-				perRowData.add(String.valueOf(weeklyCount));
-				perRowData.add(String.valueOf(monthlyCount));
-				weeklyCount = 0;
-				monthlyCount = 0;
-				allData.add(perRowData);
+			
 			}
+			perRowData.add(schedule.convertIndexToPeriod(periodIndex));
+			
+			perRowData.add(String.valueOf(weeklyCount));
+			perRowData.add(String.valueOf(monthlyCount));
+			weeklyCount = 0;
+			monthlyCount = 0;
+			allData.add(perRowData);
 		}
 		
 		return allData;

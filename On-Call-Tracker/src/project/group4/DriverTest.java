@@ -162,8 +162,9 @@ public class DriverTest {
 		/* **************************************************
 		 * Coverage View 2
 		 ****************************************************/
-		//countViewData = GenerateView.generateCountView(teacherList);
-		//GenerateView.printData(countViewData);
+		System.out.println("\nCountView Starts");
+		countViewData = GenerateView.generateCountView(teacherList);
+		GenerateView.printData(countViewData);
 		
 		/* **************************************************
 		 * Coverage View 3   (first 3 columns)
@@ -172,13 +173,12 @@ public class DriverTest {
 		 * To-DO: Figure out the who's next column
 		 **************************************************/
 		/***************************************************
-		 * BUG: NullPointer Exception because of null value
-		 * FIX : I think the reader is the problem
+		 * BUG: NullPointer Exception because of null value in Teacher Object
+		 * FIX : I think the reader is the problem, but will need to look into this.
 		 **************************************************/
-		
-		//availabilityViewData = GenerateView.generateCoverageView(teacherList, supplyList);
-		
-		//GenerateView.printData(availabilityViewData);
+		System.out.println("\nAvailabilityView Starts");
+		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
+		GenerateView.printData(availabilityViewData);
 		
 		
 		

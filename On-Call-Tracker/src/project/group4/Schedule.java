@@ -50,7 +50,26 @@ public class Schedule
  
   public String convertIndexToPeriod(int index)
   {
-	  return schedule.get(index);
+	 String ind = String.valueOf(index);
+	 String answer = "";
+	  switch (ind) {
+      	case "0":
+    	  answer  = "P1";
+          break;
+      	case "1":
+    	  answer = "P2";
+          break;
+      	case "2":
+    	  answer = "P3A";
+          break;
+      	case "3":
+    	  answer = "P3B";
+          break;
+      	case "4":
+    	  answer = "P4";
+          break;
+	  }   
+	  return answer;
   }
   
 
