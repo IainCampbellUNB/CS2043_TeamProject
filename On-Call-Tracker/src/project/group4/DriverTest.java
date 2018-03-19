@@ -60,9 +60,9 @@ public class DriverTest {
 		    teacherList.add(obj1);
 		}
 		
-		for(int i = 0; i < teacherList.size(); i++){
-			System.out.println(teacherList.get(i).toString());
-		}
+		//for(int i = 0; i < teacherList.size(); i++){
+		//	System.out.println(teacherList.get(i).toString());
+		//}
 		
 		/* **************************************************
 		 * Step 2 Create ArrayList of Supply's
@@ -113,7 +113,7 @@ public class DriverTest {
 		/* **************************************************
 		 * Step 4 Add Tally to each Teacher
 		 ****************************************************/
-		for(int row = 0; row < tallyCountData.size(); row++){
+		for(int row = 0; row < tallyCountData.size()-5; row++){
 			String name = tallyCountData.get(row).get(0);
 			String p1 = tallyCountData.get(row).get(1);
 			String p2 = tallyCountData.get(row).get(2);
@@ -123,19 +123,22 @@ public class DriverTest {
 			String weeklyTally = tallyCountData.get(row).get(6);
 			String monthTally = tallyCountData.get(row).get(7);
 			String TermTally = tallyCountData.get(row).get(8);
-			
+			//System.out.println(TermTally);
 			AssignmentTracker assign = new AssignmentTracker(p1,p2,p3a,p3b,p4);
 			int i = 0;
 			boolean match = false;
 			while( i< teacherList.size() && !match)
 			{
 				if(teacherList.get(i).getName().equals(name) ){
+					
 					//attach assignement schedule Teacher object
 					teacherList.get(i).attachAssignmentTrackerToTeacherObject(assign);
+					
 					//Set the tallies to teacher object
 					teacherList.get(i).setWeeklyTally(weeklyTally);
 					teacherList.get(i).setMonthlyTally(monthTally);
 					teacherList.get(i).setTermTally(TermTally);
+				
 					match = true;
 				}
 				i++;
@@ -143,17 +146,85 @@ public class DriverTest {
 			
 			
 		}
+		/*******************************************************************
+		 * BUG - NEED TO TRACE WHERE IT'S BREAKING BUG
+		 ******************************************************************/
 		for(int i = 0; i < teacherList.size(); i++){
 			System.out.println(teacherList.get(i).toString());
 		}
 			
-		AbsenceWorkerReader.writeToAbsenceTracker(teacherList, "2018-03-16");
 		/*******************************************************************
-		 * THIS DOESN'T WORK
+		 * SAVE WRITE METHODS
 		 ******************************************************************/
-		//System.out.println(teacherList.get(0).getSubmittedAbsenceSchedule().getPeriodValueAtIndex(4));
+		AbsenceWorkerReader.writeToAbsenceTracker(teacherList, "2018-03-16");
+		
 	
-		//System.out.println(teacherList.get(0).);
+		
+		
+		/*******************************************************************
+		 * Inside of method for View 1
+		 ******************************************************************/
+		//Period-Absentee-Covered_by
+		ArrayList<String> rowData = new ArrayList<String>();
+		for(int i = 0; i < teacherList.size(); i++){
+			if(teacherList.get(i).getAbsentStatus())
+			{
+				OnCallTeacher teacher = teacherList.get(i);
+				AbsenceTracker obj1 = teacher.getSubmittedAbsenceSchedule();
+				int j = 0;
+				while(j<5){
+					String value = obj1.getPeriodValueAtIndex(j);
+					if(!(value.equals("0.0")) && !(value.equals("X")) )
+					{
+						System.out.println("value " + value);
+						
+						//Is it a supply teacher or on-Call
+						//int num = Integer.parseInt(value);
+						String coveredBy ="";
+						//if(num > 30)
+						//{
+						//Search Supply Teacher
+							
+							for(int k = 0; k < supplyList.size();k++)
+							{
+								if(supplyList.get(k).getID().equals(value))
+								{
+									coveredBy = supplyList.get(k).getName();
+								}
+								
+							}
+							
+						//}else{
+						//Search On-Call Teacher
+						//	for(int f = 0; f < teacherList.size();f++){
+						//		if(teacherList.get(f).getID().equals(value)){
+						//			coveredBy = teacherList.get(f).getName();
+						//		}
+								
+						//	}
+						
+					System.out.println("Period: " + j + " Absent " + teacherList.get(i).getName() + "CoveredBy: " + coveredBy);
+					}
+					j++;
+				}
+				
+				
+			}
+			
+		}
+		
+		
+		/*******************************************************************
+		 * Inside of method for View 2
+		 ******************************************************************/
+		
+		
+		
+		
+		/*******************************************************************
+		 * Inside of method for View 3
+		 ******************************************************************/
+		
 		
 		
 	}
