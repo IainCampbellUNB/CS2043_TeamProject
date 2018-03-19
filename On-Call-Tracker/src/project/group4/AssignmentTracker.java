@@ -1,4 +1,6 @@
-package project.group4;
+//THIS CLASS MIGHT NOT BE NEEDED AS WE CAN JUST ASSUME THAT THERE WILL ONLY BE ASSIGNEMENT ON SPARE PERIOD.
+
+/*package project.group4;
 
 import java.util.ArrayList;
 
@@ -40,4 +42,4 @@ public class AssignmentTracker {
 		  
 		  return result;
 	  }
-}
+}*/

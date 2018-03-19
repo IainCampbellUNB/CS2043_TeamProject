@@ -9,7 +9,8 @@ public class Schedule
   private String p3a;
   private String p3b;
   private String p4;
-  
+  private String spare;
+  private int spareIndex;
   private ArrayList<String> schedule;
 
   public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
@@ -25,11 +26,34 @@ public class Schedule
     schedule.add(p3a);
     schedule.add(p3b);
     schedule.add(p4);
-    
+    spareIndex = determineSparePeriodByIndex();
+    spare = convertIndexToPeriod(spareIndex);
   }
 
+  public String getSpareByString()
+  {
+	  return spare;
+  }
   
+  public int determineSparePeriodByIndex()
+  {
+	  int period = 0;
+	  for(int index = 0; index < 5; index++){
+		  if(schedule.get(index).equals("Spare")){
+			  period = index;
+		  } 
+	  }
+		  
+	  return period;
+  }
   
+ 
+  public String convertIndexToPeriod(int index)
+  {
+	  return schedule.get(index);
+  }
+  
+
   public ArrayList<String> getSchedule()
   {
     return this.schedule;

@@ -28,7 +28,7 @@ public class TallyWorkbookReader {
 
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("TallyWorkbook.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("TallyTest.xls"));
 
 		//Get the sheet
 		HSSFSheet sheet = workbook.getSheet(selectedDate);
@@ -69,7 +69,7 @@ public class TallyWorkbookReader {
 	
 	public static void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
 	{
-		FileInputStream file = new FileInputStream("AbsenceWorkBook.xls");
+		FileInputStream file = new FileInputStream("TallyTest.xls");
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
 		HSSFSheet sheet = workbook.getSheet(selectedDate);
 		
