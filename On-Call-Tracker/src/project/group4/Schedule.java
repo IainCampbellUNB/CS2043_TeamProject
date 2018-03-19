@@ -12,7 +12,10 @@ public class Schedule
   private String spare;
   private int spareIndex;
   private ArrayList<String> schedule;
-
+  private String skill;
+  private boolean skillset;
+  
+ 
   public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
   {
     this.p1 = p1In;
@@ -20,7 +23,8 @@ public class Schedule
     this.p3a = p3aIn;
     this.p3b = p3bIn;
     this.p4 = p4In;
-    schedule = new ArrayList<String>(5);
+    skillset = false;
+    schedule = new ArrayList<String>(6);
     schedule.add(p1);
     schedule.add(p2);
     schedule.add(p3a);
@@ -29,10 +33,39 @@ public class Schedule
     spareIndex = determineSparePeriodByIndex();
     spare = convertIndexToPeriod(spareIndex);
   }
+  
+  
+  public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In,String skill)
+  {
+    this.p1 = p1In;
+    this.p2 = p2In;
+    this.p3a = p3aIn;
+    this.p3b = p3bIn;
+    this.p4 = p4In;
+    this.skill = skill;
+    skillset = true;
+    schedule = new ArrayList<String>(6);
+    schedule.add(p1);
+    schedule.add(p2);
+    schedule.add(p3a);
+    schedule.add(p3b);
+    schedule.add(p4);
+    schedule.add(skill);
+    spareIndex = determineSparePeriodByIndex();
+    spare = convertIndexToPeriod(spareIndex);
+  }
 
   public String getSpareByString()
   {
 	  return spare;
+  }
+  
+  public String determineSkill()
+  {
+	  String skill = "";
+	  
+	  
+	  return skill;
   }
   
   public int determineSparePeriodByIndex()
@@ -80,9 +113,12 @@ public class Schedule
   
   public String toString(){
 	  String result = "";
-	  for(int i = 0; i < 5; i++)
+	  for(int i = 0; i < 5; i++){
 		  result += schedule.get(i) + " "; 
-	  
+	  }
+	  if(skillset){
+		  result += "Skill: " + schedule.get(5);
+	  }
 	  return result;
   }
 }

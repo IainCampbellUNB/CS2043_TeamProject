@@ -28,39 +28,34 @@ public class TallyWorkbookReader {
 
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("TallyTest.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("TallyWorkbook.xls"));
 
 		//Get the sheet
 		HSSFSheet sheet = workbook.getSheet(selectedDate);
 		
 		//Include a NULLPOINTER TO CATCH NON-EXISTING ENTRY
+		int monday = searchColIndex("Thursday",sheet);
+		System.out.println("monday" + monday);
+		int columnIndexWT = searchColIndex("Weekly Tally",sheet);
+		int columnIndexMT = searchColIndex("Month Tally",sheet);
+		int columnIndexTERM = searchColIndex("Per Term Tally",sheet);
 		
+		boolean done = false;
+		int i = 2;
+		while(!done){
 		
-		//Convert String to Date
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		
-		
-		Date date = formatter.parse(selectedDate);
-		System.out.println(date.toString());
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-		System.out.println("day of the Week " + dayOfWeek);
-		//Monday is 5
-		
-	
-		for(int i = 2; i < 25; i++) {
+			if(sheet.getRow(i) == null){
+				done = true;
+				break;
+			}
 			perRowData = new ArrayList<String>();
 			perRowData.add(sheet.getRow(i).getCell(0).toString());
-			for(int j = 1; j < 6; j++)
-			{
-				perRowData.add(sheet.getRow(i).getCell(j).toString());
-			}
-			perRowData.add(sheet.getRow(i).getCell(26).toString());
-			perRowData.add(sheet.getRow(i).getCell(27).toString());
-			perRowData.add(sheet.getRow(i).getCell(28).toString());
+			perRowData.add(sheet.getRow(i).getCell(columnIndexWT).toString());
+			perRowData.add(sheet.getRow(i).getCell(columnIndexMT).toString());
+			perRowData.add(sheet.getRow(i).getCell(columnIndexTERM).toString());
 			
 			allData.add(perRowData);
+			i++;
 		}
 
 		workbook.close();
@@ -92,6 +87,27 @@ public class TallyWorkbookReader {
         FileOutputStream fileOut = new FileOutputStream("B.xls");
         workbook.write(fileOut);
         workbook.close();
+	}
+	
+	public static int searchColIndex(String searchWord, HSSFSheet sheet){
+		boolean done = false;
+		int col = 0;
+		while(!done){
+			if(sheet.getRow(0).getCell(col) == null){
+				done = true;
+				break;
+			}
+			String value = sheet.getRow(0).getCell(col).toString();
+		
+			if(value.equals(searchWord))
+			{
+				done = true;
+				break;
+			}
+			col++;
+		}
+		
+		return col;
 	}
 	
 	public void printData(ArrayList<ArrayList<String>> allData)
