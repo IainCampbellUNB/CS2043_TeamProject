@@ -38,12 +38,12 @@ public class AbsenceWorkerReader {
 		ArrayList<String> perRowData = new ArrayList<String>();
 	
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("Test.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("AbsenceWorkbook.xls"));
 		
 		HSSFSheet sheet = workbook.getSheetAt(0);
 		
 		int skillIndex = searchColIndex("Skills",sheet);
-		
+	
 		if(!(sheet.getRow(1).getCell(skillIndex).toString().equals("")))
 		{
 			
@@ -53,6 +53,7 @@ public class AbsenceWorkerReader {
 		
 		boolean done = false;
 		int i = 1;
+		skillIndex++;
 		while(!done){
 		
 			if(sheet.getRow(i) == null){
@@ -63,10 +64,14 @@ public class AbsenceWorkerReader {
 				
 			if(!skillsFilled)
 			{
-				for(int j = 0; j < skillIndex+1; j++) {
+		    	System.out.println("SkillFilled");
+				for(int j = 0; j < (skillIndex); j++) {
 					perRowData.add(sheet.getRow(i).getCell(j).toString());
+					
+					System.out.println(j);
 				}
-				
+				String value = sheet.getRow(i).getCell(7).toString();
+				System.out.println("value" + value);
 			}else{
 				for(int j = 0; j < skillIndex; j++) {
 					perRowData.add(sheet.getRow(i).getCell(j).toString());
@@ -86,7 +91,7 @@ public class AbsenceWorkerReader {
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("Test.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("AbsenceWorkbook.xls"));
 
 		//Get the sheet
 		HSSFSheet sheet = workbook.getSheetAt(1);
@@ -116,7 +121,7 @@ public class AbsenceWorkerReader {
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("Test.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("AbsenceWorkbook.xls"));
 	
 		HSSFSheet sheet = workbook.getSheet(selectedDate);
 		
@@ -160,7 +165,7 @@ public class AbsenceWorkerReader {
 	
 	public static void writeToAbsenceTracker(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
 	{
-		FileInputStream file = new FileInputStream("Test.xls");
+		FileInputStream file = new FileInputStream("AbsenceWorkbook.xls");
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
 		HSSFSheet sheet = workbook.getSheet(selectedDate);
 		

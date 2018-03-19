@@ -114,7 +114,7 @@ public class GenerateView {
 		{
 			//Issue here some teachers have null values in their count
 			//throwing a nullException pointer
-			for(int i = 0; i < 10; i++){
+			for(int i = 0; i < teacherList.size(); i++){
 				perRowData = new ArrayList<String>();
 				OnCallTeacher  teacher = teacherList.get(i);
 				teacher.getSparePeriodByIndex();

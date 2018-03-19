@@ -33,7 +33,7 @@ public class AbsenceTracker
   {
 	  boolean absentPresent = false;
 	  for (int i = 0; i < absences.size(); i++)
-		  if(!absences.get(i).equals(0.0))
+		  if(!(absences.get(i).equals("0.0")))
 			  absentPresent = true;
 	  return absentPresent;
   }

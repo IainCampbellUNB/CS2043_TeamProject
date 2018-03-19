@@ -13,6 +13,8 @@ public class OnCallTeacher extends Teacher
 		//set up a method to set period of spare
 		private int spareIndex;
 		private boolean assigned;
+		private String skill;
+		
 		
 		public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) {
 			super(NAME,ID);
@@ -26,6 +28,7 @@ public class OnCallTeacher extends Teacher
 		{
 			this.assigned = true;
 		}
+		
 		
 		public boolean getHasBeenAssigned(){
 			return this.assigned;
@@ -49,21 +52,7 @@ public class OnCallTeacher extends Teacher
 				this.submittedAbsence = submittedAbsence;
 			}
 		}
-		
-		//AttachAssignmentTrackerToTeacherObject
-		//This might not be needed and just use the get spare period
-		//to determine where the assignment took place.
-		/*
-		public void attachAssignmentTrackerToTeacherObject(AssignmentTracker assignments){
-			this.assignments = assignments;
-		}
-		//This might not be needed
-		//and uses the getSparePeriod instead because that is when they can be assigned.
-		public AssignmentTracker getAssignmentSchedule()
-		{
-			return assignments;
-		}
-		*/
+	
 		
 		public AbsenceTracker getSubmittedAbsenceSchedule()
 		{
@@ -155,7 +144,7 @@ public class OnCallTeacher extends Teacher
 			{
 				result += "\nABSENT" + submittedAbsence.toString();
 			}
-
+			
 			result += "\nCOUNTS: WeeklyTally: " + weeklyTallyCount + " ";
 			result += "MonltyTally: " + monthlyTallyCount + " ";
 			result += "TermTally: " + termTallyCount +" \n";

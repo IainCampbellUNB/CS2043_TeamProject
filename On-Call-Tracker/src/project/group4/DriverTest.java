@@ -7,7 +7,9 @@ import java.util.ArrayList;
 public class DriverTest {
 
 	public static void main(String[] args) throws ParseException, IOException {
-		
+		System.out.println("ok");
+		Schedule sched1 = new Schedule("1","2","3","4","skill");
+		System.out.println(sched1.toString());
 		/* **************************************************
 		 * Read Information
 		 ****************************************************/
@@ -18,13 +20,12 @@ public class DriverTest {
 		ArrayList<ArrayList<String>> absenceTrackerData = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> tallyCountData = new ArrayList<ArrayList<String>>();
 		
-		try 
-		{
+		try {
 			termScheduleData = AbsenceWorkerReader.readTermSchedule();
-			//reader.printData(termScheduleData);
+			reader.printData(termScheduleData);
 						
 			supplyListData = AbsenceWorkerReader.readSupplyList();
-			//reader.printData(supplyListData);
+			reader.printData(supplyListData);
 			
 			absenceTrackerData = AbsenceWorkerReader.readAbsenceTracker("2018-03-16");
 			//reader.printData(absenceTrackerData);
@@ -54,8 +55,16 @@ public class DriverTest {
 		    String p3a = termScheduleData.get(row).get(4);
 		    String p3b = termScheduleData.get(row).get(5);
 		    String p4 = termScheduleData.get(row).get(6);
-		    Schedule sched = new Schedule(p1,p2,p3a,p3b,p4);
+		    Schedule sched;
+		    if(reader.getSkillsFilled()){
+		    	String skills = termScheduleData.get(row).get(7);
+		    	sched = new Schedule(p1,p2,p3a,p3b,p4,skills);
+		    }else{
+		    	sched = new Schedule(p1,p2,p3a,p3b,p4);
+		    }
+		   
 		    OnCallTeacher obj1 = new OnCallTeacher(id,name,sched);
+		   
 		    teacherList.add(obj1);
 		}
 		
@@ -112,18 +121,12 @@ public class DriverTest {
 		/* **************************************************
 		 * Step 4 Add Tally to each Teacher
 		 ****************************************************/
-		for(int row = 0; row < tallyCountData.size()-5; row++){
+		for(int row = 0; row < tallyCountData.size(); row++){
 			String name = tallyCountData.get(row).get(0);
-			String p1 = tallyCountData.get(row).get(1);
-			String p2 = tallyCountData.get(row).get(2);
-			String p3a = tallyCountData.get(row).get(3);
-			String p3b = tallyCountData.get(row).get(4);
-			String p4 = tallyCountData.get(row).get(5);
-			String weeklyTally = tallyCountData.get(row).get(6);
-			String monthTally = tallyCountData.get(row).get(7);
-			String TermTally = tallyCountData.get(row).get(8);
-			//System.out.println(TermTally);
-			//AssignmentTracker assign = new AssignmentTracker(p1,p2,p3a,p3b,p4);
+			String weeklyTally = tallyCountData.get(row).get(1);
+			String monthTally = tallyCountData.get(row).get(2);
+			String TermTally = tallyCountData.get(row).get(3);
+			
 			int i = 0;
 			boolean match = false;
 			while( i< teacherList.size() && !match)
@@ -157,7 +160,7 @@ public class DriverTest {
 		ArrayList<ArrayList<String>>  availabilityViewData = new ArrayList<ArrayList<String>>();
 		
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
-		System.out.println("Coverage View Starts");
+		//System.out.println("Coverage View Starts");
 		GenerateView.printData(coverageViewData);
 		/* **************************************************
 		 * Coverage View 2
@@ -172,10 +175,7 @@ public class DriverTest {
 		/***************************************************
 		 * To-DO: Figure out the who's next column
 		 **************************************************/
-		/***************************************************
-		 * BUG: NullPointer Exception because of null value in Teacher Object
-		 * FIX : I think the reader is the problem, but will need to look into this.
-		 **************************************************/
+	
 		System.out.println("\nAvailabilityView Starts");
 		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
 		GenerateView.printData(availabilityViewData);
