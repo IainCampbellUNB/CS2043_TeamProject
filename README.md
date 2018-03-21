@@ -12,7 +12,7 @@ tbd.
 
 Authors:
 Craig Beaman
-Iain Campbell
-Gabbie Dupuis
-Catherine Higgins
+,Iain Campbell
+,Gabbie Dupuis
+,Catherine Higgins
 
