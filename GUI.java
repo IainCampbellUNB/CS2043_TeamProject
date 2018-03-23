@@ -1,3 +1,5 @@
+package project.group4;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -13,7 +15,11 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Vector;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,7 +32,7 @@ public class GUI extends JFrame
 	
 	private JPanel mainPanel, mainCenterPanel, southPanel;
 	private JTable table1, table2, table3;
-	private JComboBox<String> dateSelecter, printOptions;
+	private JComboBox<String> printOptions;
 	private JLabel dateLabel;
 	private JButton printButton, updateOnCalls, selectFileButton, clearButton;
 	private JFileChooser fileChooser;
@@ -35,8 +41,7 @@ public class GUI extends JFrame
 	
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
-	private String [] dates;
-	private String date;
+	private GridBagConstraints gbc;
 	
 	public GUI() 
 	{
@@ -125,25 +130,15 @@ public class GUI extends JFrame
 		JPanel subEastPanel = new JPanel();
 		JPanel subCenterPanel = new JPanel();
 		
-		//the dates will be obtained from the sheet names (except for the current date that is displayed on the bottom right)
-		date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
-		dates = new String[] {"Day/Month/Year",date};
+		subCenterPanel.setBackground(mainSouthPanel.getBackground());
+		
+		String date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
 		dateLabel = new JLabel("Today's date: " + date);
 		dateLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		dateLabel.setForeground(Color.WHITE);
 		dateLabel.setPreferredSize(new Dimension(260,25));
 		subEastPanel.add(dateLabel);
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
-		
-		JLabel dateSelectorLabel = new JLabel("Select a date:");
-		dateSelectorLabel.setPreferredSize(new Dimension(140,25));
-		dateSelectorLabel.setForeground(Color.WHITE);
-		dateSelectorLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-		dateSelecter = new JComboBox<String>(dates);
-		dateSelecter.setPreferredSize(dim);
-		subCenterPanel.add(dateSelectorLabel);
-		subCenterPanel.add(dateSelecter);
-		subCenterPanel.setBackground(mainSouthPanel.getBackground());
 		
 		updateOnCalls = new JButton("Update On-Calls");
 		updateOnCalls.setPreferredSize(dim);
@@ -161,7 +156,7 @@ public class GUI extends JFrame
 		mainCenterPanel = new JPanel(new BorderLayout());
 		mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
 		
-		mainCenterPanel.setBackground(new Color(45,33,125));
+		mainCenterPanel.setBackground(new Color(80,90,175));
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
 		JLabel info = new JLabel("Once the excel files are saved, find the files, "
 				+ "select the date of interest, and press update On-Calls.");
@@ -188,19 +183,23 @@ public class GUI extends JFrame
 	
 	private void centerPanelSetup()
 	{
-		//Absent teacher info will be placed inside the .setDataVector method
+		//Absent teacher info will be placed inside the .setDataVector methods
 		mainCenterPanel.removeAll();
-		mainCenterPanel.setBackground(new Color(45,33,125));
+		mainCenterPanel.setBackground(new Color(80,90,175));
 		mainCenterPanel.setLayout(new GridBagLayout());
 		
-		GridBagConstraints gbc = new GridBagConstraints();
+		gbc = new GridBagConstraints();
 		gbc.insets = new Insets(15,15,15,15);
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH; 
-
-		//---------------------------------------------------------
-		
+	
+		mainCenterPanel.revalidate();
+		mainCenterPanel.repaint();
+	}
+	
+	private void constructViewOne(Vector<Vector<Teacher>> teacherData) 
+	{
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		
@@ -214,9 +213,14 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model1.setDataVector(new Object[][] {{ "Example\ntext","...","...","...","..."},{"...","...","...","...","..."},
-				{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."},{"...","...","...","...","..."}},
-				new Object[]{ "Name","Spare","Week","Month","Total/term"});
+		String[] title = {"Name","Spare","Week","Month","Total/term"};
+		Vector<String> titleVector = new Vector<String>();
+		
+		for(String item: title) {
+			titleVector.add(item);
+		}
+		
+		model1.setDataVector(teacherData, titleVector);
 		
 		table1 = new JTable(model1);
 		table1.getColumn("Name").setCellRenderer(new TextAreaRenderer());
@@ -230,14 +234,15 @@ public class GUI extends JFrame
 		table1.setRowHeight(100);
 		table1.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable1 = new JScrollPane(table1);
-	    TitledBorder border = new TitledBorder("Coverage Counts to Date");
-	    scrollTable1.setBorder(border);
+		JScrollPane scrollTable1 = new JScrollPane(table1);
+		TitledBorder border = new TitledBorder("Coverage Counts to Date");
+		scrollTable1.setBorder(border);
 	    
 		mainCenterPanel.add(scrollTable1, gbc);
-		
-		//------------------------------------------------------------
-		
+	}
+
+	private void constructViewTwo(Vector<Vector<Teacher>> teacherData) 
+	{
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		
@@ -251,9 +256,14 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model2.setDataVector(new Object[][] {{ "Example\ntext","Weekly on tally count\nwill go here","Monthly tally\ncount here...","next in line here.."},
-				{"...","...","...","..."},{"...","...","...","..."}},
-				new Object[]{ "Period","Week","Month","Who's next in line?"});
+		String[] title = {"Period","Week","Month","Who's next in line?"};
+		Vector<String> titleVector = new Vector<String>();
+		
+		for(String item: title) {
+			titleVector.add(item);
+		}
+		
+		model2.setDataVector(teacherData, titleVector);
 		
 		table2 = new JTable(model2);
 		table2.getColumn("Period").setCellRenderer(new TextAreaRenderer());
@@ -272,8 +282,10 @@ public class GUI extends JFrame
 		
 		mainCenterPanel.add(scrollTable2, gbc);
 		
-		//------------------------------------------------------------
-		
+	}
+
+	private void constructViewThree(Vector<Vector<Teacher>> teacherData) 
+	{
 		gbc.gridheight = 2;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -288,10 +300,14 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model3.setDataVector(new Object[][] {{ "period here...","Absentee name","name of teacher\ncovering them"},
-				{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},{"...","...","..."},
-				{"...","...","..."},{"...","...","..."}},
-				new Object[]{ "Period","Absentee","Covered by"});
+		String[] title = {"Period","Absentee","Covered by", "Room Number"};
+		Vector<String> titleVector = new Vector<String>();
+		
+		for(String item: title) {
+			titleVector.add(item);
+		}
+		
+		model3.setDataVector(teacherData, titleVector);
 		
 		table3 = new JTable(model3);
 		table3.getColumn("Period").setCellRenderer(new TextAreaRenderer());
@@ -308,10 +324,8 @@ public class GUI extends JFrame
 	    scrollTable3.setBorder(border3);
 	    
 		mainCenterPanel.add(scrollTable3, gbc);
-		mainCenterPanel.revalidate();
-		mainCenterPanel.repaint();
 	}
-	
+
 	private class EventHandling implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
@@ -356,17 +370,18 @@ public class GUI extends JFrame
 			
 			if(e.getSource() == updateOnCalls) 
 			{
-				//this is how we know which excel sheet to go into
-				String selectedDate = (String) dateSelecter.getSelectedItem();
-				if(selectedDate.equals("Day/Month/Year"))
-				{
-					JOptionPane.showMessageDialog(null, "Please select a date first", null, JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				System.out.println(selectedDate);
-				ReadExcelFile1.readExcelFile(selectedDate, fileList.get(0));
-				ReadExcelFile2.readExcelFile(selectedDate, fileList.get(1));
+				AbsenceWorkbookReader reader1 = new AbsenceWorkbookReader(fileList.get(0));
+				TallyWorkbookReader reader2 = new TallyWorkbookReader(fileList.get(1));
+				
 				centerPanelSetup();
+				
+				constructViewOne(new Vector<Vector<Teacher>>());
+				constructViewTwo(new Vector<Vector<Teacher>>());
+				constructViewThree(new Vector<Vector<Teacher>>());
+				
+				revalidate();
+				repaint();
+				
 				return;
 			}
 
@@ -379,7 +394,7 @@ public class GUI extends JFrame
 			{
 				boolean complete = false;
 				
-				if(table1 == null || table2 == null || table3 == null) 
+				if(table1 == null && table2 == null && table3 == null) 
 				{
 					JOptionPane.showMessageDialog(null, "Please select \"Update On-Calls\" first", null, JOptionPane.INFORMATION_MESSAGE);
 					return;
@@ -445,18 +460,5 @@ public class GUI extends JFrame
 		      textArea.setCaretPosition(0);
 		      return this;
 		   }
-	}
-	
-	public static void main(String [] args)
-	{	
-		try 
-		{
-			new GUI();
-			
-		}
-		catch(Exception e) 
-		{
-			System.out.println(e.getMessage());
-		}
 	}
 }
