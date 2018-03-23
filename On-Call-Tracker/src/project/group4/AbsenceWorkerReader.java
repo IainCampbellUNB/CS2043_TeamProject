@@ -1,6 +1,7 @@
 package project.group4;
 
 
+import java.io.File;
 //import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,17 +29,30 @@ import java.util.Calendar;
 
 public class AbsenceWorkerReader {
 	static boolean skillsFilled = false;
+	private File file;
+	private String selectedDate;
+	private String searchForSheetWithDate;
+	private HSSFWorkbook workbook;
 	
+	
+
+	public AbsenceWorkerReader(File file,String selectedDate, String date)
+	{
+		this.file = file;
+		this.selectedDate = selectedDate;
+		this.searchForSheetWithDate = date;
+	
+	}
 	public  boolean getSkillsFilled(){
 		return skillsFilled;
 	}
 	
-	public static ArrayList<ArrayList<String>> readTermSchedule() throws IOException, ParseException {
+	public  ArrayList<ArrayList<String>> readTermSchedule() throws IOException, ParseException {
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 	
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("AbsenceWorkbook.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
 		
 		HSSFSheet sheet = workbook.getSheetAt(0);
 		
@@ -86,12 +100,12 @@ public class AbsenceWorkerReader {
 	}
 	
 	
-	public static ArrayList<ArrayList<String>> readSupplyList() throws IOException, ParseException {
+	public  ArrayList<ArrayList<String>> readSupplyList() throws IOException, ParseException {
 
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("AbsenceWorkbook.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
 
 		//Get the sheet
 		HSSFSheet sheet = workbook.getSheetAt(1);
@@ -116,35 +130,31 @@ public class AbsenceWorkerReader {
 		
 	}
 	
-	public static ArrayList<ArrayList<String>> readAbsenceTracker(String selectedDate) throws IOException, ParseException {
+	public  ArrayList<ArrayList<String>> readAbsenceTracker() throws IOException, ParseException {
 
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
+		HSSFWorkbook workbook = null;
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("AbsenceWorkbook.xls"));
+		workbook = new HSSFWorkbook(new FileInputStream(file));
 	
-		HSSFSheet sheet = workbook.getSheet(selectedDate);
+		HSSFSheet sheet = null;
 		
-		//Include a NULLPOINTER TO CATCH NON-EXISTING ENTRY
-		
-		//Convert String to Date
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		/***************************************************************
-		 * BUG		Convert Date Object to the selected Date and not current date
-		 ***************************************************************/
-		
-		//Convertdate to Weekday
-		Date date = formatter.parse(selectedDate);
-		System.out.println(date.toString());
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-		
+		try
+		{
+			sheet = workbook.getSheet(searchForSheetWithDate);
+			System.out.println((sheet == null) + " error....");
+		}
+		catch(NullPointerException e)
+        {
+            System.out.print("No such date found");
+        }
+	
 		
 		boolean done = false;
 		int i = 2;
 		while(!done){
-		
+			
 			if(sheet.getRow(i) == null){
 				done = true;
 				break;
@@ -163,32 +173,53 @@ public class AbsenceWorkerReader {
 		
 	}
 	
-	public static void writeToAbsenceTracker(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
+	/*public void writeToAbsenceTracker(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
 	{
-		FileInputStream file = new FileInputStream("AbsenceWorkbook.xls");
-		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet(selectedDate);
+		FileInputStream file1 = new FileInputStream(file)
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		HSSFSheet sheet = workbook.getSheet(searchForSheetWithDate);
+	
+		int day = searchColIndex(selectedDate,sheet);
 		
-		/************************************************
-		 * SET AT RIGHT INDEX
-		 ************************************************/
-		
-		for(int i = 2; i < 10; i++) {
-		
-				
-				sheet.getRow(i).getCell(1).setCellValue("Hi");
-				sheet.getRow(i).getCell(2).setCellValue("HI");
-				sheet.getRow(i).getCell(3).setCellValue("hi");
-				sheet.getRow(i).getCell(4).setCellValue("HI");
-			
-			
+		for(int i = 0; i < teacherList.size(); i++)
+		{
+			 if(teacherList.get(i).getHasBeenAssigned())
+			 {	
+				int col = teacherList.get(i).getSparePeriodByIndex();
+				int insertAt = col + day;
+				int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
+				sheet.getRow(findRowIndexForTeacher).getCell(insertAt).setCellValue("1");
+			}
 		}
 		
-       file.close();
+		
+		
+       file1.close();
 
         FileOutputStream fileOut = new FileOutputStream("A.xls");
         workbook.write(fileOut);
         workbook.close();
+	}*/
+	
+	
+	public static int searchRowIndex(String searchWord, HSSFSheet sheet){
+		boolean done = false;
+		int row = 0;
+		while(!done){
+			if(sheet.getRow(row).getCell(0) == null){
+				done = true;
+				break;
+			}
+			String value = sheet.getRow(row).getCell(0).toString();
+		
+			if(value.equals(searchWord))
+			{
+				done = true;
+				break;
+			}
+			row++;
+		}
+		return row;
 	}
 	
 	public static int searchColIndex(String searchWord, HSSFSheet sheet){

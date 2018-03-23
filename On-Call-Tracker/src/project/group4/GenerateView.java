@@ -1,12 +1,70 @@
 package project.group4;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class GenerateView {
 
+	public static Vector<Vector<String>> generateCoverageView(ArrayList<OnCallTeacher> teacherList, ArrayList<Teacher> supplyList)
+	{
+		Vector<Vector<String>> allData = new Vector<Vector<String>>();
+		Vector<String> perRowData; 
+		Schedule schedule = new Schedule("p1", "p2", "p3a", "p3b", "p4");
+		for(int i = 0; i < teacherList.size(); i++){
+			perRowData = new Vector<String>();
+			//Only search those who have their absences marked
+			if(teacherList.get(i).getAbsentStatus()){
+				
+				OnCallTeacher teacher = teacherList.get(i);
+				
+				//Get teacher absent schedule
+				AbsenceTracker obj1 = teacher.getSubmittedAbsenceSchedule();
+				
+				int periodIndex = 0;
+				String coveredBy ="";
+				while(periodIndex <5){
+					perRowData = new Vector<String>();
+					String value = obj1.getPeriodValueAtIndex(periodIndex);
+					
+					//Check for slots with assigned code
+					if(!(value.equals("0.0")) && !(value.equals("X"))){
+						
+						//Check for matches
+						//If OnCall check teacherList
+						if(value.charAt(0) == 'A'){
+							for(int k = 0; k < teacherList.size();k++){
+								if(teacherList.get(k).getID().equals(value)){
+									coveredBy = teacherList.get(k).getName();
+								}	
+							}
+						}
+						//Check supplyList
+						else{
+							
+							for(int k = 0; k < supplyList.size();k++){
+								if(supplyList.get(k).getID().equals(value)){
+									coveredBy = supplyList.get(k).getName();
+								}	
+							}
+						}
+					
+			
+					//System.out.println("Period: " + periodIndex + " Absent " + teacherList.get(i).getName() + "CoveredBy: " + coveredBy);
+					
+					perRowData.add(schedule.convertIndexToPeriod(periodIndex));
+					perRowData.add(teacherList.get(i).getName());
+					perRowData.add(coveredBy);
+					allData.add(perRowData);
+					}
+					periodIndex++;
+					
+				}
+			}
+		}
+		return allData;
+	}
 	
-	
-	public static ArrayList<ArrayList<String>> generateCoverageView(ArrayList<OnCallTeacher> teacherList, ArrayList<Teacher> supplyList)
+	/*public static ArrayList<ArrayList<String>> generateCoverageView(ArrayList<OnCallTeacher> teacherList, ArrayList<Teacher> supplyList)
 	{
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData; 
@@ -63,7 +121,7 @@ public class GenerateView {
 			}
 		}
 		return allData;
-	}
+	}*/
 	
 	
 	public static ArrayList<ArrayList<String>> generateCountView(ArrayList<OnCallTeacher> teacherList)
@@ -139,7 +197,7 @@ public class GenerateView {
 		return allData;
 	}
 	
-	public static void printData(ArrayList<ArrayList<String>> allData)
+	public static void printData(Vector<Vector<String>> allData)
 	{
 		for(int i = 0; i < allData.size(); i++){
 			for(int j = 0; j < allData.get(i).size(); j++){

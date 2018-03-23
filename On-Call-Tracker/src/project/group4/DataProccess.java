@@ -11,14 +11,14 @@ public class DataProccess {
 	ArrayList<Teacher> supplyList;
 	AbsenceWorkerReader reader;
 	TallyWorkbookReader tallyreader;
-	String selectedDate;
 	
-	public DataProccess(AbsenceWorkerReader reader, TallyWorkbookReader tallyreader, String selectedDate){
+	
+	public DataProccess(AbsenceWorkerReader reader, TallyWorkbookReader tallyreader){
 		this.teacherList = new ArrayList<OnCallTeacher>();
 		this.supplyList = new ArrayList<Teacher>();
 		this.reader = reader;
-		this.selectedDate = selectedDate;
 		this.tallyreader = tallyreader;
+		
 	}
 	
 	
@@ -73,7 +73,7 @@ public class DataProccess {
 	
 	private void assignAbsences() throws IOException, ParseException{
 		ArrayList<ArrayList<String>> absenceTrackerData = new ArrayList<ArrayList<String>>();
-		absenceTrackerData = reader.readAbsenceTracker(selectedDate);
+		absenceTrackerData = reader.readAbsenceTracker();
 		for(int row = 0; row < absenceTrackerData.size(); row++){
 			String name = absenceTrackerData.get(row).get(0);
 			String p1 = absenceTrackerData.get(row).get(1);
@@ -103,7 +103,7 @@ public class DataProccess {
 	
 	private void assignTallys() throws IOException, ParseException{
 		ArrayList<ArrayList<String>> tallyCountData = new ArrayList<ArrayList<String>>();
-		tallyCountData = tallyreader.readTallyCount(selectedDate);
+		tallyCountData = tallyreader.readTallyCount();
 		
 		for(int row = 0; row < tallyCountData.size(); row++){
 			String name = tallyCountData.get(row).get(0);
@@ -117,10 +117,6 @@ public class DataProccess {
 			{
 				if(teacherList.get(i).getName().equals(name) ){
 					
-					//attach assignement schedule Teacher object
-					//teacherList.get(i).attachAssignmentTrackerToTeacherObject(assign);
-					
-					//Set the tallies to teacher object
 					teacherList.get(i).setWeeklyTally(weeklyTally);
 					teacherList.get(i).setMonthlyTally(monthTally);
 					teacherList.get(i).setTermTally(TermTally);

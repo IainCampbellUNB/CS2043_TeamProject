@@ -10,6 +10,8 @@ public class AbsenceTracker
   private String p3b;
   private String p4;
   ArrayList<String> absences;
+  public static int absenceCounter = 0;
+  
   
   public AbsenceTracker( String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
   {
@@ -25,16 +27,27 @@ public class AbsenceTracker
     absences.add(p3a);
     absences.add(p3b);
     absences.add(p4);
+   
     
   }
 
- 
+ public static int getNumberOfAbsences()
+ {
+	 return AbsenceTracker.absenceCounter;
+ }
+  
+  
   public boolean checkAbsencePresent()
   {
 	  boolean absentPresent = false;
 	  for (int i = 0; i < absences.size(); i++)
-		  if(!(absences.get(i).equals("0.0")))
+	  {
+		  if(!(absences.get(i).equals("0.0"))){
+			  
 			  absentPresent = true;
+	  		 //return true;
+		  }
+	  }
 	  return absentPresent;
   }
   
