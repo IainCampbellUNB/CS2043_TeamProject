@@ -9,11 +9,11 @@ public class DataProccess {
 	
 	private ArrayList<OnCallTeacher> teacherList;
 	ArrayList<Teacher> supplyList;
-	AbsenceWorkerReader reader;
+	AbsenceWorkbookReader reader;
 	TallyWorkbookReader tallyreader;
 	
 	
-	public DataProccess(AbsenceWorkerReader reader, TallyWorkbookReader tallyreader){
+	public DataProccess(AbsenceWorkbookReader reader, TallyWorkbookReader tallyreader){
 		this.teacherList = new ArrayList<OnCallTeacher>();
 		this.supplyList = new ArrayList<Teacher>();
 		this.reader = reader;

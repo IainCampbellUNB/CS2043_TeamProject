@@ -13,9 +13,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Vector;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,6 +41,7 @@ public class GUI extends JFrame
 	private ArrayList<File> fileList = new ArrayList<File>();
 	private JTextArea textArea;
 	
+	private int rowHeight = 30;
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
 	private GridBagConstraints gbc;
@@ -194,7 +201,7 @@ public class GUI extends JFrame
 		mainCenterPanel.repaint();
 	}
 	
-	private void constructViewOne() 
+	private void constructViewOne(Vector<Vector<String>> teacherData) 
 	{
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -209,7 +216,14 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model1.setDataVector(new Object[][] {{"","","","",""}}, new String[]{ "Name","Spare","Week","Month","Total/term"});
+		String[] title = {"Name","Spare","Week","Month","Total/term"};
+		Vector<String> titleVector = new Vector<String>();
+		
+		for(String item: title) {
+			titleVector.add(item);
+		}
+		
+		model1.setDataVector(teacherData, titleVector);
 		
 		table1 = new JTable(model1);
 		table1.getColumn("Name").setCellRenderer(new TextAreaRenderer());
@@ -220,7 +234,7 @@ public class GUI extends JFrame
 		
 		table1.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table1.setFillsViewportHeight(true);
-		table1.setRowHeight(100);
+		table1.setRowHeight(rowHeight);
 		table1.setGridColor(Color.BLACK);
 		
 		JScrollPane scrollTable1 = new JScrollPane(table1);
@@ -230,7 +244,7 @@ public class GUI extends JFrame
 		mainCenterPanel.add(scrollTable1, gbc);
 	}
 
-	private void constructViewTwo() 
+	private void constructViewTwo(Vector<Vector<String>> teacherData) 
 	{
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -245,7 +259,14 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model2.setDataVector(new Teacher[][] {}, new String[]{ "Period","Week","Month","Who's next in line?"});
+		String[] title = {"Period","Week","Month","Who's next in line?"};
+		Vector<String> titleVector = new Vector<String>();
+		
+		for(String item: title) {
+			titleVector.add(item);
+		}
+		
+		model2.setDataVector(teacherData, titleVector);
 		
 		table2 = new JTable(model2);
 		table2.getColumn("Period").setCellRenderer(new TextAreaRenderer());
@@ -255,7 +276,7 @@ public class GUI extends JFrame
 		
 		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table2.setFillsViewportHeight(true);
-		table2.setRowHeight(100);
+		table2.setRowHeight(rowHeight);
 		table2.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable2 = new JScrollPane(table2);
@@ -266,7 +287,7 @@ public class GUI extends JFrame
 		
 	}
 
-	private void constructViewThree() 
+	private void constructViewThree(Vector<Vector<String>> teacherData) 
 	{
 		gbc.gridheight = 2;
 		gbc.gridx = 0;
@@ -282,7 +303,14 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		model3.setDataVector(new Teacher[][] {},new String[]{ "Period","Absentee","Covered by", "Room Number"});
+		String[] title = {"Period","Absentee","Covered by", "Room Number"};
+		Vector<String> titleVector = new Vector<String>();
+		
+		for(String item: title) {
+			titleVector.add(item);
+		}
+		
+		model3.setDataVector(teacherData, titleVector);
 		
 		table3 = new JTable(model3);
 		table3.getColumn("Period").setCellRenderer(new TextAreaRenderer());
@@ -291,7 +319,7 @@ public class GUI extends JFrame
 		
 		table3.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table3.setFillsViewportHeight(true);
-		table3.setRowHeight(100);
+		table3.setRowHeight(rowHeight);
 		table3.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable3 = new JScrollPane(table3);
@@ -345,13 +373,39 @@ public class GUI extends JFrame
 			
 			if(e.getSource() == updateOnCalls) 
 			{
-				AbsenceWorkbookReader reader1 = new AbsenceWorkbookReader(fileList.get(0));
-				TallyWorkbookReader reader2 = new TallyWorkbookReader(fileList.get(1));
+				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"Monday", "2018-03-16");
+				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),"Monday", "2018-03-19");
+				
+				
+				
+				DataProccess data = new DataProccess(AWreader,TWreader);
+				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
+				ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
+				try {
+					teacherList = data.createTeacherTermSchedule();
+					supplyList = data.createSupplyList();
+				} catch (IOException | ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
+				coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
+				
+				
+				Vector<Vector<String>> tallyViewData = new Vector<Vector<String>>();
+				tallyViewData = GenerateView.generateCountView(teacherList);
+				
+				
+				Vector<Vector<String>> availabilityViewData = new Vector<Vector<String>>();
+				availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
+				
 				
 				centerPanelSetup();
-				constructViewOne();
-				constructViewTwo();
-				constructViewThree();
+				
+				constructViewOne(tallyViewData);
+				constructViewTwo(availabilityViewData);
+				constructViewThree(coverageViewData);
 				
 				revalidate();
 				repaint();

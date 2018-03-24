@@ -10,9 +10,18 @@ public class GUIIntegrationTestDriver {
 
 	public static void main(String args[]) throws IOException, ParseException
 	{
+		new GUI();
+		
+		
+		/*Schedule sched = new Schedule("BIOL/RM102", "TECH/RM103","TRUE/RM104","LUNCH/RM103","BIOL/RM102");
+		
+		String sub = sched.getRoomNumber(0);
+		System.out.println(sub);
+		String rm = sched.getSubject(0);
+		System.out.println(rm);
 		File absenceFile = new File("Test.xls");
 		File tallyFile = new File("TallyTest.xls");
-		AbsenceWorkerReader AWreader = new AbsenceWorkerReader(absenceFile,"Monday", "2018-03-16");
+		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-03-19");
 		
 		
@@ -40,8 +49,27 @@ public class GUIIntegrationTestDriver {
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
 		GenerateView.printData(coverageViewData);
 		
-		int num = AbsenceTracker.getNumberOfAbsences();
-		System.out.println("Num" + num);
+		Vector<Vector<String>> tallyViewData = new Vector<Vector<String>>();
+		tallyViewData = GenerateView.generateCountView(teacherList);
+		GenerateView.printData(tallyViewData);
+		
+		Vector<Vector<String>> availabilityViewData = new Vector<Vector<String>>();
+		
+		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
+		GenerateView.printData(availabilityViewData);
+		
+		double lowest = GenerateView.findTheLowestTally(teacherList, 2);
+		System.out.println(lowest);
+		ArrayList<OnCallTeacher> potentials = GenerateView.findPotentialNextInLines(teacherList, lowest, 2);
+		for(int i = 0; i < potentials.size(); i++)
+		{
+			System.out.println(potentials.get(i).toString());
+		}
+		String name = GenerateView.determineWhoIsNext(teacherList, 2);
+		System.out.println(name);
+		*/
+		
+		
 	}
 	
 	
