@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class AssignmentAlogorithm {
 	
-	
+	//These are arrayList for what teachers are acutally available per period
 	private ArrayList<OnCallTeacher> p1;
 	private ArrayList<OnCallTeacher> p2;
 	private ArrayList<OnCallTeacher> p3a;
@@ -23,7 +23,10 @@ public class AssignmentAlogorithm {
 		ArrayList<OnCallTeacher> p4 = new ArrayList<OnCallTeacher>();
 		//assignOnCallTeacher(teacherList);
 		this.teacher = teacherList;
+		
+		//set the values for p1 to p4 ArrayList
 		findAvailablePeriod();
+		//Sort each p1 to p4
 		sortByTallies();
 	}
 	
@@ -31,7 +34,9 @@ public class AssignmentAlogorithm {
 	public void assignOnCallTeacher(ArrayList<OnCallTeacher> teacherList)
 	{
 		
-		
+		/*
+		 * Create an ArrayList of absence schedules
+		 */
 		ArrayList<AbsenceTracker> absencesList = new ArrayList<AbsenceTracker>();
 		
 		for(int i = 0; i < teacherList.size(); i++)
@@ -42,6 +47,11 @@ public class AssignmentAlogorithm {
 			}
 		}
  		
+		
+		/*
+		*
+		*/
+		
 		for(int i = 0; i < absencesList.size(); i++)
 		{
 			String value = absencesList.get(i).getPeriodValueAtIndex(0);
@@ -79,10 +89,58 @@ public class AssignmentAlogorithm {
 			}
 		}	
 		
+		for(int i = 0; i < absencesList.size(); i++)
+		{
+			String value = absencesList.get(i).getPeriodValueAtIndex(2);
+			//If the value equals 
+			if(value.equals("X"))
+			{
+				
+				if(p1.size() != 0)
+				{
+					String ID = p1.get(0).getID();
+					String name = p1.get(0).getName();
+					findTeacherAndSetValues(ID,name,2);
+					p1.remove(0);
+				}
+			}
+		}	
+		
+		for(int i = 0; i < absencesList.size(); i++)
+		{
+			String value = absencesList.get(i).getPeriodValueAtIndex(3);
+			//If the value equals 
+			if(value.equals("X"))
+			{
+				if(p1.size() != 0)
+				{
+					String ID = p1.get(0).getID();
+					String name = p1.get(0).getName();
+					findTeacherAndSetValues(ID,name,3);
+					p1.remove(0);
+				}
+			}
+		}	
+		
+		for(int i = 0; i < absencesList.size(); i++)
+		{
+			String value = absencesList.get(i).getPeriodValueAtIndex(4);
+			//If the value equals 
+			if(value.equals("X"))
+			{
+				if(p1.size() != 0)
+				{
+					String ID = p1.get(0).getID();
+					String name = p1.get(0).getName();
+					findTeacherAndSetValues(ID,name,4);
+					p1.remove(0);
+				}
+			}
+		}
 	}
 
 	
-	
+	//Set the values into the teacherListArray
 	private void findTeacherAndSetValues(String ID, String name, int index)
 	{
 		for(int i = 0; i < teacher.size(); i++)
@@ -96,7 +154,7 @@ public class AssignmentAlogorithm {
 	}
 	
 	
-	
+	//Set up only arrayList with Available teacher
 	private void findAvailablePeriod()
 	{
 		
@@ -164,6 +222,7 @@ public class AssignmentAlogorithm {
 		
 	}
 		
+	//Sort the ARrayList on order of Tallies Selection SOrt
 	private  void sortByTallies()
 	{
 		for(int i = 0; i < p1.size()-1; i++)
@@ -248,6 +307,7 @@ public class AssignmentAlogorithm {
 		}
 	}
 	
+	//Comparison method for who has the lowest of everything
 	private boolean compareTallysBetweenTeachers(OnCallTeacher first,  OnCallTeacher second)
 	{
 		boolean flag = false;
