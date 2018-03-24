@@ -42,20 +42,57 @@ public class AssignmentAlogorithm {
 			}
 		}
  		
-		
-			for(int i = 0; i < absencesList.size(); i++)
+		for(int i = 0; i < absencesList.size(); i++)
+		{
+			String value = absencesList.get(i).getPeriodValueAtIndex(0);
+			//If the value equals 
+			if(value.equals("X"))
 			{
-				String value = absencesList.get(i).getPeriodValueAtIndex(0);
-				//If the value equals 
-				if(value.equals("X"))
+				
+				if(p1.size() != 0)
 				{
-					
+					String ID = p1.get(0).getID();
+					String name = p1.get(0).getName();
+					findTeacherAndSetValues(ID,name,0);
+					p1.remove(0);
 				}
+				
+				
 			}
+		}	
+		for(int i = 0; i < absencesList.size(); i++)
+		{
+			String value = absencesList.get(i).getPeriodValueAtIndex(1);
+			//If the value equals 
+			if(value.equals("X"))
+			{
+				
+				if(p1.size() != 0)
+				{
+					String ID = p1.get(0).getID();
+					String name = p1.get(0).getName();
+					findTeacherAndSetValues(ID,name,1);
+					p1.remove(0);
+				}
+				
+				
+			}
+		}	
 		
-		
+	}
+
 	
-		
+	
+	private void findTeacherAndSetValues(String ID, String name, int index)
+	{
+		for(int i = 0; i < teacher.size(); i++)
+		{
+			if(teacher.get(i).getName().equals("name"))
+			{
+				teacher.get(i).hasBeenAssigned();
+				teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, ID);
+			}
+		}
 	}
 	
 	
@@ -126,12 +163,9 @@ public class AssignmentAlogorithm {
 	
 		
 	}
-	
-	
+		
 	private  void sortByTallies()
 	{
-		
-	
 		for(int i = 0; i < p1.size()-1; i++)
 		{
 			int min_idx = i;
@@ -212,12 +246,6 @@ public class AssignmentAlogorithm {
 		            p4.set(i,temp);
 		    }
 		}
-		
-		
-		
-		
-		
-		
 	}
 	
 	private boolean compareTallysBetweenTeachers(OnCallTeacher first,  OnCallTeacher second)
@@ -271,7 +299,5 @@ public class AssignmentAlogorithm {
 		
 		return flag;
 	}
-	
-	
 	
 }

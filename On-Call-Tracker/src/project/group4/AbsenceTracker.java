@@ -11,6 +11,8 @@ public class AbsenceTracker
   private String p4;
   ArrayList<String> absences;
   public static int absenceCounter = 0;
+  private String teacherName;
+  
   
   
   public AbsenceTracker( String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
@@ -31,11 +33,27 @@ public class AbsenceTracker
     
   }
 
+ public void setValueByIndex(int index, String value)
+ {
+	 absences.set(index,"value");
+ }
+  
+  
+  
+  
  public static int getNumberOfAbsences()
  {
 	 return AbsenceTracker.absenceCounter;
  }
-  
+ 
+ public void attachTeacherName(String name){
+	 this.teacherName = name;
+ }
+ 
+ public String getTeacherName()
+ {
+	 return this.teacherName;
+ }
   
   public boolean checkAbsencePresent()
   {

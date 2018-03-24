@@ -85,11 +85,13 @@ public class DataProccess {
 			AbsenceTracker tracker = new AbsenceTracker(p1,p2,p3a,p3b,p4);		
 			//If there is an absence, absence could be happening later in the week
 			
+			
 			if(tracker.checkAbsencePresent()){
 				//find teacher match
 				for(int i = 0; i< teacherList.size(); i++)
 				{
 					if(teacherList.get(i).getName().equals(name) ){
+						tracker.attachTeacherName(teacherList.get(i).getName());
 						teacherList.get(i).setToAbsent();
 						teacherList.get(i).submitAbsenceSchedule(tracker);
 					}

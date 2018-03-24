@@ -87,7 +87,9 @@ public class Schedule
 	  return value;
   }
   
-  
+  /*
+   * THIS IS WHAT I AM WORKING
+   */
   public String determineSkill()
   {
 	  String skill = "";

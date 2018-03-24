@@ -235,6 +235,8 @@ public class GUI extends JFrame
 		table1.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table1.setFillsViewportHeight(true);
 		table1.setRowHeight(rowHeight);
+		table1.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table1.getColumnModel().getColumn(0).setMinWidth(200);
 		table1.setGridColor(Color.BLACK);
 		
 		JScrollPane scrollTable1 = new JScrollPane(table1);
@@ -274,9 +276,10 @@ public class GUI extends JFrame
 		table2.getColumn("Month").setCellRenderer(new TextAreaRenderer());
 		table2.getColumn("Who's next in line?").setCellRenderer(new TextAreaRenderer());
 		
-		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table2.setFillsViewportHeight(true);
 		table2.setRowHeight(rowHeight);
+		table2.getColumnModel().getColumn(3).setPreferredWidth(175);
+		table2.getColumnModel().getColumn(3).setMinWidth(175);
 		table2.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable2 = new JScrollPane(table2);
@@ -320,6 +323,10 @@ public class GUI extends JFrame
 		table3.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table3.setFillsViewportHeight(true);
 		table3.setRowHeight(rowHeight);
+		table3.getColumnModel().getColumn(1).setPreferredWidth(175);
+		table3.getColumnModel().getColumn(1).setMinWidth(175);
+		table3.getColumnModel().getColumn(2).setPreferredWidth(175);
+		table3.getColumnModel().getColumn(2).setMinWidth(175);
 		table3.setGridColor(Color.BLACK);
 		
 	    JScrollPane scrollTable3 = new JScrollPane(table3);

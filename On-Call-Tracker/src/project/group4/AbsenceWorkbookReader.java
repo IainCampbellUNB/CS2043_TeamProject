@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AbsenceWorkerReader {
+public class AbsenceWorkbookReader {
 	static boolean skillsFilled = false;
 	private File file;
 	private String selectedDate;
@@ -36,7 +36,7 @@ public class AbsenceWorkerReader {
 	
 	
 
-	public AbsenceWorkerReader(File file,String selectedDate, String date)
+	public AbsenceWorkbookReader(File file,String selectedDate, String date)
 	{
 		this.file = file;
 		this.selectedDate = selectedDate;
