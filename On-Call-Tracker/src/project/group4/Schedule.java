@@ -1,6 +1,7 @@
 package project.group4;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Schedule
 {
@@ -14,6 +15,8 @@ public class Schedule
   private ArrayList<String> schedule;
   private String skill;
   private boolean skillset;
+  private Scanner scan;
+  
   
  
   public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
@@ -60,6 +63,33 @@ public class Schedule
 	  return spare;
   }
   
+  
+  public boolean isLunchPeriod(int index)
+  {
+	  boolean value = false;
+	  if(schedule.get(index).equals("Lunch"))
+	  {
+		  value = true;
+	  }
+	  
+	  return value;
+  }
+  
+  
+  public boolean isSparePeriod(int index)
+  {
+	  boolean value = false;
+	  if(schedule.get(index).equals("Spare"))
+	  {
+		  value = true;
+	  }
+	  
+	  return value;
+  }
+  
+  /*
+   * THIS IS WHAT I AM WORKING
+   */
   public String determineSkill()
   {
 	  String skill = "";
@@ -67,6 +97,29 @@ public class Schedule
 	  
 	  return skill;
   }
+  
+  public String getSubject(int index)
+  {
+	  String subject  = "";
+	  scan = new Scanner(schedule.get(index));
+	  scan.useDelimiter("/");
+	  subject = scan.next();
+	  
+	  return subject;
+	  
+  }
+  
+  public String getRoomNumber(int index)
+  {
+	  String roomNumber = "";
+	  scan = new Scanner(schedule.get(index));
+	  scan.useDelimiter("/");
+	  scan.next();
+	  roomNumber = scan.next();
+	  return roomNumber;
+  }
+  
+  
   
   public int determineSparePeriodByIndex()
   {

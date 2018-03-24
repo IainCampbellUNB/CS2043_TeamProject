@@ -6,19 +6,19 @@ import java.util.ArrayList;
 
 public class DriverTest {
 
-	public static void main(String[] args) throws ParseException, IOException {
+	/*public static void main(String[] args) throws ParseException, IOException {
 		System.out.println("ok");
 		Schedule sched1 = new Schedule("1","2","3","4","skill");
 		System.out.println(sched1.toString());
-		/* **************************************************
+		 **************************************************
 		 * Read Information
-		 ****************************************************/
-		AbsenceWorkerReader reader = new AbsenceWorkerReader();
+		 ****************************************************
+		//AbsenceWorkerReader reader = new AbsenceWorkerReader();
 		
 		ArrayList<ArrayList<String>> termScheduleData = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> supplyListData = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> absenceTrackerData = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<String>> tallyCountData = new ArrayList<ArrayList<String>>();
+		//ArrayList<ArrayList<String>> tallyCountData = new ArrayList<ArrayList<String>>();
 		
 		try {
 			termScheduleData = AbsenceWorkerReader.readTermSchedule();
@@ -40,9 +40,9 @@ public class DriverTest {
 			System.out.println(e.getMessage());
 		}
 		
-		/* **************************************************
+		 **************************************************
 		 * Step 1 Create ArrayList of Teachers's
-		 ****************************************************/
+		 ****************************************************
 		ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
 		
 		//Extract Data from TermSchedule to create List
@@ -71,10 +71,10 @@ public class DriverTest {
 		//for(int i = 0; i < teacherList.size(); i++){
 		//	System.out.println(teacherList.get(i).toString());
 		//}
-		
-		/* **************************************************
+
+		 **************************************************
 		 * Step 2 Create ArrayList of Supply's
-		 ****************************************************/
+		 ****************************************************
 		ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
 		
 			for(int row = 0; row < supplyListData.size(); row++){
@@ -88,9 +88,9 @@ public class DriverTest {
 		//	System.out.println(supplyList.get(i).toString());
 		//}
 		
-		/* **************************************************
+		 **************************************************
 		 * Step 3 Add AbsenceTracker Schedule to Teacher
-		 ****************************************************/
+		 ****************************************************
 		
 		//Match name with teacher and assign a Absentee Schedule
 		
@@ -118,9 +118,9 @@ public class DriverTest {
 			 }
 		
 		}	
-		/* **************************************************
+		 **************************************************
 		 * Step 4 Add Tally to each Teacher
-		 ****************************************************/
+		 ***************************************************
 		for(int row = 0; row < tallyCountData.size(); row++){
 			String name = tallyCountData.get(row).get(0);
 			String weeklyTally = tallyCountData.get(row).get(1);
@@ -151,9 +151,9 @@ public class DriverTest {
 					System.out.println(teacherList.get(i).toString());
 		}
 	
-		/* **************************************************
+		 **************************************************
 		 * Coverage View 1
-		 ****************************************************/
+		 ***************************************************
 		
 		ArrayList<ArrayList<String>> coverageViewData = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> countViewData = new ArrayList<ArrayList<String>>();
@@ -162,19 +162,19 @@ public class DriverTest {
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
 		//System.out.println("Coverage View Starts");
 		GenerateView.printData(coverageViewData);
-		/* **************************************************
+		**************************************************
 		 * Coverage View 2
-		 ****************************************************/
+		 ***************************************************
 		System.out.println("\nCountView Starts");
 		countViewData = GenerateView.generateCountView(teacherList);
 		GenerateView.printData(countViewData);
 		
-		/* **************************************************
+		 **************************************************
 		 * Coverage View 3   (first 3 columns)
-		 ****************************************************/
-		/***************************************************
+		 ***************************************************
+		**************************************************
 		 * To-DO: Figure out the who's next column
-		 **************************************************/
+		 *************************************************
 	
 		System.out.println("\nAvailabilityView Starts");
 		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
@@ -183,9 +183,8 @@ public class DriverTest {
 		
 		
 		
-		
 		//AbsenceWorkerReader.writeToAbsenceTracker(teacherList, "2018-03-16");
 		
 	}
-
+	*/
 }

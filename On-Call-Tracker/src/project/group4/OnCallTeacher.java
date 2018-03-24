@@ -83,7 +83,6 @@ public class OnCallTeacher extends Teacher
 			 termTallyCount = count;
 		}
 	
-		
 		public String getWeeklyTally() 
 		{
 			return weeklyTallyCount;
