@@ -5,27 +5,14 @@ import java.util.Scanner;
 
 public class Schedule
 {
-  private String p1;
-  private String p2;
-  private String p3a;
-  private String p3b;
-  private String p4;
   private String spare;
   private int spareIndex;
   private ArrayList<String> schedule;
-  private String skill;
   private boolean skillset;
   private Scanner scan;
   
-  
- 
-  public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
+  public Schedule(String p1, String p2, String p3a, String p3b, String p4)
   {
-    this.p1 = p1In;
-    this.p2 = p2In;
-    this.p3a = p3aIn;
-    this.p3b = p3bIn;
-    this.p4 = p4In;
     skillset = false;
     schedule = new ArrayList<String>(6);
     schedule.add(p1);
@@ -38,14 +25,8 @@ public class Schedule
   }
   
   
-  public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In,String skill)
+  public Schedule(String p1, String p2, String p3a, String p3b, String p4, String skill)
   {
-    this.p1 = p1In;
-    this.p2 = p2In;
-    this.p3a = p3aIn;
-    this.p3b = p3bIn;
-    this.p4 = p4In;
-    this.skill = skill;
     skillset = true;
     schedule = new ArrayList<String>(6);
     schedule.add(p1);
@@ -65,37 +46,13 @@ public class Schedule
   
   
   public boolean isLunchPeriod(int index)
-  {
-	  boolean value = false;
-	  if(schedule.get(index).equals("Lunch"))
-	  {
-		  value = true;
-	  }
-	  
-	  return value;
+  {  
+	  return schedule.get(index).equals("Lunch");
   }
-  
   
   public boolean isSparePeriod(int index)
-  {
-	  boolean value = false;
-	  if(schedule.get(index).equals("Spare"))
-	  {
-		  value = true;
-	  }
-	  
-	  return value;
-  }
-  
-  /*
-   * THIS IS WHAT I AM WORKING
-   */
-  public String determineSkill()
-  {
-	  String skill = "";
-	  
-	  
-	  return skill;
+  {  
+	  return schedule.get(index).equals("Spare");
   }
   
   public String getSubject(int index)
@@ -106,17 +63,14 @@ public class Schedule
 	  subject = scan.next();
 	  
 	  return subject;
-	  
   }
   
   public String getRoomNumber(int index)
   {
-	  String roomNumber = "";
 	  scan = new Scanner(schedule.get(index));
 	  scan.useDelimiter("/");
 	  scan.next();
-	  roomNumber = scan.next();
-	  return roomNumber;
+	  return scan.next();
   }
   
   
@@ -124,8 +78,10 @@ public class Schedule
   public int determineSparePeriodByIndex()
   {
 	  int period = 0;
-	  for(int index = 0; index < 5; index++){
-		  if(schedule.get(index).equals("Spare")){
+	  for(int index = 0; index < 5; index++)
+	  {
+		  if(schedule.get(index).equals("Spare"))
+		  {
 			  period = index;
 		  } 
 	  }
@@ -133,43 +89,37 @@ public class Schedule
 	  return period;
   }
   
- 
-  public String convertIndexToPeriod(int index)
-  {
-	 String ind = String.valueOf(index);
-	 String answer = "";
-	  switch (ind) {
-      	case "0":
-    	  answer  = "P1";
-          break;
-      	case "1":
-    	  answer = "P2";
-          break;
-      	case "2":
-    	  answer = "P3A";
-          break;
-      	case "3":
-    	  answer = "P3B";
-          break;
-      	case "4":
-    	  answer = "P4";
-          break;
+  public static String convertIndexToPeriod(int index)
+  { 
+	  switch (index) 
+	  {
+      	case 0:
+      		return "P1";
+      	case 1:
+      		return "P2";
+      	case 2:
+      		return "P3A";
+      	case 3:
+      		return "P3B";
+      	default:
+      		return "P4";
 	  }   
-	  return answer;
   }
   
-
   public ArrayList<String> getSchedule()
   {
     return this.schedule;
   }
   
-  public String toString(){
+  public String toString()
+  {
 	  String result = "";
-	  for(int i = 0; i < 5; i++){
+	  for(int i = 0; i < 5; i++)
+	  {
 		  result += schedule.get(i) + " "; 
 	  }
-	  if(skillset){
+	  if(skillset)
+	  {
 		  result += "Skill: " + schedule.get(5);
 	  }
 	  return result;
