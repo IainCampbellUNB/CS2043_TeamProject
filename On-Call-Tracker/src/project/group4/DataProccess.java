@@ -26,7 +26,7 @@ public class DataProccess
 		
 		for(int row = 0; row < termScheduleData.size(); row++)
 		{
-			String id = termScheduleData.get(row).get(0);
+		    String id = termScheduleData.get(row).get(0);
 		    String name = termScheduleData.get(row).get(1);
 		    String p1 = termScheduleData.get(row).get(2);
 		    String p2 = termScheduleData.get(row).get(3);
