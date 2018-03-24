@@ -11,13 +11,13 @@ import java.util.ArrayList;
 public class AbsenceWorkbookReader 
 {
 	static boolean skillsFilled = false;
-	private File file;
-	private String selectedDate;
+	private static File file;
+	private static String selectedDate;
 	
-	public AbsenceWorkbookReader(File file,String selectedDate)
+	public AbsenceWorkbookReader(File fileIn, String selectedDateIn)
 	{
-		this.file = file;
-		this.selectedDate = selectedDate;
+		file = fileIn;
+		selectedDate = selectedDateIn;
 	}
 	
 	public boolean getSkillsFilled()
