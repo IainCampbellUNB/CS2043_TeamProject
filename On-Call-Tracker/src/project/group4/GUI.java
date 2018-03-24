@@ -17,11 +17,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Vector;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -34,7 +31,7 @@ public class GUI extends JFrame
 	
 	private JPanel mainPanel, mainCenterPanel, southPanel;
 	private JTable table1, table2, table3;
-	private JComboBox<String> printOptions;
+	private JComboBox<String> printOptions, dates;
 	private JLabel dateLabel;
 	private JButton printButton, updateOnCalls, selectFileButton, clearButton;
 	private JFileChooser fileChooser;
@@ -99,13 +96,18 @@ public class GUI extends JFrame
 		panelNorth.add(header, BorderLayout.CENTER);
 		mainPanel.add(panelNorth, BorderLayout.NORTH);
 		
-		printButton = new JButton("Print");
-		printButton.setPreferredSize(dim);
-		printButton.addActionListener(new EventHandling());
+		updateOnCalls = new JButton("Update On-Calls");
+		updateOnCalls.setPreferredSize(dim);
+		updateOnCalls.addActionListener(new EventHandling());
+		headerEastPanel.setBackground(panelNorth.getBackground());
+		headerWestPanel.add(updateOnCalls);
 		
-		String [] printList = {"Assignments","Coverage","Availability"};
-		printOptions = new JComboBox<String>(printList);
-		printOptions.setPreferredSize(dim);
+		String[] dateOptions = {"Dates","date option 1", "date option 2"};
+		dates = new JComboBox<String>(dateOptions);
+		dates.setPreferredSize(dim);
+		dates.addActionListener(new EventHandling());
+		headerEastPanel.setBackground(panelNorth.getBackground());
+		headerWestPanel.add(dates);
 
 		clearButton = new JButton("Clear selected files");
 		clearButton.setPreferredSize(dim);
@@ -117,8 +119,6 @@ public class GUI extends JFrame
 		
 		headerEastPanel.add(selectFileButton);
 		headerEastPanel.add(clearButton);
-		headerWestPanel.add(printOptions);
-		headerWestPanel.add(printButton);
 		headerWestPanel.setBackground(panelNorth.getBackground());
 		headerEastPanel.setBackground(panelNorth.getBackground());
 	}
@@ -134,6 +134,7 @@ public class GUI extends JFrame
 		JPanel subCenterPanel = new JPanel();
 		
 		subCenterPanel.setBackground(mainSouthPanel.getBackground());
+		subWestPanel.setBackground(mainSouthPanel.getBackground());
 		
 		String date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
 		dateLabel = new JLabel("Today's date: " + date);
@@ -142,12 +143,16 @@ public class GUI extends JFrame
 		dateLabel.setPreferredSize(new Dimension(260,25));
 		subEastPanel.add(dateLabel);
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
+
+		printButton = new JButton("Print");
+		printButton.setPreferredSize(dim);
+		printButton.addActionListener(new EventHandling());
+		subWestPanel.add(printButton);
 		
-		updateOnCalls = new JButton("Update On-Calls");
-		updateOnCalls.setPreferredSize(dim);
-		updateOnCalls.addActionListener(new EventHandling());
-		subWestPanel.setBackground(mainSouthPanel.getBackground());
-		subWestPanel.add(updateOnCalls);
+		String [] printList = {"Assignments","Coverage","Availability"};
+		printOptions = new JComboBox<String>(printList);
+		printOptions.setPreferredSize(dim);
+		subWestPanel.add(printOptions);
 		
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
 		mainSouthPanel.add(subEastPanel, BorderLayout.EAST);
@@ -159,7 +164,7 @@ public class GUI extends JFrame
 		mainCenterPanel = new JPanel(new BorderLayout());
 		mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
 		
-		mainCenterPanel.setBackground(new Color(80,90,175));
+		mainCenterPanel.setBackground(new Color(40,50,175));
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
 		JLabel info = new JLabel("Once the excel files are saved, find the files, "
 				+ "select the date of interest, and press update On-Calls.");
@@ -261,7 +266,7 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		String[] title = {"Period","Week","Month","Who's next in line?"};
+		String[] title = {"Period","Weekly","Monthly","Who's next in line?"};
 		Vector<String> titleVector = new Vector<String>();
 		
 		for(String item: title) {
@@ -272,8 +277,8 @@ public class GUI extends JFrame
 		
 		table2 = new JTable(model2);
 		table2.getColumn("Period").setCellRenderer(new TextAreaRenderer());
-		table2.getColumn("Week").setCellRenderer(new TextAreaRenderer());
-		table2.getColumn("Month").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Weekly").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Monthly").setCellRenderer(new TextAreaRenderer());
 		table2.getColumn("Who's next in line?").setCellRenderer(new TextAreaRenderer());
 		
 		table2.setFillsViewportHeight(true);
@@ -319,6 +324,7 @@ public class GUI extends JFrame
 		table3.getColumn("Period").setCellRenderer(new TextAreaRenderer());
 		table3.getColumn("Absentee").setCellRenderer(new TextAreaRenderer());
 		table3.getColumn("Covered by").setCellRenderer(new TextAreaRenderer());
+		table3.getColumn("Room Number").setCellRenderer(new TextAreaRenderer());
 		
 		table3.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table3.setFillsViewportHeight(true);
@@ -380,39 +386,27 @@ public class GUI extends JFrame
 			
 			if(e.getSource() == updateOnCalls) 
 			{
-				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"Monday", "2018-03-16");
-				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),"Monday", "2018-03-19");
-				
-				
+				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"2018-03-16");
+				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1), "2018-03-19");
 				
 				DataProccess data = new DataProccess(AWreader,TWreader);
 				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
-				ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
-				try {
+				ArrayList<SupplyTeacher> supplyList = new ArrayList<SupplyTeacher>();
+				
+				try 
+				{
 					teacherList = data.createTeacherTermSchedule();
 					supplyList = data.createSupplyList();
-				} catch (IOException | ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (IOException | ParseException e1)
+				{
+					System.out.println(e1.getMessage());
 				}
-				
-				Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
-				coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
-				
-				
-				Vector<Vector<String>> tallyViewData = new Vector<Vector<String>>();
-				tallyViewData = GenerateView.generateCountView(teacherList);
-				
-				
-				Vector<Vector<String>> availabilityViewData = new Vector<Vector<String>>();
-				availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
-				
 				
 				centerPanelSetup();
 				
-				constructViewOne(tallyViewData);
-				constructViewTwo(availabilityViewData);
-				constructViewThree(coverageViewData);
+				constructViewOne(GenerateView.generateCountView(teacherList));
+				constructViewTwo(GenerateView.generateAvailabilityView(teacherList));
+				constructViewThree(GenerateView.generateCoverageView(teacherList, supplyList));
 				
 				revalidate();
 				repaint();
