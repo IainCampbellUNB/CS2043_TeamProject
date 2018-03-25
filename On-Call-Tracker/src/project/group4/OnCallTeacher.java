@@ -24,8 +24,7 @@ public class OnCallTeacher extends Teacher
 			spareIndex = -1;
 		}
 		//They are being assigned so no longer available for assignments.
-		public void hasBeenAssigned()
-		{
+		public void hasBeenAssigned(){
 			this.assigned = true;
 		}
 		
@@ -47,15 +46,13 @@ public class OnCallTeacher extends Teacher
 		}
 		//AttachAbsentScheduleToTeacher
 		public void submitAbsenceSchedule(AbsenceTracker submittedAbsence){
-			if(this.absent = true)
-			{
+			if(this.absent = true){
 				this.submittedAbsence = submittedAbsence;
 			}
 		}
 	
 		
-		public AbsenceTracker getSubmittedAbsenceSchedule()
-		{
+		public AbsenceTracker getSubmittedAbsenceSchedule(){
 			return this.submittedAbsence;
 		}
 		
@@ -63,71 +60,57 @@ public class OnCallTeacher extends Teacher
 			return absent;
 		}
 		
-		public Schedule getSchedule() 
-		{
+		public Schedule getSchedule() {
 			return dailySchedule;
 		}
 		
-		public void setWeeklyTally(String count) 
-		{
+		public void setWeeklyTally(String count) {
 			 weeklyTallyCount = count;
 		}
 		
-		public void setMonthlyTally(String count) 
-		{
+		public void setMonthlyTally(String count) {
 			 monthlyTallyCount = count;
 		}
 		
-		public void setTermTally(String count) 
-		{
+		public void setTermTally(String count) {
 			 termTallyCount = count;
 		}
 	
-		public String getWeeklyTally() 
-		{
+		public String getWeeklyTally() {
 			return weeklyTallyCount;
 		}
 		
-		public String getMonthlyTally() 
-		{
+		public String getMonthlyTally() {
 			return monthlyTallyCount;
 		}
 		
-		public String getTermTally() 
-		{
+		public String getTermTally() {
 			return termTallyCount;
 		}
 		
-		public boolean hasReachedweeklyMax()
-		{
+		public boolean hasReachedweeklyMax(){
 			boolean maxReached = false;
-			if(weeklyTallyCount.equals("2.0"))
-			{
+			if(weeklyTallyCount.equals("2.0")){
 				maxReached = true;
 			}
 			return maxReached;
 		}
 		
-		public boolean hasReachedMonthlyMax()
-		{
+		public boolean hasReachedMonthlyMax(){
 			boolean maxReached = false;
-			if(monthlyTallyCount.equals("4.0"))
-			{
-				
-				maxReached = true;
+			if(monthlyTallyCount.equals("4.0")){
+					maxReached = true;
 			}
 			return maxReached;
 		}
 		
 	
 
-		public String toString()
-		{
+		public String toString(){
 			
 			String result= super.toString();
 			result += "\nTERM SCHEDULE: "+ dailySchedule.toString();
-			if(absent)
-			{
+			if(absent){
 				result += "\nABSENT" + submittedAbsence.toString();
 			}
 			
