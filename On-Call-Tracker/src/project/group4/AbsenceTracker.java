@@ -35,7 +35,7 @@ public class AbsenceTracker
 
  public void setValueByIndex(int index, String value)
  {
-	 absences.set(index,"value");
+	 absences.set(index,value);
  }
   
   

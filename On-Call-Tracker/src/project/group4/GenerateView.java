@@ -158,7 +158,7 @@ public class GenerateView {
 		ArrayList<OnCallTeacher> potentials = new ArrayList<OnCallTeacher>();
 		double lowest = findTheLowestTally(teacher, periodIndex);
 		potentials = findPotentialNextInLines(teacher, lowest, periodIndex);
-		Collections.shuffle(potentials);
+		//Collections.shuffle(potentials);
 		if(!potentials.isEmpty())
 		{
 			name = potentials.get(0).getName();

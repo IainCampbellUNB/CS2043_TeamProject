@@ -1,26 +1,32 @@
+
+
+
 package project.group4;
 
 import java.util.ArrayList;
 
-public class AssignmentAlogorithm {
+public class AssignmentAlgorithm {
 	
-	//These are arrayList for what teachers are acutally available per period
+	
 	private ArrayList<OnCallTeacher> p1;
 	private ArrayList<OnCallTeacher> p2;
 	private ArrayList<OnCallTeacher> p3a;
 	private ArrayList<OnCallTeacher> p3b;
 	private ArrayList<OnCallTeacher> p4;
 	final private ArrayList<OnCallTeacher> teacher;
+	private ArrayList<ArrayList<OnCallTeacher>> allAvailableTeachers;
 	
 	
-	public AssignmentAlogorithm(ArrayList<OnCallTeacher> teacherList)
+	public AssignmentAlgorithm(ArrayList<OnCallTeacher> teacherList)
 	{
-		
-		ArrayList<OnCallTeacher> p1 = new ArrayList<OnCallTeacher>();
-		ArrayList<OnCallTeacher> p2 = new ArrayList<OnCallTeacher>();
-		ArrayList<OnCallTeacher> p3a = new ArrayList<OnCallTeacher>();
-		ArrayList<OnCallTeacher> p3b = new ArrayList<OnCallTeacher>();
-		ArrayList<OnCallTeacher> p4 = new ArrayList<OnCallTeacher>();
+			allAvailableTeachers = new ArrayList<ArrayList <OnCallTeacher>();
+			allAvailableTeachers(p1)
+			p1 = new ArrayList<OnCallTeacher>();
+			p2 = new ArrayList<OnCallTeacher>();
+			p3a = new ArrayList<OnCallTeacher>();
+		    p3b = new ArrayList<OnCallTeacher>();
+		    p4 = new ArrayList<OnCallTeacher>();
+		    
 		//assignOnCallTeacher(teacherList);
 		this.teacher = teacherList;
 		
@@ -31,26 +37,53 @@ public class AssignmentAlogorithm {
 	}
 	
 	
-	public void assignOnCallTeacher(ArrayList<OnCallTeacher> teacherList)
+	public String printTestAvailable()
+	{
+		String results="";
+		for(int i = 0; i < p1.size();i++)
+		{
+			results += "P1 Teachers "+  p1.get(i).getName() + " \n";
+		}
+		
+		for(int i = 0; i < p2.size();i++)
+		{
+			results += "P2 Teachers " + p2.get(i).getName() + " \n ";
+		}
+		
+		for(int i = 0; i < p3a.size();i++)
+		{
+			results += "P3A Teachers " + p3a.get(i).getName() + " \n";
+		}
+		
+		for(int i = 0; i < p3b.size();i++)
+		{
+			results += "P3b Teachers " + p3b.get(i).getName() + " \n";
+		}
+		
+		for(int i = 0; i < p4.size();i++)
+		{
+			results += "P4 Teachers " + p4.get(i).getName() + " \n";
+		}
+		
+		return results;
+	}
+	
+	public void assignOnCallTeacher()
 	{
 		
-		/*
-		 * Create an ArrayList of absence schedules
-		 */
+		
 		ArrayList<AbsenceTracker> absencesList = new ArrayList<AbsenceTracker>();
 		
-		for(int i = 0; i < teacherList.size(); i++)
+		for(int i = 0; i < teacher.size(); i++)
 		{
-			if(teacherList.get(i).getAbsentStatus())
+			if(teacher.get(i).getAbsentStatus())
 			{
-				absencesList.add(teacherList.get(i).getSubmittedAbsenceSchedule());
+				absencesList.add(teacher.get(i).getSubmittedAbsenceSchedule());
 			}
 		}
  		
 		
-		/*
-		*
-		*/
+	
 		
 		for(int i = 0; i < absencesList.size(); i++)
 		{
@@ -63,7 +96,9 @@ public class AssignmentAlogorithm {
 				{
 					String ID = p1.get(0).getID();
 					String name = p1.get(0).getName();
-					findTeacherAndSetValues(ID,name,0);
+					System.out.println("Name" + name);
+					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					findTeacherAndSetValues(teacherToAssignValues,ID,name,0);
 					p1.remove(0);
 				}
 				
@@ -77,12 +112,14 @@ public class AssignmentAlogorithm {
 			if(value.equals("X"))
 			{
 				
-				if(p1.size() != 0)
+				if(p2.size() != 0)
 				{
-					String ID = p1.get(0).getID();
-					String name = p1.get(0).getName();
-					findTeacherAndSetValues(ID,name,1);
-					p1.remove(0);
+					String ID = p2.get(0).getID();
+					String name = p2.get(0).getName();
+					System.out.println("Name" + name);
+					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					findTeacherAndSetValues(teacherToAssignValues,ID,name,1);
+					p2.remove(0);
 				}
 				
 				
@@ -96,12 +133,13 @@ public class AssignmentAlogorithm {
 			if(value.equals("X"))
 			{
 				
-				if(p1.size() != 0)
+				if(p3a.size() != 0)
 				{
-					String ID = p1.get(0).getID();
-					String name = p1.get(0).getName();
-					findTeacherAndSetValues(ID,name,2);
-					p1.remove(0);
+					String ID = p3a.get(0).getID();
+					String name = p3a.get(0).getName();
+					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					findTeacherAndSetValues(teacherToAssignValues,ID,name,2);
+					p3a.remove(0);
 				}
 			}
 		}	
@@ -112,12 +150,13 @@ public class AssignmentAlogorithm {
 			//If the value equals 
 			if(value.equals("X"))
 			{
-				if(p1.size() != 0)
+				if(p3b.size() != 0)
 				{
-					String ID = p1.get(0).getID();
-					String name = p1.get(0).getName();
-					findTeacherAndSetValues(ID,name,3);
-					p1.remove(0);
+					String ID = p3b.get(0).getID();
+					String name = p3b.get(0).getName();
+					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					findTeacherAndSetValues(teacherToAssignValues,ID,name,3);
+					p4.remove(0);
 				}
 			}
 		}	
@@ -128,25 +167,28 @@ public class AssignmentAlogorithm {
 			//If the value equals 
 			if(value.equals("X"))
 			{
-				if(p1.size() != 0)
+				if(p3b.size() != 0)
 				{
-					String ID = p1.get(0).getID();
-					String name = p1.get(0).getName();
-					findTeacherAndSetValues(ID,name,4);
-					p1.remove(0);
+					String ID = p3b.get(0).getID();
+					String name = p3b.get(0).getName();
+					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					findTeacherAndSetValues(teacherToAssignValues, ID,name,4);
+					p3b.remove(0);
 				}
 			}
 		}
 	}
 
 	
-	//Set the values into the teacherListArray
-	private void findTeacherAndSetValues(String ID, String name, int index)
+	
+	private void findTeacherAndSetValues(String teacherToAssignValues, String ID, String name, int index)
 	{
 		for(int i = 0; i < teacher.size(); i++)
 		{
-			if(teacher.get(i).getName().equals("name"))
+			//System.out.println(teacher.get(i).getName() + "?=" + name);
+			if(teacher.get(i).getName().equals(teacherToAssignValues))
 			{
+				System.out.println("Yes");
 				teacher.get(i).hasBeenAssigned();
 				teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, ID);
 			}
@@ -154,7 +196,7 @@ public class AssignmentAlogorithm {
 	}
 	
 	
-	//Set up only arrayList with Available teacher
+
 	private void findAvailablePeriod()
 	{
 		
@@ -162,11 +204,18 @@ public class AssignmentAlogorithm {
 		for(int i = 0; i < teacher.size(); i++)
 		{
 			int spareIndex = teacher.get(i).getSparePeriodByIndex();
+			//System.out.println("Teacher All" + teacher.get(i).getName());
 			if(spareIndex == 0)
 			{
-				if(!teacher.get(i).getAbsentStatus() && !teacher.get(i).hasReachedMonthlyMax() && !teacher.get(i).hasReachedweeklyMax())
+				//System.out.println("SpareIndex: " + spareIndex + "Teacher Nmae: " + teacher.get(i).getName());
+				//System.out.println("Teacher AbsenceStatus" + teacher.get(i).getAbsentStatus());
+				//System.out.println("Teacher mx" + teacher.get(i).hasReachedMonthlyMax());
+				
+				if(!teacher.get(i).getAbsentStatus() &&
+						!(teacher.get(i).hasReachedMonthlyMax()) && !(teacher.get(i).hasReachedweeklyMax()))
 				{
-					p1.add(teacher.get(i));
+					//System.out.println("ADD" + teacher.get(i).getName());
+					this.p1.add(teacher.get(i));
 				}
 			}
 		}
@@ -222,7 +271,7 @@ public class AssignmentAlogorithm {
 		
 	}
 		
-	//Sort the ARrayList on order of Tallies Selection SOrt
+	
 	private  void sortByTallies()
 	{
 		for(int i = 0; i < p1.size()-1; i++)
@@ -288,8 +337,7 @@ public class AssignmentAlogorithm {
 		            p3b.set(i,temp);
 		    }
 		}
-		
-		
+			
 		for(int i = 0; i < p4.size()-1; i++)
 		{
 			int min_idx = i;
@@ -318,12 +366,12 @@ public class AssignmentAlogorithm {
 		String firstTL = first.getTermTally();
 		String secondTL = first.getTermTally();
 		
-		int FWT = Integer.parseInt(firstWT);
-		int FMT = Integer.parseInt(firstMT);
-		int SWT = Integer.parseInt(secondWT);
-		int SMT = Integer.parseInt(secondMT);
-		int FTL = Integer.parseInt(firstTL);
-		int STL = Integer.parseInt(secondTL);
+		double FWT = Double.parseDouble(firstWT);
+		double FMT = Double.parseDouble(firstMT);
+		double SWT = Double.parseDouble(secondWT);
+		double SMT = Double.parseDouble(secondMT);
+		double FTL = Double.parseDouble(firstTL);
+		double STL = Double.parseDouble(secondTL);
 		
 		if(FWT == SWT)
 		{
@@ -333,7 +381,7 @@ public class AssignmentAlogorithm {
 			}
 			if(FMT == SMT)
 			{
-				if(FTL <= STL)
+				if(FTL < STL)
 				{
 					flag = true;
 				}
@@ -348,16 +396,14 @@ public class AssignmentAlogorithm {
 			}
 			if(FMT == SMT)
 			{
-				if(FTL <= STL)
+				if(FTL < STL)
 				{
 					flag = true;
 				}
 			}
 		}
-		
-		
-		
+	
 		return flag;
 	}
-	
+
 }
