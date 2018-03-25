@@ -15,7 +15,7 @@ public class OnCallTeacher extends Teacher
 	
 	
 	public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) {
-		super(NAME,ID);
+		super(ID,NAME);
 		this.dailySchedule = dailySchedule;
 		this.absent = false;
 		this.assigned = false;
