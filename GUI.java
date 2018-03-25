@@ -13,32 +13,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Vector;
-
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 public class GUI extends JFrame
-{
+{	
 	private static final long serialVersionUID = 7214392589058560804L;
 	
 	private JPanel mainPanel, mainCenterPanel, southPanel;
 	private JTable table1, table2, table3;
-	private JComboBox<String> printOptions;
+	private JComboBox<String> printOptions, dates;
 	private JLabel dateLabel;
 	private JButton printButton, updateOnCalls, selectFileButton, clearButton;
 	private JFileChooser fileChooser;
 	private ArrayList<File> fileList = new ArrayList<File>();
 	private JTextArea textArea;
 	
+	private int rowHeight = 30;
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
 	private GridBagConstraints gbc;
@@ -96,13 +97,18 @@ public class GUI extends JFrame
 		panelNorth.add(header, BorderLayout.CENTER);
 		mainPanel.add(panelNorth, BorderLayout.NORTH);
 		
-		printButton = new JButton("Print");
-		printButton.setPreferredSize(dim);
-		printButton.addActionListener(new EventHandling());
+		updateOnCalls = new JButton("Update On-Calls");
+		updateOnCalls.setPreferredSize(dim);
+		updateOnCalls.addActionListener(new EventHandling());
+		headerEastPanel.setBackground(panelNorth.getBackground());
+		headerWestPanel.add(updateOnCalls);
 		
-		String [] printList = {"Assignments","Coverage","Availability"};
-		printOptions = new JComboBox<String>(printList);
-		printOptions.setPreferredSize(dim);
+		String[] dateOptions = {"Dates","date option 1", "date option 2"};
+		dates = new JComboBox<String>(dateOptions);
+		dates.setPreferredSize(dim);
+		dates.addActionListener(new EventHandling());
+		headerEastPanel.setBackground(panelNorth.getBackground());
+		headerWestPanel.add(dates);
 
 		clearButton = new JButton("Clear selected files");
 		clearButton.setPreferredSize(dim);
@@ -114,8 +120,6 @@ public class GUI extends JFrame
 		
 		headerEastPanel.add(selectFileButton);
 		headerEastPanel.add(clearButton);
-		headerWestPanel.add(printOptions);
-		headerWestPanel.add(printButton);
 		headerWestPanel.setBackground(panelNorth.getBackground());
 		headerEastPanel.setBackground(panelNorth.getBackground());
 	}
@@ -131,6 +135,7 @@ public class GUI extends JFrame
 		JPanel subCenterPanel = new JPanel();
 		
 		subCenterPanel.setBackground(mainSouthPanel.getBackground());
+		subWestPanel.setBackground(mainSouthPanel.getBackground());
 		
 		String date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
 		dateLabel = new JLabel("Today's date: " + date);
@@ -139,12 +144,16 @@ public class GUI extends JFrame
 		dateLabel.setPreferredSize(new Dimension(260,25));
 		subEastPanel.add(dateLabel);
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
+
+		printButton = new JButton("Print");
+		printButton.setPreferredSize(dim);
+		printButton.addActionListener(new EventHandling());
+		subWestPanel.add(printButton);
 		
-		updateOnCalls = new JButton("Update On-Calls");
-		updateOnCalls.setPreferredSize(dim);
-		updateOnCalls.addActionListener(new EventHandling());
-		subWestPanel.setBackground(mainSouthPanel.getBackground());
-		subWestPanel.add(updateOnCalls);
+		String [] printList = {"Assignments","Coverage","Availability"};
+		printOptions = new JComboBox<String>(printList);
+		printOptions.setPreferredSize(dim);
+		subWestPanel.add(printOptions);
 		
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
 		mainSouthPanel.add(subEastPanel, BorderLayout.EAST);
@@ -156,7 +165,7 @@ public class GUI extends JFrame
 		mainCenterPanel = new JPanel(new BorderLayout());
 		mainPanel.add(mainCenterPanel, BorderLayout.CENTER);
 		
-		mainCenterPanel.setBackground(new Color(80,90,175));
+		mainCenterPanel.setBackground(new Color(45,124,155));
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
 		JLabel info = new JLabel("Once the excel files are saved, find the files, "
 				+ "select the date of interest, and press update On-Calls.");
@@ -183,9 +192,8 @@ public class GUI extends JFrame
 	
 	private void centerPanelSetup()
 	{
-		//Absent teacher info will be placed inside the .setDataVector methods
 		mainCenterPanel.removeAll();
-		mainCenterPanel.setBackground(new Color(80,90,175));
+		mainCenterPanel.setBackground(mainCenterPanel.getBackground());
 		mainCenterPanel.setLayout(new GridBagLayout());
 		
 		gbc = new GridBagConstraints();
@@ -198,7 +206,7 @@ public class GUI extends JFrame
 		mainCenterPanel.repaint();
 	}
 	
-	private void constructViewOne(Vector<Vector<Teacher>> teacherData) 
+	private void constructViewOne(Vector<Vector<String>> teacherData) 
 	{
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -231,17 +239,23 @@ public class GUI extends JFrame
 		
 		table1.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table1.setFillsViewportHeight(true);
-		table1.setRowHeight(100);
+		table1.setRowHeight(rowHeight);
+		table1.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table1.getColumnModel().getColumn(0).setMinWidth(200);
 		table1.setGridColor(Color.BLACK);
 		
-		JScrollPane scrollTable1 = new JScrollPane(table1);
-		TitledBorder border = new TitledBorder("Coverage Counts to Date");
-		scrollTable1.setBorder(border);
+	   	JScrollPane scrollTable1 = new JScrollPane(table1);
+
+	   	LineBorder border1 = new LineBorder(Color.DARK_GRAY, 4, true);
+	    	TitledBorder tBorder1 = new TitledBorder (border1, "Coverage Counts to Date", TitledBorder.CENTER,
+	        TitledBorder.DEFAULT_JUSTIFICATION, new Font ("Arial", Font.BOLD, 16), new Color(247,61,51));
+	    
+	   	scrollTable1.setBorder(tBorder1);
 	    
 		mainCenterPanel.add(scrollTable1, gbc);
 	}
 
-	private void constructViewTwo(Vector<Vector<Teacher>> teacherData) 
+	private void constructViewTwo(Vector<Vector<String>> teacherData) 
 	{
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -256,7 +270,7 @@ public class GUI extends JFrame
 		       }
 		};
 		
-		String[] title = {"Period","Week","Month","Who's next in line?"};
+		String[] title = {"Period","Weekly","Monthly","Who's next in line?"};
 		Vector<String> titleVector = new Vector<String>();
 		
 		for(String item: title) {
@@ -267,24 +281,27 @@ public class GUI extends JFrame
 		
 		table2 = new JTable(model2);
 		table2.getColumn("Period").setCellRenderer(new TextAreaRenderer());
-		table2.getColumn("Week").setCellRenderer(new TextAreaRenderer());
-		table2.getColumn("Month").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Weekly").setCellRenderer(new TextAreaRenderer());
+		table2.getColumn("Monthly").setCellRenderer(new TextAreaRenderer());
 		table2.getColumn("Who's next in line?").setCellRenderer(new TextAreaRenderer());
 		
-		table2.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table2.setFillsViewportHeight(true);
-		table2.setRowHeight(100);
+		table2.setRowHeight(rowHeight);
+		table2.getColumnModel().getColumn(3).setPreferredWidth(175);
+		table2.getColumnModel().getColumn(3).setMinWidth(175);
 		table2.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable2 = new JScrollPane(table2);
-	    TitledBorder border2 = new TitledBorder("Availability Counts");
-	    scrollTable2.setBorder(border2);
-		
-		mainCenterPanel.add(scrollTable2, gbc);
-		
-	}
+	    	JScrollPane scrollTable2 = new JScrollPane(table2);
 
-	private void constructViewThree(Vector<Vector<Teacher>> teacherData) 
+	    	LineBorder border2 = new LineBorder(Color.DARK_GRAY, 4, true);
+	    	TitledBorder tBorder2 = new TitledBorder (border2, "Availability Counts", TitledBorder.CENTER,
+	    	TitledBorder.DEFAULT_JUSTIFICATION, new Font ("Arial", Font.BOLD, 16), new Color(247,61,51));
+	    
+	    	scrollTable2.setBorder(tBorder2);
+	   	mainCenterPanel.add(scrollTable2, gbc);
+	} 
+
+	private void constructViewThree(Vector<Vector<String>> teacherData) 
 	{
 		gbc.gridheight = 2;
 		gbc.gridx = 0;
@@ -313,15 +330,24 @@ public class GUI extends JFrame
 		table3.getColumn("Period").setCellRenderer(new TextAreaRenderer());
 		table3.getColumn("Absentee").setCellRenderer(new TextAreaRenderer());
 		table3.getColumn("Covered by").setCellRenderer(new TextAreaRenderer());
+		table3.getColumn("Room Number").setCellRenderer(new TextAreaRenderer());
 		
 		table3.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table3.setFillsViewportHeight(true);
-		table3.setRowHeight(100);
+		table3.setRowHeight(rowHeight);
+		table3.getColumnModel().getColumn(1).setPreferredWidth(175);
+		table3.getColumnModel().getColumn(1).setMinWidth(175);
+		table3.getColumnModel().getColumn(2).setPreferredWidth(175);
+		table3.getColumnModel().getColumn(2).setMinWidth(175);
 		table3.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable3 = new JScrollPane(table3);
-	    TitledBorder border3 = new TitledBorder("Assignments");
-	    scrollTable3.setBorder(border3);
+	    	JScrollPane scrollTable3 = new JScrollPane(table3);
+
+	    	LineBorder border = new LineBorder(Color.DARK_GRAY, 4, true);
+	    	TitledBorder border3 = new TitledBorder ( border, "Assignments", TitledBorder.CENTER,
+	        TitledBorder.DEFAULT_JUSTIFICATION, new Font ( "Arial", Font.BOLD, 16), new Color(247,61,51));
+	    
+	    	scrollTable3.setBorder(border3);
 	    
 		mainCenterPanel.add(scrollTable3, gbc);
 	}
@@ -370,14 +396,27 @@ public class GUI extends JFrame
 			
 			if(e.getSource() == updateOnCalls) 
 			{
-				AbsenceWorkbookReader reader1 = new AbsenceWorkbookReader(fileList.get(0));
-				TallyWorkbookReader reader2 = new TallyWorkbookReader(fileList.get(1));
+				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"2018-03-16");
+				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1), "2018-03-19");
+				
+				DataProccess data = new DataProccess(AWreader,TWreader);
+				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
+				ArrayList<SupplyTeacher> supplyList = new ArrayList<SupplyTeacher>();
+				
+				try 
+				{
+					teacherList = data.createTeacherTermSchedule();
+					supplyList = data.createSupplyList();
+				} catch (IOException | ParseException e1)
+				{
+					System.out.println(e1.getMessage());
+				}
 				
 				centerPanelSetup();
 				
-				constructViewOne(new Vector<Vector<Teacher>>());
-				constructViewTwo(new Vector<Vector<Teacher>>());
-				constructViewThree(new Vector<Vector<Teacher>>());
+				constructViewOne(GenerateView.generateCountView(teacherList));
+				constructViewTwo(GenerateView.generateAvailabilityView(teacherList));
+				constructViewThree(GenerateView.generateCoverageView(teacherList, supplyList));
 				
 				revalidate();
 				repaint();
