@@ -10,10 +10,10 @@ public class GUIIntegrationTestDriver {
 
 	public static void main(String args[]) throws IOException, ParseException
 	{
-		new GUI();
+		//new GUI();
 		
 		
-		/*Schedule sched = new Schedule("BIOL/RM102", "TECH/RM103","TRUE/RM104","LUNCH/RM103","BIOL/RM102");
+		Schedule sched = new Schedule("BIOL/RM102", "TECH/RM103","TRUE/RM104","LUNCH/RM103","BIOL/RM102");
 		
 		String sub = sched.getRoomNumber(0);
 		System.out.println(sub);
@@ -43,8 +43,9 @@ public class GUIIntegrationTestDriver {
 			System.out.println(supplyList.get(i).toString());
 		}
 		
+
 		
-		
+		/*
 		Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
 		GenerateView.printData(coverageViewData);
@@ -67,8 +68,8 @@ public class GUIIntegrationTestDriver {
 		}
 		String name = GenerateView.determineWhoIsNext(teacherList, 2);
 		System.out.println(name);
-		*/
 		
+		*/
 		
 	}
 	

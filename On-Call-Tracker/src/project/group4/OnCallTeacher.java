@@ -1,8 +1,7 @@
 package project.group4;
 
 
-public class OnCallTeacher extends Teacher
-{
+public class OnCallTeacher extends Teacher{
 	private Schedule dailySchedule;
 	private int weeklyTallyCount;
 	private int monthlyTallyCount;
@@ -13,7 +12,7 @@ public class OnCallTeacher extends Teacher
 	private int maxWeeklyTallies = 2;
 	private int maxMonthlyTallies = 4;
 	
-	
+
 	public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) {
 		super(ID,NAME);
 		this.dailySchedule = dailySchedule;
@@ -21,41 +20,33 @@ public class OnCallTeacher extends Teacher
 		this.assigned = false;
 	}
 
-	public void hasBeenAssigned()
-	{
+	public void hasBeenAssigned(){
 		this.assigned = true;
 	}
 	
-	public boolean getHasBeenAssigned()
-	{
+	public boolean getHasBeenAssigned(){
 		return this.assigned;
 	}
 	
-	public int getSparePeriodByIndex()
-	{
+	public int getSparePeriodByIndex(){
 		return this.dailySchedule.determineSparePeriodByIndex();
 	}
 	
-	public String getSparePeriodByValue()
-	{
+	public String getSparePeriodByValue(){
 		return this.dailySchedule.getSpareByString();
 	}
 	
-	public void setToAbsent()
-	{
+	public void setToAbsent(){
 		absent = true;
 	}
 
-	public void submitAbsenceSchedule(AbsenceTracker submittedAbsence)
-	{
-		if(absent = true)
-		{
+	public void submitAbsenceSchedule(AbsenceTracker submittedAbsence){
+		if(absent = true){
 			this.submittedAbsence = submittedAbsence;
 		}
 	}
 
-	public AbsenceTracker getSubmittedAbsenceSchedule()
-	{
+	public AbsenceTracker getSubmittedAbsenceSchedule(){
 		return this.submittedAbsence;
 	}
 	
@@ -68,68 +59,45 @@ public class OnCallTeacher extends Teacher
 		return dailySchedule;
 	}
 	
-	public void setWeeklyTally(int count) 
-	{
+	public void setWeeklyTally(int count) {
 		 weeklyTallyCount = count;
 	}
 	
-	public void setMonthlyTally(int count) 
-	{
+	public void setMonthlyTally(int count) {
 		 monthlyTallyCount = count;
 	}
 	
-	public void setTermTally(int count) 
-	{
+	public void setTermTally(int count) {
 		 termTallyCount = count;
 	}
 
-	public int getWeeklyTally() 
-	{
+	public int getWeeklyTally() {
 		return weeklyTallyCount;
 	}
 	
-	public int getMonthlyTally() 
-	{
+	public int getMonthlyTally() {
 		return monthlyTallyCount;
 	}
 	
-	public int getTermTally() 
-	{
+	public int getTermTally() {
 		return termTallyCount;
 	}
 	
-	public boolean hasReachedweeklyMax()
-	{
+	public boolean hasReachedweeklyMax(){
 		return weeklyTallyCount == maxWeeklyTallies;
 	}
 	
-	public boolean hasReachedMonthlyMax()
-	{
+	public boolean hasReachedMonthlyMax(){
 		return monthlyTallyCount == maxMonthlyTallies;
 	}
 	
-	/*public void increaseWeeklyTally(String weeklyTallyCount) 
-	{
-		this.weeklyTallyCount++;
-	}
-	
-	public void increaseMonthlyTally(String monthlyTallyCount) 
-	{
-		this.monthlyTallyCount++;
-	}
-	
-	public void increaseTermTally(String termTallyCount) 
-	{
-		this.termTallyCount++;
-	}*/
 
-	public String toString()
-	{
+
+	public String toString(){
 		String result= super.toString();
 		result += "\nTERM SCHEDULE: "+ dailySchedule.toString();
 		
-		if(absent)
-		{
+		if(absent){
 			result += "\nABSENT" + submittedAbsence.toString();
 		}
 		
@@ -138,4 +106,5 @@ public class OnCallTeacher extends Teacher
 		result += "TermTally: " + termTallyCount +" \n";
 		return result;
 	}
+
 }

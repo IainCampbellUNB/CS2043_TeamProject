@@ -18,10 +18,12 @@ public class GenerateView {
 				AbsenceTracker obj1 = onCaller.getSubmittedAbsenceSchedule();
 				
 				int periodIndex = 0;
-				String coveredBy = "";
-				
-				while(periodIndex <5)
-				{
+
+				String coveredBy ="";
+				while(periodIndex <5){
+					//Add a check
+
+
 					perRowData = new Vector<String>();
 					String value = obj1.getPeriodValueAtIndex(periodIndex);
 					
@@ -129,10 +131,14 @@ public class GenerateView {
 	public static String determineWhoIsNext(ArrayList<OnCallTeacher> teacherList, int periodIndex)
 	{
 		ArrayList<OnCallTeacher> potentials = new ArrayList<OnCallTeacher>();
+
+		//double lowest = findTheLowestTally(teacher, periodIndex);
+		//potentials = findPotentialNextInLines(teacher, lowest, periodIndex);
+		//Collections.shuffle(potentials);
 		int lowestTallyCount = findTheLowestTally(teacherList, periodIndex);
 		potentials = findPotentialNextInLines(teacherList, lowestTallyCount, periodIndex);
-		Collections.shuffle(potentials);
-		
+		//Collections.shuffle(potentials);
+
 		if(!potentials.isEmpty())
 		{
 			return potentials.get(0).getName();
