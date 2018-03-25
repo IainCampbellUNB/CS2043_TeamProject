@@ -6,18 +6,16 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 
 ### System Considerations:
 *For input and outputs excel, older excel formats must be used (i.e. xls). The system won't accept newer versions of excel (i.e. xlsx)
+
 *A user of the system must have the right dependencies files
+
 *Input files must be entered in the right order
+
 *Selected dates must already exist in the input excel files
-
-
 
 ### Dependencies files
 
-
-
 ### Instructions
-
 
 ###Author
 Craig Beaman 
