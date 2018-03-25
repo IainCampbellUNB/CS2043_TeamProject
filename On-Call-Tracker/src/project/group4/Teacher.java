@@ -22,9 +22,6 @@ public abstract class Teacher
 	}
 	public String toString()
 	{
-		String result = "ID: " +  ID + " NAME: " + NAME;
-		
-		return result;
-		
+		return "ID: " +  ID + " NAME: " + NAME;
 	}
 }

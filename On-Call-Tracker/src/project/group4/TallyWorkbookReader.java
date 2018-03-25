@@ -1,65 +1,44 @@
 package project.group4;
 
 import java.io.File;
-//import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-//import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
-
-//import org.apache.poi.hssf.usermodel.HSSFCell;
-//import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-//import org.apache.poi.ss.usermodel.Cell;
-//import org.apache.poi.ss.usermodel.CellStyle;
-//import org.apache.poi.ss.usermodel.DataFormat;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
-public class TallyWorkbookReader {
-	private File file;
-	private String selectedDate;
-	private String searchForSheetWithDate;
+public class TallyWorkbookReader
+{
+	private static File file;
+	private static String selectedDate;
 	
-	public TallyWorkbookReader(File file, String selectedDate, String date){
-		this.file = file;
-		this.selectedDate = selectedDate;
-		this.searchForSheetWithDate = date;
-		System.out.println(date);
-		
+	public TallyWorkbookReader(File fileIn, String selectedDateIn){
+		file = fileIn;
+		selectedDate = selectedDateIn;
 	}
 	
-	public  ArrayList<ArrayList<String>> readTallyCount() throws IOException, ParseException {
-
+	public ArrayList<ArrayList<String>> readTallyCount() throws IOException, ParseException
+	{
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
 
-		//Get the sheet
-		HSSFSheet sheet = workbook.getSheet(searchForSheetWithDate);
+		HSSFSheet sheet = workbook.getSheet(selectedDate);
 		
-		//Include a NULLPOINTER TO CATCH NON-EXISTING ENTRY
-		int monday = searchColIndex(selectedDate,sheet);
-		
-		int columnIndexWT = searchColIndex("Weekly Tally",sheet);
-		int columnIndexMT = searchColIndex("Month Tally",sheet);
-		int columnIndexTERM = searchColIndex("Per Term Tally",sheet);
-		
-		boolean done = false;
+		int columnIndexWT = searchColIndex("Weekly Tally", sheet);
+		int columnIndexMT = searchColIndex("Month Tally", sheet);
+		int columnIndexTERM = searchColIndex("Per Term Tally", sheet);
 		int i = 2;
-		while(!done){
 		
-			if(sheet.getRow(i) == null){
-				done = true;
+		while(true)
+		{
+			if(sheet.getRow(i) == null)
+			{
 				break;
 			}
+			
 			perRowData = new ArrayList<String>();
 			perRowData.add(sheet.getRow(i).getCell(0).toString());
 			perRowData.add(sheet.getRow(i).getCell(columnIndexWT).toString());
@@ -82,38 +61,38 @@ public class TallyWorkbookReader {
 		
 		int day = searchColIndex("Thursday",sheet);
 		
-		for(int i = 0; i < teacherList.size(); i++)
+		for(OnCallTeacher onCaller: teacherList)
 		{
-			 if(teacherList.get(i).getHasBeenAssigned())
+			 if(onCaller.getHasBeenAssigned())
 			 {	
-				int col = teacherList.get(i).getSparePeriodByIndex();
+				int col = onCaller.getSparePeriodByIndex();
 				int insertAt = col + day;
-				int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
+				int findRowIndexForTeacher = searchRowIndex(onCaller.getName(), sheet);
 				sheet.getRow(findRowIndexForTeacher).getCell(insertAt).setCellValue("1");
 			}
 		}
 		
-		
-       file.close();
+		file.close();
 
         FileOutputStream fileOut = new FileOutputStream("TallyOutput.xls");
         workbook.write(fileOut);
         workbook.close();
 	}
-	
-	public static int searchColIndex(String searchWord, HSSFSheet sheet){
-		boolean done = false;
+
+	public static int searchColIndex(String searchWord, HSSFSheet sheet)
+	{
 		int col = 0;
-		while(!done){
+		
+		while(true)
+		{
 			if(sheet.getRow(0).getCell(col) == null){
-				done = true;
 				break;
 			}
+			
 			String value = sheet.getRow(0).getCell(col).toString();
 		
 			if(value.equals(searchWord))
 			{
-				done = true;
 				break;
 			}
 			col++;
@@ -122,19 +101,21 @@ public class TallyWorkbookReader {
 		return col;
 	}
 	
-	public static int searchRowIndex(String searchWord, HSSFSheet sheet){
-		boolean done = false;
+	public static int searchRowIndex(String searchWord, HSSFSheet sheet)
+	{
 		int row = 0;
-		while(!done){
-			if(sheet.getRow(row).getCell(0) == null){
-				done = true;
+		
+		while(true){
+			
+			if(sheet.getRow(row).getCell(0) == null)
+			{
 				break;
 			}
+			
 			String value = sheet.getRow(row).getCell(0).toString();
 		
 			if(value.equals(searchWord))
 			{
-				done = true;
 				break;
 			}
 			row++;
@@ -142,14 +123,4 @@ public class TallyWorkbookReader {
 		return row;
 	}
 	
-	
-	public void printData(ArrayList<ArrayList<String>> allData)
-	{
-		for(int i = 0; i < allData.size(); i++){
-			for(int j = 0; j < allData.get(i).size(); j++){
-			System.out.print(" " + allData.get(i).get(j));
-			}
-			System.out.println("");
-		}
-	}
 }

@@ -97,18 +97,18 @@ public class GUI extends JFrame
 		panelNorth.add(header, BorderLayout.CENTER);
 		mainPanel.add(panelNorth, BorderLayout.NORTH);
 		
+		updateOnCalls = new JButton("Update On-Calls");
+		updateOnCalls.setPreferredSize(dim);
+		updateOnCalls.addActionListener(new EventHandling());
+		headerEastPanel.setBackground(panelNorth.getBackground());
+		headerWestPanel.add(updateOnCalls);
+		
 		String[] dateOptions = {"Dates","date option 1", "date option 2"};
 		dates = new JComboBox<String>(dateOptions);
 		dates.setPreferredSize(dim);
 		dates.addActionListener(new EventHandling());
 		headerEastPanel.setBackground(panelNorth.getBackground());
 		headerWestPanel.add(dates);
-		
-		updateOnCalls = new JButton("Update On-Calls");
-		updateOnCalls.setPreferredSize(dim);
-		updateOnCalls.addActionListener(new EventHandling());
-		headerEastPanel.setBackground(panelNorth.getBackground());
-		headerWestPanel.add(updateOnCalls);
 
 		clearButton = new JButton("Clear selected files");
 		clearButton.setPreferredSize(dim);
@@ -137,16 +137,6 @@ public class GUI extends JFrame
 		subCenterPanel.setBackground(mainSouthPanel.getBackground());
 		subWestPanel.setBackground(mainSouthPanel.getBackground());
 		
-		String [] printList = {"Assignments","Coverage","Availability"};
-		printOptions = new JComboBox<String>(printList);
-		printOptions.setPreferredSize(dim);
-		subWestPanel.add(printOptions);
-		
-		printButton = new JButton("Print");
-		printButton.setPreferredSize(dim);
-		printButton.addActionListener(new EventHandling());
-		subWestPanel.add(printButton);
-		
 		String date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
 		dateLabel = new JLabel("Today's date: " + date);
 		dateLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -154,6 +144,16 @@ public class GUI extends JFrame
 		dateLabel.setPreferredSize(new Dimension(260,25));
 		subEastPanel.add(dateLabel);
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
+
+		printButton = new JButton("Print");
+		printButton.setPreferredSize(dim);
+		printButton.addActionListener(new EventHandling());
+		subWestPanel.add(printButton);
+		
+		String [] printList = {"Assignments","Coverage","Availability"};
+		printOptions = new JComboBox<String>(printList);
+		printOptions.setPreferredSize(dim);
+		subWestPanel.add(printOptions);
 		
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
 		mainSouthPanel.add(subEastPanel, BorderLayout.EAST);
@@ -182,8 +182,7 @@ public class GUI extends JFrame
 		
 		southPanel = new JPanel();
 		southPanel.setBackground(mainCenterPanel.getBackground());
-		textArea = new JTextArea("                  Below are the currently selected files:\n\n");
-		textArea.setOpaque(false);
+		textArea = new JTextArea("                      Below are the currently selected files:\n\n");
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Arial", Font.BOLD, 16));
 		textArea.setPreferredSize(new Dimension(450,80));
@@ -245,13 +244,13 @@ public class GUI extends JFrame
 		table1.getColumnModel().getColumn(0).setMinWidth(200);
 		table1.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable1 = new JScrollPane(table1);
+	   	JScrollPane scrollTable1 = new JScrollPane(table1);
 
-	    LineBorder border1 = new LineBorder(Color.DARK_GRAY, 4, true);
-	    TitledBorder tBorder1 = new TitledBorder (border1, "Coverage Counts to Date", TitledBorder.CENTER,
-	            TitledBorder.DEFAULT_JUSTIFICATION, new Font ("Arial", Font.BOLD, 16), new Color(247,61,51));
+	   	LineBorder border1 = new LineBorder(Color.DARK_GRAY, 4, true);
+	    	TitledBorder tBorder1 = new TitledBorder (border1, "Coverage Counts to Date", TitledBorder.CENTER,
+	        TitledBorder.DEFAULT_JUSTIFICATION, new Font ("Arial", Font.BOLD, 16), new Color(247,61,51));
 	    
-	    scrollTable1.setBorder(tBorder1);
+	   	scrollTable1.setBorder(tBorder1);
 	    
 		mainCenterPanel.add(scrollTable1, gbc);
 	}
@@ -292,16 +291,15 @@ public class GUI extends JFrame
 		table2.getColumnModel().getColumn(3).setMinWidth(175);
 		table2.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable2 = new JScrollPane(table2);
+	    	JScrollPane scrollTable2 = new JScrollPane(table2);
 
-	    LineBorder border2 = new LineBorder(Color.DARK_GRAY, 4, true);
-	    TitledBorder tBorder2 = new TitledBorder (border2, "Availability Counts", TitledBorder.CENTER,
-	            TitledBorder.DEFAULT_JUSTIFICATION, new Font ("Arial", Font.BOLD, 16), new Color(247,61,51));
+	    	LineBorder border2 = new LineBorder(Color.DARK_GRAY, 4, true);
+	    	TitledBorder tBorder2 = new TitledBorder (border2, "Availability Counts", TitledBorder.CENTER,
+	    	TitledBorder.DEFAULT_JUSTIFICATION, new Font ("Arial", Font.BOLD, 16), new Color(247,61,51));
 	    
-	    scrollTable2.setBorder(tBorder2);
-		
-		mainCenterPanel.add(scrollTable2, gbc);
-	}
+	    	scrollTable2.setBorder(tBorder2);
+	   	mainCenterPanel.add(scrollTable2, gbc);
+	} 
 
 	private void constructViewThree(Vector<Vector<String>> teacherData) 
 	{
@@ -343,13 +341,13 @@ public class GUI extends JFrame
 		table3.getColumnModel().getColumn(2).setMinWidth(175);
 		table3.setGridColor(Color.BLACK);
 		
-	    JScrollPane scrollTable3 = new JScrollPane(table3);
+	    	JScrollPane scrollTable3 = new JScrollPane(table3);
 
-	    LineBorder border = new LineBorder(Color.DARK_GRAY, 4, true);
-	    TitledBorder border3 = new TitledBorder ( border, "Assignments", TitledBorder.CENTER,
-	            TitledBorder.DEFAULT_JUSTIFICATION, new Font ( "Arial", Font.BOLD, 16), new Color(247,61,51));
+	    	LineBorder border = new LineBorder(Color.DARK_GRAY, 4, true);
+	    	TitledBorder border3 = new TitledBorder ( border, "Assignments", TitledBorder.CENTER,
+	        TitledBorder.DEFAULT_JUSTIFICATION, new Font ( "Arial", Font.BOLD, 16), new Color(247,61,51));
 	    
-	    scrollTable3.setBorder(border3);
+	    	scrollTable3.setBorder(border3);
 	    
 		mainCenterPanel.add(scrollTable3, gbc);
 	}
@@ -361,7 +359,7 @@ public class GUI extends JFrame
 			if(e.getSource() == clearButton && table1 == null) 
 			{
 				fileList.clear();
-				textArea.setText("                  Below are the currently selected files:\n\n");
+				textArea.setText("                      Below are the currently selected files:\n\n");
 				return;
 			}
 			
