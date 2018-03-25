@@ -119,20 +119,7 @@ public class OnCallTeacher extends Teacher
 			return maxReached;
 		}
 		
-		/*public void increaseWeeklyTally(String weeklyTallyCount) 
-		{
-			this.weeklyTallyCount++;
-		}
-		
-		public void increaseMonthlyTally(String monthlyTallyCount) 
-		{
-			this.monthlyTallyCount++;
-		}
-		
-		public void increaseTermTally(String termTallyCount) 
-		{
-			this.termTallyCount++;
-		}*/
+	
 
 		public String toString()
 		{

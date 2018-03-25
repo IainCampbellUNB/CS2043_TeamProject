@@ -24,6 +24,7 @@ public class GenerateView {
 				int periodIndex = 0;
 				String coveredBy ="";
 				while(periodIndex <5){
+					//Add a check
 					perRowData = new Vector<String>();
 					String value = obj1.getPeriodValueAtIndex(periodIndex);
 					
