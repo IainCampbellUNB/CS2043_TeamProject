@@ -76,6 +76,27 @@ public class OnCallTeacher extends Teacher
 			 termTallyCount = count;
 		}
 	
+		public void incrementWeeklyTally(){
+			
+			int i = Integer.parseInt(weeklyTallyCount);
+			i++;
+			setWeeklyTally(String.valueOf(i));
+		}
+		
+		public void incrementMonthlyTally(){
+			
+			int i = Integer.parseInt(monthlyTallyCount);
+			i++;
+			setMonthlyTally(String.valueOf(i));
+		}
+		
+		public void incrementTermTally(){
+			
+			int i = Integer.parseInt(termTallyCount);
+			i++;
+			setTermTally(String.valueOf(i));
+		}
+		
 		public String getWeeklyTally() {
 			return weeklyTallyCount;
 		}

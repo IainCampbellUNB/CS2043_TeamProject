@@ -91,7 +91,7 @@ public class AssignmentAlgorithm {
 				//If the value equals 
 				if(value.equals("X")){
 					
-					
+	
 					if(holder.size() != 0){
 						
 						String ID = holder.get(0).getID();
@@ -109,8 +109,7 @@ public class AssignmentAlgorithm {
 
 	
 	
-	private void findTeacherAndSetValues(String teacherToAssignValues, String ID, String name, int index)
-	{
+	private void findTeacherAndSetValues(String teacherToAssignValues, String ID, String name, int index){
 		for(int i = 0; i < teacher.size(); i++)
 		{
 			//System.out.println(teacher.get(i).getName() + "?=" + name);
@@ -124,9 +123,11 @@ public class AssignmentAlgorithm {
 				}else{
 					teacher.get(i).hasBeenAssigned();
 					teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, ID);
+					teacher.get(i).incrementMonthlyTally();
+					teacher.get(i).incrementWeeklyTally();
+					teacher.get(i).incrementTermTally();
+
 				}
-				
-				
 			}
 		}
 	}

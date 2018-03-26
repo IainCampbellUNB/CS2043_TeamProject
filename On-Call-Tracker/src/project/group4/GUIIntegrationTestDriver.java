@@ -10,10 +10,10 @@ public class GUIIntegrationTestDriver {
 
 	public static void main(String args[]) throws IOException, ParseException
 	{
-		//new GUI();
+		new GUI();
 		
 		
-		Schedule sched = new Schedule("BIOL/RM102", "TECH/RM103","TRUE/RM104","LUNCH/RM103","BIOL/RM102");
+		/*Schedule sched = new Schedule("BIOL/RM102", "TECH/RM103","TRUE/RM104","LUNCH/RM103","BIOL/RM102");
 		
 		String sub = sched.getRoomNumber(0);
 		System.out.println(sub);
