@@ -1,5 +1,6 @@
 # CS2043_TeamProject
 
+Repository for the CS2043 team project.The project is to design and build a software tool will be built in order to help school administrators to keep track and assign on-calls to classes that need coverage.
 
 ### Description
 This is a On-Call Tracker software system built for CS2043 Software Engineering project at the University of New Brunswick.
@@ -17,9 +18,10 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 
 ### Instructions
 
-###Author
+### Author
 Craig Beaman 
 ,Iain Campbell
 ,Gabbie Dupuis
 ,Catherine Higgins @chninja
+
 
