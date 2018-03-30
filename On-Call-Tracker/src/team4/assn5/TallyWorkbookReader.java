@@ -1,4 +1,4 @@
-package project.group4;
+package team4.assn5;
 
 import java.io.File;
 //import java.io.File;
@@ -18,6 +18,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 //import org.apache.poi.ss.usermodel.Row;
 //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import project.group4.OnCallTeacher;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,8 +34,7 @@ public class TallyWorkbookReader {
 		this.file = file;
 		this.selectedDate = selectedDate;
 		this.searchForSheetWithDate = date;
-		System.out.println(date);
-		
+
 	}
 	
 	public  ArrayList<ArrayList<String>> readTallyCount() throws IOException, ParseException {
