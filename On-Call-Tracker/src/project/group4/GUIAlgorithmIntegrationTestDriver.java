@@ -33,24 +33,21 @@ public class GUIAlgorithmIntegrationTestDriver {
 		
 		//Print TeacherList
 		
-		for(int i = 0; i < teacherList.size(); i++)
-		{
+		for(int i = 0; i < teacherList.size(); i++){
 			System.out.println(teacherList.get(i).toString());
 		}
 		
-		for(int i = 0; i < supplyList.size(); i++)
-		{
+		for(int i = 0; i < supplyList.size(); i++){
 			System.out.println(supplyList.get(i).toString());
 		}
 		
 	
 		AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
 		
-		//System.out.println(test.printTestAvailable());
+		
 		
 		test.assignOnCallTeacher();
-		for(int i = 0; i < teacherList.size(); i++)
-		{
+		for(int i = 0; i < teacherList.size(); i++){
 			System.out.println(teacherList.get(i).toString());
 		}
 	//test.printData();

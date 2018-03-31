@@ -78,21 +78,21 @@ public class OnCallTeacher extends Teacher
 	
 		public void incrementWeeklyTally(){
 			
-			int i = Integer.parseInt(weeklyTallyCount);
+			double i = Double.parseDouble(weeklyTallyCount);
 			i++;
 			setWeeklyTally(String.valueOf(i));
 		}
 		
 		public void incrementMonthlyTally(){
 			
-			int i = Integer.parseInt(monthlyTallyCount);
+			double i = Double.parseDouble(monthlyTallyCount);
 			i++;
 			setMonthlyTally(String.valueOf(i));
 		}
 		
 		public void incrementTermTally(){
 			
-			int i = Integer.parseInt(termTallyCount);
+			double i = Double.parseDouble(termTallyCount);
 			i++;
 			setTermTally(String.valueOf(i));
 		}

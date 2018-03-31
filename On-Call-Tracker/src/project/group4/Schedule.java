@@ -3,13 +3,8 @@ package project.group4;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Schedule
-{
-  private String p1;
-  private String p2;
-  private String p3a;
-  private String p3b;
-  private String p4;
+public class Schedule{
+
   private String spare;
   private int spareIndex;
   private ArrayList<String> schedule;
@@ -19,13 +14,9 @@ public class Schedule
   
   
  
-  public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In)
+  public Schedule(String p1, String p2, String p3a, String p3b, String p4)
   {
-    this.p1 = p1In;
-    this.p2 = p2In;
-    this.p3a = p3aIn;
-    this.p3b = p3bIn;
-    this.p4 = p4In;
+
     skillset = false;
     schedule = new ArrayList<String>(6);
     schedule.add(p1);
@@ -38,13 +29,8 @@ public class Schedule
   }
   
   
-  public Schedule(String p1In, String p2In, String p3aIn, String p3bIn, String p4In,String skill)
-  {
-    this.p1 = p1In;
-    this.p2 = p2In;
-    this.p3a = p3aIn;
-    this.p3b = p3bIn;
-    this.p4 = p4In;
+  public Schedule(String p1, String p2, String p3a, String p3b, String p4,String skill){
+  
     this.skill = skill;
     skillset = true;
     schedule = new ArrayList<String>(6);
@@ -58,48 +44,40 @@ public class Schedule
     spare = convertIndexToPeriod(spareIndex);
   }
 
-  public String getSpareByString()
-  {
+  public String getSpareByString(){
 	  return spare;
   }
   
   
-  public boolean isLunchPeriod(int index)
-  {
+  public String getSkill(){
+	  return this.skill;
+  }
+  
+  public boolean isLunchPeriod(int index){
 	  boolean value = false;
-	  if(schedule.get(index).equals("Lunch"))
-	  {
+	  if(schedule.get(index).equals("Lunch")){
 		  value = true;
-	  }
-	  
+	  } 
 	  return value;
   }
   
   
-  public boolean isSparePeriod(int index)
-  {
+  public boolean isSparePeriod(int index){
 	  boolean value = false;
-	  if(schedule.get(index).equals("Spare"))
-	  {
+	  if(schedule.get(index).equals("Spare")){
 		  value = true;
-	  }
-	  
+	  } 
 	  return value;
   }
   
-  /*
-   * THIS IS WHAT I AM WORKING
-   */
-  public String determineSkill()
-  {
+ 
+  public String determineSkill(){
 	  String skill = "";
-	  
-	  
+		  
 	  return skill;
   }
   
-  public String getSubject(int index)
-  {
+  public String getSubject(int index){
 	  String subject  = "";
 	  scan = new Scanner(schedule.get(index));
 	  scan.useDelimiter("/");
@@ -109,8 +87,7 @@ public class Schedule
 	  
   }
   
-  public String getRoomNumber(int index)
-  {
+  public String getRoomNumber(int index){
 	  String roomNumber = "";
 	  scan = new Scanner(schedule.get(index));
 	  scan.useDelimiter("/");
@@ -121,8 +98,7 @@ public class Schedule
   
   
   
-  public int determineSparePeriodByIndex()
-  {
+  public int determineSparePeriodByIndex(){
 	  int period = 0;
 	  for(int index = 0; index < 5; index++){
 		  if(schedule.get(index).equals("Spare")){
