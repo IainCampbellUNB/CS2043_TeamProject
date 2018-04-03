@@ -23,30 +23,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TallyWorkbookReader {
-	private File file;
-	private String selectedDate;
-	private String searchForSheetWithDate;
+public class TallyWorkbookReader extends WorkBook {
 	
-	public TallyWorkbookReader(File file, String selectedDate, String date){
-		this.file = file;
-		this.selectedDate = selectedDate;
-		this.searchForSheetWithDate = date;
-		System.out.println(date);
+	public TallyWorkbookReader(File file, String selectedDate, String searchForSheetWithDate){
 		
+		super(file, selectedDate, searchForSheetWithDate);
 	}
 	
 	public  ArrayList<ArrayList<String>> readTallyCount() throws IOException, ParseException {
 
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));
 
 		//Get the sheet
-		HSSFSheet sheet = workbook.getSheet(searchForSheetWithDate);
+		HSSFSheet sheet = workbook.getSheet(getSheetWithDate());
 		
 		//Include a NULLPOINTER TO CATCH NON-EXISTING ENTRY
-		int monday = searchColIndex(selectedDate,sheet);
+		int monday = searchColIndex(getDate(),sheet);
 		
 		int columnIndexWT = searchColIndex("Weekly Tally",sheet);
 		int columnIndexMT = searchColIndex("Month Tally",sheet);
