@@ -1,6 +1,4 @@
 package project.group4;
-
-
 import java.io.File;
 //import java.io.File;
 import java.io.FileInputStream;
@@ -28,61 +26,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AbsenceWorkbookReader extends WorkBook {
-	static boolean skillsFilled = false;
-
-	public AbsenceWorkbookReader(File file, String selectedDate, String searchForSheetWithDate)
-	{
-		super(file, selectedDate, searchForSheetWithDate);
-	}
 	
-	public  boolean getSkillsFilled(){
-		return skillsFilled;
+	public AbsenceWorkbookReader(File file, String selectedDate, String searchForSheetWithDate){
+		super(file, selectedDate, searchForSheetWithDate);
 	}
 	
 	public  ArrayList<ArrayList<String>> readTermSchedule() throws IOException, ParseException {
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
-	
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));
-		
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));	
 		HSSFSheet sheet = workbook.getSheetAt(0);
 		
-		int skillIndex = searchColIndex("Skills",sheet);
-	
-		if(!(sheet.getRow(1).getCell(skillIndex).toString().equals("")))
-		{
-			
-			skillsFilled = true;
-
-		}
-		
+		int lastcol = searchColIndex("P4",sheet);
 		boolean done = false;
 		int i = 1;
-		skillIndex++;
+		lastcol++;
 		while(!done){
-		
+
 			if(sheet.getRow(i) == null){
 				done = true;
 				break;
 			}
 			perRowData = new ArrayList<String>();
-				
-			if(!skillsFilled)
-			{
-		    	System.out.println("SkillFilled");
-				for(int j = 0; j < (skillIndex); j++) {
-					perRowData.add(sheet.getRow(i).getCell(j).toString());
-					
-					System.out.println(j);
-				}
-				String value = sheet.getRow(i).getCell(7).toString();
-				System.out.println("value" + value);
-			}else{
-				for(int j = 0; j < skillIndex; j++) {
-					perRowData.add(sheet.getRow(i).getCell(j).toString());
-				}
+			for(int j = 0; j < (lastcol); j++) {
+				perRowData.add(sheet.getRow(i).getCell(j).toString());
 			}
+			
 			allData.add(perRowData);
 			i++;
 		}
@@ -104,14 +74,13 @@ public class AbsenceWorkbookReader extends WorkBook {
 		boolean done = false;
 		int i = 1;
 		while(!done){
-		
 			if(sheet.getRow(i) == null){
 				done = true;
 				break;
 			}
 			perRowData = new ArrayList<String>();
 			for(int j = 0; j < 2; j++) {
-			perRowData.add(sheet.getRow(i).getCell(j).toString());
+				perRowData.add(sheet.getRow(i).getCell(j).toString());
 			}	
 			allData.add(perRowData);
 			i++;
@@ -132,13 +101,11 @@ public class AbsenceWorkbookReader extends WorkBook {
 	
 		HSSFSheet sheet = null;
 		
-		try
-		{
+		try{
 			sheet = workbook.getSheet(getSheetWithDate());
 			System.out.println((sheet == null) + " error....");
 		}
-		catch(NullPointerException e)
-        {
+		catch(NullPointerException e){
             System.out.print("No such date found");
         }
 	
@@ -204,8 +171,7 @@ public class AbsenceWorkbookReader extends WorkBook {
 			}
 			String value = sheet.getRow(row).getCell(0).toString();
 		
-			if(value.equals(searchWord))
-			{
+			if(value.equals(searchWord)){
 				done = true;
 				break;
 			}
@@ -224,8 +190,7 @@ public class AbsenceWorkbookReader extends WorkBook {
 			}
 			String value = sheet.getRow(0).getCell(col).toString();
 		
-			if(value.equals(searchWord))
-			{
+			if(value.equals(searchWord)){
 				done = true;
 				break;
 			}
@@ -236,8 +201,7 @@ public class AbsenceWorkbookReader extends WorkBook {
 	}
 	
 	
-	public void printData(ArrayList<ArrayList<String>> allData)
-	{
+	public void printData(ArrayList<ArrayList<String>> allData){
 		for(int i = 0; i < allData.size(); i++){
 			for(int j = 0; j < allData.get(i).size(); j++){
 			System.out.print(" " + allData.get(i).get(j));

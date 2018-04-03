@@ -8,17 +8,8 @@ import java.util.Vector;
 
 public class GUIAlgorithmIntegrationTestDriver {
 
-	public static void main(String args[]) throws IOException, ParseException
-	{
-		//new GUI();
-		
-		
-		Schedule sched = new Schedule("BIOL/RM102", "TECH/RM103","TRUE/RM104","LUNCH/RM103","BIOL/RM102");
-		
-		String sub = sched.getRoomNumber(0);
-		System.out.println(sub);
-		String rm = sched.getSubject(0);
-		System.out.println(rm);
+	public static void main(String args[]) throws IOException, ParseException{
+	
 		File absenceFile = new File("AbsenceWorkBook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
