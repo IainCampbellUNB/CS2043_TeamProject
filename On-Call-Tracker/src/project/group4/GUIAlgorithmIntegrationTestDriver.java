@@ -19,7 +19,7 @@ public class GUIAlgorithmIntegrationTestDriver {
 		System.out.println(sub);
 		String rm = sched.getSubject(0);
 		System.out.println(rm);
-		File absenceFile = new File("AbsenceWorkbook.xls");
+		File absenceFile = new File("AbsenceWorkBook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-03-16");
@@ -27,11 +27,8 @@ public class GUIAlgorithmIntegrationTestDriver {
 		
 		DataProccess data = new DataProccess(AWreader,TWreader);
 		ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
-		
 		ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
-		
 		teacherList = data.createTeacherTermSchedule();
-		
 		supplyList = data.createSupplyList();
 		
 		//Print TeacherList
@@ -54,7 +51,35 @@ public class GUIAlgorithmIntegrationTestDriver {
 			System.out.println(teacherList.get(i).toString());
 		}
 	//test.printData();
+		
+		/*
+		 * This is to test the GenerateViews
+		 */
+		
+		Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
+		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
+		GenerateView.printData(coverageViewData);
+		
+		Vector<Vector<String>> tallyViewData = new Vector<Vector<String>>();
+		tallyViewData = GenerateView.generateCountView(teacherList);
+		GenerateView.printData(tallyViewData);
+		
+		Vector<Vector<String>> availabilityViewData = new Vector<Vector<String>>();
+		
+		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
+		GenerateView.printData(availabilityViewData);
 
+		
+		
+		ArrayList<OnCallTeacher> potentials = GenerateView.findPotentialNextInLines(teacherList, 2);
+		for(int i = 0; i < potentials.size(); i++){
+			System.out.println(potentials.get(i).toString());
+		}
+		String name = GenerateView.determineWhoIsNext(teacherList, 2);
+		System.out.println(name);
+		
+		
+		
 	}
 	
 	

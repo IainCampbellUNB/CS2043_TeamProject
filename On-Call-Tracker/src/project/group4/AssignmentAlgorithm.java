@@ -60,8 +60,6 @@ public class AssignmentAlgorithm {
 			    }
 			}
 		}
-		
-	
 	}
 	
 	public void assignOnCallTeacher(){
