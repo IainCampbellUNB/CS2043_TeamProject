@@ -22,8 +22,7 @@ public class DataProccess {
 	}
 	
 	
-	public ArrayList<OnCallTeacher> createTeacherTermSchedule() throws IOException, ParseException
-	{
+	public ArrayList<OnCallTeacher> createTeacherTermSchedule() throws IOException, ParseException{
 
 		ArrayList<ArrayList<String>> termScheduleData = new ArrayList<ArrayList<String>>();
 		termScheduleData = reader.readTermSchedule();

@@ -52,6 +52,34 @@ public class GUIAlgorithmIntegrationTestDriver {
 		}
 	//test.printData();
 		
+		/*
+		 * This is to test the GenerateViews
+		 */
+		
+		Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
+		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
+		GenerateView.printData(coverageViewData);
+		
+		Vector<Vector<String>> tallyViewData = new Vector<Vector<String>>();
+		tallyViewData = GenerateView.generateCountView(teacherList);
+		GenerateView.printData(tallyViewData);
+		
+		Vector<Vector<String>> availabilityViewData = new Vector<Vector<String>>();
+		
+		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
+		GenerateView.printData(availabilityViewData);
+
+		
+		
+		ArrayList<OnCallTeacher> potentials = GenerateView.findPotentialNextInLines(teacherList, 2);
+		for(int i = 0; i < potentials.size(); i++){
+			System.out.println(potentials.get(i).toString());
+		}
+		String name = GenerateView.determineWhoIsNext(teacherList, 2);
+		System.out.println(name);
+		
+		
+		
 	}
 	
 	
