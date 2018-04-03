@@ -7,17 +7,8 @@ import java.io.FileOutputStream;
 //import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-
-//import org.apache.poi.hssf.usermodel.HSSFCell;
-//import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-//import org.apache.poi.ss.usermodel.Cell;
-//import org.apache.poi.ss.usermodel.CellStyle;
-//import org.apache.poi.ss.usermodel.DataFormat;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,6 +58,32 @@ public class TallyWorkbookReader extends WorkBook {
 		workbook.close();
 		return allData;
 	}
+	
+	/*public void writeToTallyCoutner(ArrayList<TallyCount> obj) throws IOException{
+		FileInputStream filew = new FileInputStream(file);
+		HSSFWorkbook workbook = new HSSFWorkbook(filew);
+		HSSFSheet sheet = workbook.getSheet(searchForSheetWithDate);
+		
+		int week = searchColIndex("Weekly Tally" ,sheet);
+		int month = searchColIndex("Month Tally", sheet);
+		int term = searchColIndex("Per Term Tally", sheet);
+		
+		for(int i = 0; i < obj.size(); i++){
+			
+			int findRowIndexForTeacher = searchRowIndex(obj.get(i).getTeacher(),sheet);
+			sheet.getRow(findRowIndexForTeacher).getCell(week).setCellValue(obj.get(i).getWeeklyCount());
+			sheet.getRow(findRowIndexForTeacher).getCell(month).setCellValue(obj.get(i).getMonthlyCount());
+			sheet.getRow(findRowIndexForTeacher).getCell(term).setCellValue(obj.get(i).getTermCount());
+			
+		}
+		
+		filew.close();
+
+		FileOutputStream fileOut = new FileOutputStream("TallyOutput.xls");
+		workbook.write(fileOut);
+		workbook.close();
+	}*/
+	
 	
 	public static void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
 	{
