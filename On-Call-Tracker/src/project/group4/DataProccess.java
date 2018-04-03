@@ -18,10 +18,12 @@ public class DataProccess {
 		this.supplyList = new ArrayList<Teacher>();
 		this.reader = reader;
 		this.tallyreader = tallyreader;
+		
 	}
 	
 	
-	public ArrayList<OnCallTeacher> createTeacherTermSchedule() throws IOException, ParseException{
+	public ArrayList<OnCallTeacher> createTeacherTermSchedule() throws IOException, ParseException
+	{
 
 		ArrayList<ArrayList<String>> termScheduleData = new ArrayList<ArrayList<String>>();
 		termScheduleData = reader.readTermSchedule();
@@ -35,20 +37,17 @@ public class DataProccess {
 		    String p3a = termScheduleData.get(row).get(4);
 		    String p3b = termScheduleData.get(row).get(5);
 		    String p4 = termScheduleData.get(row).get(6);
-		    Schedule sched;
-		    if(reader.getSkillsFilled()){
-		    	String skills = termScheduleData.get(row).get(7);
-		    	sched = new Schedule(p1,p2,p3a,p3b,p4,skills);
-		    } else {
-		    	sched = new Schedule(p1,p2,p3a,p3b,p4);
-		    }
-		   
+		    
+		    Schedule sched = new Schedule(p1,p2,p3a,p3b,p4);
+		    
 		    OnCallTeacher obj1 = new OnCallTeacher(id,name,sched);
+		   
 		    teacherList.add(obj1);
 		
 	}
 		assignAbsences();
 		assignTallys();
+		
 		return teacherList;
 	
 	}

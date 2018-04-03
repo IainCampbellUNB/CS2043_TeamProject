@@ -9,7 +9,7 @@ public class Schedule{
   private int spareIndex;
   private ArrayList<String> schedule;
   private String skill;
-  private boolean skillset;
+
   private Scanner scan;
   
   
@@ -17,7 +17,6 @@ public class Schedule{
   public Schedule(String p1, String p2, String p3a, String p3b, String p4)
   {
 
-    skillset = false;
     schedule = new ArrayList<String>(6);
     schedule.add(p1);
     schedule.add(p2);
@@ -26,23 +25,9 @@ public class Schedule{
     schedule.add(p4);
     spareIndex = determineSparePeriodByIndex();
     spare = convertIndexToPeriod(spareIndex);
+    skill = determineSkill();
   }
   
-  
-  public Schedule(String p1, String p2, String p3a, String p3b, String p4,String skill){
-  
-    this.skill = skill;
-    skillset = true;
-    schedule = new ArrayList<String>(6);
-    schedule.add(p1);
-    schedule.add(p2);
-    schedule.add(p3a);
-    schedule.add(p3b);
-    schedule.add(p4);
-    schedule.add(skill);
-    spareIndex = determineSparePeriodByIndex();
-    spare = convertIndexToPeriod(spareIndex);
-  }
 
   public String getSpareByString(){
 	  return spare;
@@ -70,11 +55,43 @@ public class Schedule{
 	  return value;
   }
   
- 
-  public String determineSkill(){
-	  String skill = "";
+  //NOTE** if the teacher has more than one possibility of a skill
+  //		for example they don't teach the same subject twice
+  //		then for now it just uses the first subject
+  private String determineSkill(){
+	  
+	  //Transforms the schedule arrayList into an array
+	  String[] arraySched = new String[5];
+	  
+	  for(int i = 0; i < 5; i++) {
+		  arraySched[i] = getSubject(i);
+	  }
+
+	  
+	  //some int values to help determine the skill
+	  int biggestIndex = 0;
+	  int biggestCount = 0;
+	  int count = 0;
+	  
+	  //two for loops used to determine the skill
+	  for(int indexOne = 0; indexOne < 5; indexOne++) {
 		  
-	  return skill;
+		 for(int indexTwo = indexOne + 1; indexTwo < 5; indexTwo++) {
+			 
+			 if(arraySched[indexOne].equals(arraySched[indexTwo])) {
+				 count++;		 
+			 }
+		 }
+		 if(count > biggestCount) {
+			 biggestCount = count;
+			 biggestIndex = indexOne;
+		 }
+		 
+		 count = 0;
+	  }
+	  
+	return arraySched[biggestIndex];
+	  
   }
   
   public String getSubject(int index){
@@ -145,9 +162,9 @@ public class Schedule{
 	  for(int i = 0; i < 5; i++){
 		  result += schedule.get(i) + " "; 
 	  }
-	  if(skillset){
-		  result += "Skill: " + schedule.get(5);
-	  }
+	  
+	  result += "Skill: " + skill;
+	  
 	  return result;
   }
 }

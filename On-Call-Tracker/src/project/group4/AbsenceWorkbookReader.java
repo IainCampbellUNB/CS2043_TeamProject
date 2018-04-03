@@ -27,22 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AbsenceWorkbookReader {
+public class AbsenceWorkbookReader extends WorkBook {
 	static boolean skillsFilled = false;
-	private File file;
-	private String selectedDate;
-	private String searchForSheetWithDate;
-	private HSSFWorkbook workbook;
-	
-	
 
-	public AbsenceWorkbookReader(File file,String selectedDate, String date)
+	public AbsenceWorkbookReader(File file, String selectedDate, String searchForSheetWithDate)
 	{
-		this.file = file;
-		this.selectedDate = selectedDate;
-		this.searchForSheetWithDate = date;
-	
+		super(file, selectedDate, searchForSheetWithDate);
 	}
+	
 	public  boolean getSkillsFilled(){
 		return skillsFilled;
 	}
@@ -52,7 +44,7 @@ public class AbsenceWorkbookReader {
 		ArrayList<String> perRowData = new ArrayList<String>();
 	
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));
 		
 		HSSFSheet sheet = workbook.getSheetAt(0);
 		
@@ -105,7 +97,7 @@ public class AbsenceWorkbookReader {
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));
 
 		//Get the sheet
 		HSSFSheet sheet = workbook.getSheetAt(1);
@@ -136,13 +128,13 @@ public class AbsenceWorkbookReader {
 		ArrayList<String> perRowData = new ArrayList<String>();
 		HSSFWorkbook workbook = null;
 		
-		workbook = new HSSFWorkbook(new FileInputStream(file));
+		workbook = new HSSFWorkbook(new FileInputStream(getFile()));
 	
 		HSSFSheet sheet = null;
 		
 		try
 		{
-			sheet = workbook.getSheet(searchForSheetWithDate);
+			sheet = workbook.getSheet(getSheetWithDate());
 			System.out.println((sheet == null) + " error....");
 		}
 		catch(NullPointerException e)
