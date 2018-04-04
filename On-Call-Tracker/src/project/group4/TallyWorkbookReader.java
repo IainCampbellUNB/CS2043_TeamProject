@@ -1,23 +1,18 @@
 package project.group4;
 
 import java.io.File;
-//import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-//import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+
 
 public class TallyWorkbookReader extends WorkBook {
 	
-	public TallyWorkbookReader(File file, String selectedDate, String searchForSheetWithDate){
-		
+	public TallyWorkbookReader(File file, String selectedDate, String searchForSheetWithDate){	
 		super(file, selectedDate, searchForSheetWithDate);
 	}
 	
@@ -59,48 +54,29 @@ public class TallyWorkbookReader extends WorkBook {
 		return allData;
 	}
 	
-	/*public void writeToTallyCoutner(ArrayList<TallyCount> obj) throws IOException{
-		FileInputStream filew = new FileInputStream(file);
-		HSSFWorkbook workbook = new HSSFWorkbook(filew);
-		HSSFSheet sheet = workbook.getSheet(searchForSheetWithDate);
+	public void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList) throws IOException{
+		FileInputStream file = new FileInputStream(getFile());
+		HSSFWorkbook workbook = new HSSFWorkbook(file);
+		HSSFSheet sheet = workbook.getSheet(getSheetWithDate());
 		
+		int day = searchColIndex(getDate(),sheet);
 		int week = searchColIndex("Weekly Tally" ,sheet);
 		int month = searchColIndex("Month Tally", sheet);
 		int term = searchColIndex("Per Term Tally", sheet);
 		
-		for(int i = 0; i < obj.size(); i++){
-			
-			int findRowIndexForTeacher = searchRowIndex(obj.get(i).getTeacher(),sheet);
-			sheet.getRow(findRowIndexForTeacher).getCell(week).setCellValue(obj.get(i).getWeeklyCount());
-			sheet.getRow(findRowIndexForTeacher).getCell(month).setCellValue(obj.get(i).getMonthlyCount());
-			sheet.getRow(findRowIndexForTeacher).getCell(term).setCellValue(obj.get(i).getTermCount());
-			
-		}
 		
-		filew.close();
-
-		FileOutputStream fileOut = new FileOutputStream("TallyOutput.xls");
-		workbook.write(fileOut);
-		workbook.close();
-	}*/
-	
-	
-	public static void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList, String selectedDate) throws IOException
-	{
-		FileInputStream file = new FileInputStream("TallyTest.xls");
-		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet(selectedDate);
-		
-		int day = searchColIndex("Thursday",sheet);
-		
-		for(int i = 0; i < teacherList.size(); i++)
-		{
-			 if(teacherList.get(i).getHasBeenAssigned())
-			 {	
-				int col = teacherList.get(i).getSparePeriodByIndex();
-				int insertAt = col + day;
-				int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
-				sheet.getRow(findRowIndexForTeacher).getCell(insertAt).setCellValue("1");
+		for(int i = 0; i < teacherList.size(); i++){
+			 if(teacherList.get(i).getHasBeenAssigned()){	
+				 int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
+				 String weekValue = teacherList.get(i).getWeeklyTally();
+				 String monthValue = teacherList.get(i).getMonthlyTally();
+				 String termValue = teacherList.get(i).getTermTally();
+				 sheet.getRow(findRowIndexForTeacher).getCell(week).setCellValue(weekValue);
+				 sheet.getRow(findRowIndexForTeacher).getCell(month).setCellValue(monthValue);
+				 sheet.getRow(findRowIndexForTeacher).getCell(term).setCellValue(termValue);
+				 int col = teacherList.get(i).getSparePeriodByIndex();
+				 int insertAt = col + day;
+				 sheet.getRow(findRowIndexForTeacher).getCell(insertAt).setCellValue("1");
 			}
 		}
 		

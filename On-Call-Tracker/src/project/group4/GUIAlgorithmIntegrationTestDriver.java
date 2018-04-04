@@ -30,6 +30,7 @@ public class GUIAlgorithmIntegrationTestDriver {
 		c.set(iyear,imonth-1,iday);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 	
+		
 		if(dayOfWeek == 2){
 			String forSheetLookUp = date;
 		}
