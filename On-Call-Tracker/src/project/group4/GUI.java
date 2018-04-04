@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -161,12 +159,24 @@ public class GUI extends JFrame
 		
 		mainCenterPanel.setBackground(new Color(80,90,175));
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
-		JLabel info = new JLabel("Once the excel files are saved, find the files, "
-				+ "select the date of interest, and press update On-Calls.");
-		info.setHorizontalAlignment(JLabel.CENTER);
-		info.setFont(new Font("Arial", Font.PLAIN, 22));
+		
+		JTextArea info = new JTextArea("Once the excel files are saved, find the files, "
+				+ "select the date of interest, and press update\nOn-Calls. Select \"AbsenceWorkbook.xls\" and then \"TallyWorkbook.xls\" in that order.");
+		
+		JPanel northPanel = new JPanel();
+		TitledBorder infoBorder = new TitledBorder("Instructions");
+		infoBorder.setTitleJustification(TitledBorder.CENTER);
+		infoBorder.setTitleColor(Color.WHITE);;
+		infoBorder.setTitleFont(new Font("Arial", Font.PLAIN, 16));
+		
+		northPanel.setBackground(mainCenterPanel.getBackground());
+		info.setFont(new Font("Arial", Font.PLAIN, 20));
 		info.setForeground(Color.WHITE);
-		mainCenterPanel.add(info, BorderLayout.NORTH);
+		info.setPreferredSize(new Dimension(800,100));
+		info.setBorder(infoBorder);
+		info.setOpaque(false);
+		northPanel.add(info);
+		mainCenterPanel.add(northPanel, BorderLayout.NORTH);
 		
 		ImageIcon icon = new ImageIcon("mainIcon.png");
 		JLabel iconLabel = new JLabel();
@@ -176,10 +186,16 @@ public class GUI extends JFrame
 		
 		southPanel = new JPanel();
 		southPanel.setBackground(mainCenterPanel.getBackground());
-		textArea = new JTextArea("                      Below are the currently selected files:\n\n");
+		textArea = new JTextArea();
 		textArea.setEditable(false);
-		textArea.setFont(new Font("Arial", Font.BOLD, 16));
+		textArea.setFont(new Font("Arial", Font.PLAIN, 16));
 		textArea.setPreferredSize(new Dimension(450,80));
+		
+		TitledBorder border = new TitledBorder("Currently Selected Files");
+		border.setTitleJustification(TitledBorder.CENTER);
+		border.setTitleFont(new Font("Arial", Font.BOLD, 16));
+		textArea.setBorder(border);
+		
 		southPanel.add(textArea);
 		mainCenterPanel.add(southPanel,BorderLayout.SOUTH);
 	}
@@ -343,7 +359,7 @@ public class GUI extends JFrame
 			if(e.getSource() == clearButton && table1 == null) 
 			{
 				fileList.clear();
-				textArea.setText("                      Below are the currently selected files:\n\n");
+				textArea.setText("");
 				return;
 			}
 			
@@ -495,5 +511,9 @@ public class GUI extends JFrame
 		      textArea.setCaretPosition(0);
 		      return this;
 		   }
+	}
+	
+	public static void main(String [] args) {
+		new GUI();
 	}
 }
