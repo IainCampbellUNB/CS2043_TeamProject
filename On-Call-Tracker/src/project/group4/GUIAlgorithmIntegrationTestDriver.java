@@ -15,7 +15,8 @@ public class GUIAlgorithmIntegrationTestDriver {
 	public static void main(String args[]) throws IOException, ParseException{
 	
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-		String date = "2018-03-12";
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		String date = "2018-03-13";
 		Scanner sc = new Scanner(date);
 		sc.useDelimiter("-");
 		String year = sc.next();
@@ -29,9 +30,16 @@ public class GUIAlgorithmIntegrationTestDriver {
 		c.set(iyear,imonth-1,iday);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 	
+		if(dayOfWeek == 2){
+			String forSheetLookUp = date;
+		}
+		String dateToPass = sdf.format(c.getTime());
+		System.out.println(dateToPass);
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		c.add(Calendar.DAY_OF_WEEK, -dayOfWeek+Calendar.MONDAY);
 		System.out.println(dayOfWeek);
 		//Sunday is 1.
-		String dateToPass = sdf.format(c.getTime());
+		dateToPass = s.format(c.getTime());
 		System.out.println(dateToPass);
 		
 		
