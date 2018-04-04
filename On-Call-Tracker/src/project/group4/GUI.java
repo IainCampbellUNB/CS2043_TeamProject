@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class GUI extends JFrame
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
 	private GridBagConstraints gbc;
+	private String dateToPass;
 	
 	public GUI() 
 	{
@@ -69,7 +71,7 @@ public class GUI extends JFrame
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setPreferredSize(new Dimension(1200,750));
 		getContentPane().add(mainPanel);
-		dim = new Dimension(140,30);
+		dim = new Dimension(180,30);
 		
 		northPanelSetup();
 		southPanelSetup();
@@ -133,7 +135,8 @@ public class GUI extends JFrame
 		
 		subCenterPanel.setBackground(mainSouthPanel.getBackground());
 		
-		String date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+		convertTodaysDateToWeek(date);
 		dateLabel = new JLabel("Today's date: " + date);
 		dateLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		dateLabel.setForeground(Color.WHITE);
@@ -158,6 +161,29 @@ public class GUI extends JFrame
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
 		mainSouthPanel.add(subEastPanel, BorderLayout.EAST);
 		mainSouthPanel.add(subCenterPanel, BorderLayout.CENTER);
+	}
+
+	private void convertTodaysDateToWeek(String date)
+	{
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		Scanner sc = new Scanner(date);
+		sc.useDelimiter("-");
+		String year = sc.next();
+		int iyear = Integer.parseInt(year);
+		
+		String month = sc.next();
+		int imonth = Integer.parseInt(month);
+		String day = sc.next();
+		int iday = Integer.parseInt(day);
+		sc.close();
+	
+		Calendar c = Calendar.getInstance();
+		c.set(iyear,imonth-1,iday);
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+	
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		c.add(Calendar.DAY_OF_WEEK, -dayOfWeek+Calendar.MONDAY);
+		dateToPass = s.format(c.getTime());
 	}
 
 	private void centerPanelInit() 
@@ -404,19 +430,28 @@ public class GUI extends JFrame
 			
 			if(e.getSource() == updateOnCalls) 
 			{
-				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"Monday", "2018-03-16");
-				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),"Monday", "2018-03-19");
-				
-				
+				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),(String) daySelector.getSelectedItem(), dateToPass);
+				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),(String) daySelector.getSelectedItem(), dateToPass);
 				
 				DataProccess data = new DataProccess(AWreader,TWreader);
 				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
 				ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
+				
 				try {
 					teacherList = data.createTeacherTermSchedule();
 					supplyList = data.createSupplyList();
 				} catch (IOException | ParseException e1) {
-					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
+				test.assignOnCallTeacher();
+				
+				try 
+				{
+					AWreader.writeToAbsenceTracker(teacherList);
+					TWreader.writeToTallyCoutner(teacherList);
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				

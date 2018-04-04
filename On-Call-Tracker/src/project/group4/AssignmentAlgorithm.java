@@ -15,8 +15,6 @@ public class AssignmentAlgorithm {
 			sortByTallies();
 	}
 	public void printData(){
-		System.out.println("Hello");
-		System.out.println("Size of allTeachesr" + allTeachers.size());
 		for(int i = 0; i < allTeachers.size(); i++){
 			for(int j = 0; j < allTeachers.get(i).size(); j++){
 			System.out.print("e" + allTeachers.get(i).get(j));
@@ -94,21 +92,22 @@ public class AssignmentAlgorithm {
 							}
 						}
 				}
-			}	
-		}
-		
-		for(int period = 0; period < 5; period++){
-			holder = new ArrayList<OnCallTeacher>();
-			holder = allTeachers.get(period);
+				
+			}
 			for(int i = 0; i < absencesList.size(); i++){
 				String value = absencesList.get(i).getPeriodValueAtIndex(period);
-				if(value.equals("X") && holder.size() != 0){		
-						String teacherToAssignValues = absencesList.get(i).getTeacherName();
+				if(value.equals("X")){	
+					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					if(holder.size() != 0){
 						String ID = holder.get(0).getID();
 						String name = holder.get(0).getName();
 						findTeacherAndSetValues(teacherToAssignValues,ID,name,period);
 						assignTeacher(name);
 						holder.remove(0);
+					}
+					else{
+						markAsUnavailable(teacherToAssignValues, period);
+					}
 				}
 			}	
 		}
@@ -138,6 +137,16 @@ public class AssignmentAlgorithm {
 				teacher.get(i).incrementTermTally();
 			}
 		}
+	}
+	
+	
+	private void markAsUnavailable(String teacherToAssignValues, int index){
+		for(int i = 0; i < teacher.size(); i++){
+			if(teacher.get(i).getName().equals(teacherToAssignValues)){
+					teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, "NAN");
+			}
+		}
+
 	}
 	
 	

@@ -83,7 +83,7 @@ public class TallyWorkbookReader extends WorkBook {
 		
        file.close();
 
-        FileOutputStream fileOut = new FileOutputStream("TallyOutput.xls");
+        FileOutputStream fileOut = new FileOutputStream(getFile());
         workbook.write(fileOut);
         workbook.close();
 	}

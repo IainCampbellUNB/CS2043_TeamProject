@@ -9,8 +9,6 @@ public class OnCallTeacher extends Teacher
 		private String termTallyCount;
 		private AbsenceTracker submittedAbsence;
 		private boolean absent;
-		//private AssignmentTracker assignments;
-		//set up a method to set period of spare
 		private int spareIndex;
 		private boolean assigned;
 		private String skill;
@@ -23,7 +21,7 @@ public class OnCallTeacher extends Teacher
 			this.assigned = false;
 			spareIndex = -1;
 		}
-		//They are being assigned so no longer available for assignments.
+		
 		public void hasBeenAssigned(){
 			this.assigned = true;
 		}
@@ -44,7 +42,7 @@ public class OnCallTeacher extends Teacher
 		public void setToAbsent(){
 			absent = true;
 		}
-		//AttachAbsentScheduleToTeacher
+		
 		public void submitAbsenceSchedule(AbsenceTracker submittedAbsence){
 			if(this.absent = true){
 				this.submittedAbsence = submittedAbsence;

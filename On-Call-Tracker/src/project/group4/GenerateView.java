@@ -1,7 +1,6 @@
 package project.group4;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Vector;
 
 public class GenerateView {
@@ -18,7 +17,9 @@ public class GenerateView {
 				AbsenceTracker obj1 = teacher.getSubmittedAbsenceSchedule();
 				int periodIndex = 0;
 				String coveredBy ="";
-				while(periodIndex <5){
+				
+				while(periodIndex <5)
+				{
 					perRowData = new Vector<String>();
 					String value = obj1.getPeriodValueAtIndex(periodIndex);
 					if(!(value.equals("0.0")) && !(value.equals("X")) &&!(value.equals("SP")) &&!(value.equals("LU"))){
@@ -50,10 +51,12 @@ public class GenerateView {
 				}
 			}
 		}
+		allData = sortByNames(allData, 1);
 		return allData;
 	}
 
-	public static Vector<Vector<String>> generateCountView(ArrayList<OnCallTeacher> teacherList){
+	public static Vector<Vector<String>> generateCountView(ArrayList<OnCallTeacher> teacherList)
+	{
 		Vector<Vector<String>> allData = new Vector<Vector<String>>();
 		Vector<String> perRowData = new Vector<String>();
 		
@@ -74,10 +77,30 @@ public class GenerateView {
 			allData.add(perRowData);
 		}
 		
+		allData = sortByNames(allData, 0);
 		return allData;
 	}
 	
 	
+	private static Vector<Vector<String>> sortByNames(Vector<Vector<String>> allData, int colToSort) 
+	{
+		for(int i = 0; i < allData.size() - 1; i++)
+		{
+			int indexOfMin = i;
+			for(int j = i+1; j < allData.size(); j++)
+			{
+				if(allData.get(indexOfMin).get(colToSort).compareTo(allData.get(j).get(colToSort)) > 0 )
+				{
+					indexOfMin = j;
+				}
+			}
+			Vector<String> temp = allData.get(indexOfMin);
+			allData.set(indexOfMin, allData.get(i));
+			allData.set(i, temp);
+		}
+		return allData;
+	}
+
 	public static Vector<Vector<String>> generateAvailabilityView(ArrayList<OnCallTeacher> teacherList){
 		
 		
@@ -122,7 +145,13 @@ public class GenerateView {
 		sortByTallies(potentials);
 		
 		if(!potentials.isEmpty()){
-			name = potentials.get(0).getName();
+			for(OnCallTeacher onCaller: potentials){
+				if(onCaller.getAbsentStatus())
+				{
+					continue;
+				}
+				name = onCaller.getName();
+			}
 		}
 		return name;
 	}
