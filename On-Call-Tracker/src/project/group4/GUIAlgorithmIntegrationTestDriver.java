@@ -28,9 +28,7 @@ public class GUIAlgorithmIntegrationTestDriver {
 		Calendar c = Calendar.getInstance();
 		c.set(iyear,imonth-1,iday);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-		//Date sDate = c.getTime();
-
-		//System.out.println(sDate);
+	
 		System.out.println(dayOfWeek);
 		//Sunday is 1.
 		String dateToPass = sdf.format(c.getTime());
