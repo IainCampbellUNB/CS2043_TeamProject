@@ -13,39 +13,15 @@ import java.util.Vector;
 public class GUIAlgorithmIntegrationTestDriver 
 {
 
-	public static void main(String args[]) throws IOException, ParseException
-	{
-	
-		SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-		String date = "2018-03-13";
-		Scanner sc = new Scanner(date);
-		sc.useDelimiter("-");
-		String year = sc.next();
-		int iyear = Integer.parseInt(year);
+
+	public static void main(String args[]) throws IOException, ParseException{
+		new GUI();
 		
-		String month = sc.next();
-		int imonth = Integer.parseInt(month);
-		String day = sc.next();
-		int iday = Integer.parseInt(day);
-		Calendar c = Calendar.getInstance();
-		c.set(iyear,imonth-1,iday);
-		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-	
-		if(dayOfWeek == 2)
-		{
-			String forSheetLookUp = date;
-		}
-		String dateToPass = sdf.format(c.getTime());
-		System.out.println(dateToPass);
-		c.setFirstDayOfWeek(Calendar.MONDAY);
-		c.add(Calendar.DAY_OF_WEEK, -dayOfWeek+Calendar.MONDAY);
-		System.out.println(dayOfWeek);
-		//Sunday is 1.
-		dateToPass = s.format(c.getTime());
-		System.out.println(dateToPass);
 		
-		/*File absenceFile = new File("AbsenceWorkBook.xls");
+		
+		File absenceFile = new File("AbsenceWorkbook.xls");
+
+
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-03-16");
@@ -67,25 +43,21 @@ public class GUIAlgorithmIntegrationTestDriver
 			System.out.println(supplyList.get(i).toString());
 		}
 		
-	
+		//Assignment begins here!
 		AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
 		
-		
-		
+
 		test.assignOnCallTeacher();
 		for(int i = 0; i < teacherList.size(); i++){
 			System.out.println(teacherList.get(i).toString());
 		}
-	//test.printData();
-		
-		
-		 * This is to test the GenerateViews
-		 
+	
+		//Test Generate Views
 		
 		Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
 		GenerateView.printData(coverageViewData);
-		
+		/*
 		Vector<Vector<String>> tallyViewData = new Vector<Vector<String>>();
 		tallyViewData = GenerateView.generateCountView(teacherList);
 		GenerateView.printData(tallyViewData);
@@ -103,7 +75,10 @@ public class GUIAlgorithmIntegrationTestDriver
 		}
 		String name = GenerateView.determineWhoIsNext(teacherList, 2);
 		System.out.println(name);
+	
 		
+		AWreader.writeToAbsenceTracker(teacherList);
+		TWreader.writeToTallyCoutner(teacherList);
 		*/
 		
 	}

@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class GUI extends JFrame
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
 	private GridBagConstraints gbc;
+	private String dateToPass;
 	
 	public GUI() 
 	{
@@ -52,20 +54,16 @@ public class GUI extends JFrame
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} 
-		catch (ClassNotFoundException e) 
+		} catch (ClassNotFoundException e) 
 		{
 			e.printStackTrace();
-		} 
-		catch (InstantiationException e)
+		} catch (InstantiationException e)
 		{
 			e.printStackTrace();
-		} 
-		catch (IllegalAccessException e)
+		} catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
-		} 
-		catch (UnsupportedLookAndFeelException e)
+		} catch (UnsupportedLookAndFeelException e)
 		{
 			e.printStackTrace();
 		}
@@ -73,7 +71,7 @@ public class GUI extends JFrame
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setPreferredSize(new Dimension(1200,750));
 		getContentPane().add(mainPanel);
-		dim = new Dimension(140,30);
+		dim = new Dimension(180,30);
 		
 		northPanelSetup();
 		southPanelSetup();
@@ -137,7 +135,8 @@ public class GUI extends JFrame
 		
 		subCenterPanel.setBackground(mainSouthPanel.getBackground());
 		
-		String date = new SimpleDateFormat("dd/MM/YYYY").format(Calendar.getInstance().getTime());
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+		convertTodaysDateToWeek(date);
 		dateLabel = new JLabel("Today's date: " + date);
 		dateLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		dateLabel.setForeground(Color.WHITE);
@@ -162,6 +161,29 @@ public class GUI extends JFrame
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
 		mainSouthPanel.add(subEastPanel, BorderLayout.EAST);
 		mainSouthPanel.add(subCenterPanel, BorderLayout.CENTER);
+	}
+
+	private void convertTodaysDateToWeek(String date)
+	{
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		Scanner sc = new Scanner(date);
+		sc.useDelimiter("-");
+		String year = sc.next();
+		int iyear = Integer.parseInt(year);
+		
+		String month = sc.next();
+		int imonth = Integer.parseInt(month);
+		String day = sc.next();
+		int iday = Integer.parseInt(day);
+		sc.close();
+	
+		Calendar c = Calendar.getInstance();
+		c.set(iyear,imonth-1,iday);
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+	
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		c.add(Calendar.DAY_OF_WEEK, -dayOfWeek+Calendar.MONDAY);
+		dateToPass = s.format(c.getTime());
 	}
 
 	private void centerPanelInit() 
@@ -239,16 +261,15 @@ public class GUI extends JFrame
 			private static final long serialVersionUID = 8650052207374641604L;
 
 			public boolean isCellEditable(int row, int column)
-		    {
-				return false;
-		    }
+		       {
+		          return false;
+		       }
 		};
 		
 		String[] title = {"Name","Spare","Week","Month","Total/term"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) 
-		{
+		for(String item: title) {
 			titleVector.add(item);
 		}
 		
@@ -285,16 +306,15 @@ public class GUI extends JFrame
 			private static final long serialVersionUID = 5234114342913495413L;
 
 			public boolean isCellEditable(int row, int column)
-		    {
-				return false;
-		    }
+		       {
+		          return false;
+		       }
 		};
 		
 		String[] title = {"Period","Week","Month","Who's next in line?"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) 
-		{
+		for(String item: title) {
 			titleVector.add(item);
 		}
 		
@@ -316,7 +336,8 @@ public class GUI extends JFrame
 	    TitledBorder border2 = new TitledBorder("Availability Counts");
 	    scrollTable2.setBorder(border2);
 		
-		mainCenterPanel.add(scrollTable2, gbc);	
+		mainCenterPanel.add(scrollTable2, gbc);
+		
 	}
 
 	private void constructViewThree(Vector<Vector<String>> teacherData) 
@@ -330,16 +351,15 @@ public class GUI extends JFrame
 			private static final long serialVersionUID = 3072435220329162498L;
 
 			public boolean isCellEditable(int row, int column)
-		    {
-				return false;
-		    }
+		       {
+		          return false;
+		       }
 		};
 		
 		String[] title = {"Period","Absentee","Covered by", "Room Number"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) 
-		{
+		for(String item: title) {
 			titleVector.add(item);
 		}
 		
@@ -376,6 +396,7 @@ public class GUI extends JFrame
 				textArea.setText("");
 				return;
 			}
+			
 			if(e.getSource() == selectFileButton)
 			{
 				if(fileList.size() >= 2)
@@ -400,29 +421,37 @@ public class GUI extends JFrame
 				}
 				return;
 			}
+			
 			if(fileList.size() != 2) 
 			{
 				JOptionPane.showMessageDialog(null, "You must first select two excel files", null, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
+			
 			if(e.getSource() == updateOnCalls) 
 			{
-				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"Monday", "2018-03-16");
-				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),"Monday", "2018-03-19");
-				
-				
+				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),(String) daySelector.getSelectedItem(), dateToPass);
+				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),(String) daySelector.getSelectedItem(), dateToPass);
 				
 				DataProccess data = new DataProccess(AWreader,TWreader);
 				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
 				ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
-				try 
-				{
+				
+				try {
 					teacherList = data.createTeacherTermSchedule();
 					supplyList = data.createSupplyList();
-				} 
-				catch (IOException | ParseException e1) 
+				} catch (IOException | ParseException e1) {
+					e1.printStackTrace();
+				}
+				
+				AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
+				test.assignOnCallTeacher();
+				
+				try 
 				{
-					// TODO Auto-generated catch block
+					AWreader.writeToAbsenceTracker(teacherList);
+					TWreader.writeToTallyCoutner(teacherList);
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				
@@ -449,6 +478,7 @@ public class GUI extends JFrame
 				
 				return;
 			}
+
 			if(e.getSource() == printButton)	printRequest();
 		}
 
@@ -483,8 +513,8 @@ public class GUI extends JFrame
 				{
 					JOptionPane.showMessageDialog(null, "Failed To Print...", null, JOptionPane.INFORMATION_MESSAGE);
 				}
-			}
-			catch(PrinterException pe)
+				
+			}catch(PrinterException pe)
 			{
 				JOptionPane.showMessageDialog(null, pe.getCause(), null, JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -497,8 +527,7 @@ public class GUI extends JFrame
 		private static final long serialVersionUID = -1342133979182047460L;
 		JTextArea textArea;
 	
-		public TextAreaRenderer() 
-		{
+		public TextAreaRenderer() {
 			textArea = new JTextArea();
 			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
@@ -509,28 +538,25 @@ public class GUI extends JFrame
 		                                  boolean isSelected, boolean hasFocus,
 		                                  int row, int column)
 		   {
-		      if (isSelected) 
-		      {
+		      if (isSelected) {
 		         setForeground(table.getSelectionForeground());
 		         setBackground(table.getSelectionBackground());
 		         textArea.setForeground(table.getSelectionForeground());
 		         textArea.setBackground(table.getSelectionBackground());
-		      } 
-		      else 
-		      {
+		      } else {
 		         setForeground(table.getForeground());
 		         setBackground(table.getBackground());
 		         textArea.setForeground(table.getForeground());
 		         textArea.setBackground(table.getBackground());
 		      }
+		  
 		      textArea.setText((String) value);
 		      textArea.setCaretPosition(0);
 		      return this;
 		   }
 	}
 	
-	public static void main(String [] args)
-	{
+	public static void main(String [] args) {
 		new GUI();
 	}
 }

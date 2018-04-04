@@ -1,51 +1,44 @@
 package project.group4;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Vector;
 
-public class GenerateView 
-{
+public class GenerateView {
+
 	public static Vector<Vector<String>> generateCoverageView(ArrayList<OnCallTeacher> teacherList, ArrayList<Teacher> supplyList){
 		Vector<Vector<String>> allData = new Vector<Vector<String>>();
 		Vector<String> perRowData; 
 		Schedule schedule = new Schedule("p1", "p2", "p3a", "p3b", "p4");
-		for(int i = 0; i < teacherList.size(); i++)
-		{
+		for(int i = 0; i < teacherList.size(); i++){
 			perRowData = new Vector<String>();
-			if(teacherList.get(i).getAbsentStatus())
-			{
+			if(teacherList.get(i).getAbsentStatus()){
 
 				OnCallTeacher teacher = teacherList.get(i);
 				AbsenceTracker obj1 = teacher.getSubmittedAbsenceSchedule();
 				int periodIndex = 0;
 				String coveredBy ="";
+				
 				while(periodIndex <5)
 				{
 					perRowData = new Vector<String>();
 					String value = obj1.getPeriodValueAtIndex(periodIndex);
-					if(!(value.equals("0.0")) && !(value.equals("X")) &&!(value.equals("SP")) &&!(value.equals("LU")))
-					{
-						if(value.charAt(0) == 'A')
-						{
-							for(int k = 0; k < teacherList.size();k++)
-							{
-								if(teacherList.get(k).getID().equals(value))
-								{
+					if(!(value.equals("0.0")) && !(value.equals("X")) &&!(value.equals("SP")) &&!(value.equals("LU"))){
+						if(value.charAt(0) == 'A'){
+							for(int k = 0; k < teacherList.size();k++){
+								if(teacherList.get(k).getID().equals(value)){
 									coveredBy = teacherList.get(k).getName();
 								}	
 							}
 						}
-						else 
-						{
-							for(int k = 0; k < supplyList.size();k++)
-							{
-								if(supplyList.get(k).getID().equals(value))
-								{
+						
+						else {
+							for(int k = 0; k < supplyList.size();k++){
+								if(supplyList.get(k).getID().equals(value)){
 									coveredBy = supplyList.get(k).getName();
 								}	
 							}
 						}
+					
 						perRowData.add(schedule.convertIndexToPeriod(periodIndex));
 						perRowData.add(teacherList.get(i).getName());
 						String subject = teacherList.get(i).getSchedule().getSubject(periodIndex);
@@ -58,6 +51,7 @@ public class GenerateView
 				}
 			}
 		}
+		allData = sortByNames(allData, 1);
 		return allData;
 	}
 
@@ -66,8 +60,7 @@ public class GenerateView
 		Vector<Vector<String>> allData = new Vector<Vector<String>>();
 		Vector<String> perRowData = new Vector<String>();
 		
-		for(int i = 0; i < teacherList.size(); i++)
-		{
+		for(int i = 0; i < teacherList.size(); i++){
 			perRowData = new Vector<String>();
 		
 			String name = teacherList.get(i).getName();
@@ -83,30 +76,50 @@ public class GenerateView
 			perRowData.add(total);
 			allData.add(perRowData);
 		}
+		
+		allData = sortByNames(allData, 0);
 		return allData;
 	}
 	
 	
-	public static Vector<Vector<String>> generateAvailabilityView(ArrayList<OnCallTeacher> teacherList)
+	private static Vector<Vector<String>> sortByNames(Vector<Vector<String>> allData, int colToSort) 
 	{
+		for(int i = 0; i < allData.size() - 1; i++)
+		{
+			int indexOfMin = i;
+			for(int j = i+1; j < allData.size(); j++)
+			{
+				if(allData.get(indexOfMin).get(colToSort).compareTo(allData.get(j).get(colToSort)) > 0 )
+				{
+					indexOfMin = j;
+				}
+			}
+			Vector<String> temp = allData.get(indexOfMin);
+			allData.set(indexOfMin, allData.get(i));
+			allData.set(i, temp);
+		}
+		return allData;
+	}
+
+	public static Vector<Vector<String>> generateAvailabilityView(ArrayList<OnCallTeacher> teacherList){
+		
+		
 		Vector<Vector<String>> allData = new Vector<Vector<String>>();
 		Vector<String> perRowData = new Vector<String>();
 		int weeklyCount = 0;
 		int monthlyCount = 0;
 		Schedule schedule = new Schedule("p1", "p2", "p3a", "p3b", "p4");
 	
-		for(int periodIndex = 0; periodIndex < 5; periodIndex++)
-		{
+		for(int periodIndex = 0; periodIndex < 5; periodIndex++){
 			perRowData = new Vector<String>();
 			String nameNext = determineWhoIsNext(teacherList,periodIndex);
-			for(int i = 0; i < teacherList.size(); i++)
-			{
+			for(int i = 0; i < teacherList.size(); i++){
+				
 				OnCallTeacher  teacher = teacherList.get(i);
 				int spare = teacher.getSparePeriodByIndex();
 				
 				if(spare == periodIndex){
-					if(!teacherList.get(i).hasReachedweeklyMax() && !teacherList.get(i).hasReachedMonthlyMax())
-					{
+					if(!teacherList.get(i).hasReachedweeklyMax() && !teacherList.get(i).hasReachedMonthlyMax()){
 							weeklyCount++;
 					}
 					if(!teacherList.get(i).hasReachedMonthlyMax()){
@@ -125,28 +138,29 @@ public class GenerateView
 		return allData;
 	}
 	
-	public static String determineWhoIsNext(ArrayList<OnCallTeacher> teacher, int periodIndex)
-	{
+	public static String determineWhoIsNext(ArrayList<OnCallTeacher> teacher, int periodIndex){
 		String name = "No one available";
 		ArrayList<OnCallTeacher> potentials = new ArrayList<OnCallTeacher>();
 		potentials = findPotentialNextInLines(teacher, periodIndex);
 		sortByTallies(potentials);
 		
-		if(!potentials.isEmpty())
-		{
-			name = potentials.get(0).getName();
+		if(!potentials.isEmpty()){
+			for(OnCallTeacher onCaller: potentials){
+				if(onCaller.getAbsentStatus())
+				{
+					continue;
+				}
+				name = onCaller.getName();
+			}
 		}
 		return name;
 	}
-
-	public static ArrayList<OnCallTeacher> findPotentialNextInLines(ArrayList<OnCallTeacher> teacher, int periodIndex)
-	{
+	
+	public static ArrayList<OnCallTeacher> findPotentialNextInLines(ArrayList<OnCallTeacher> teacher, int periodIndex){
 		ArrayList<OnCallTeacher> potentials = new ArrayList<OnCallTeacher>();
-		for(int i = 0; i < teacher.size(); i++)
-		{
+		for(int i = 0; i < teacher.size(); i++){
 			int spare = teacher.get(i).getSparePeriodByIndex();
-			if(spare == periodIndex)
-			{
+			if(spare == periodIndex){
 				if(!teacher.get(i).hasReachedMonthlyMax() && !teacher.get(i).hasReachedweeklyMax()){
 					potentials.add(teacher.get(i));
 				}
@@ -156,38 +170,30 @@ public class GenerateView
 	}
 	
 	
-	public static void printData(Vector<Vector<String>> allData)
-	{
-		for(int i = 0; i < allData.size(); i++)
-		{
-			for(int j = 0; j < allData.get(i).size(); j++)
-			{
+	public static void printData(Vector<Vector<String>> allData){
+		for(int i = 0; i < allData.size(); i++){
+			for(int j = 0; j < allData.get(i).size(); j++){
 			System.out.print(" " + allData.get(i).get(j));
 			}
 			System.out.println("");
 		}
 	}
 	
-	private static  void sortByTallies(ArrayList<OnCallTeacher> potentials)
-	{	
-		for(int i = 0; i < potentials.size()-1; i++)
-		{
-			int min_idx = i;
-			for (int j = i+1; j < potentials.size(); j++)
-			{
-			    if (compareTallysBetweenTeachers(potentials.get(j), potentials.get(min_idx)))
-			    {
-			    	 min_idx = j;
+	private static  void sortByTallies(ArrayList<OnCallTeacher> potentials){	
+			for(int i = 0; i < potentials.size()-1; i++){
+				int min_idx = i;
+			    for (int j = i+1; j < potentials.size(); j++){
+			    	if (compareTallysBetweenTeachers(potentials.get(j), potentials.get(min_idx))){
+			    		 min_idx = j;
+			    	}
+			    		OnCallTeacher temp = potentials.get(min_idx);
+			            potentials.set(min_idx,potentials.get(i));
+			            potentials.set(i,temp);
 			    }
-			    OnCallTeacher temp = potentials.get(min_idx);
-			    potentials.set(min_idx,potentials.get(i));
-			    potentials.set(i,temp);
 			}
-		}
 	}
 	
-	private static boolean compareTallysBetweenTeachers(OnCallTeacher first,  OnCallTeacher second)
-	{
+	private static boolean compareTallysBetweenTeachers(OnCallTeacher first,  OnCallTeacher second){
 		boolean flag = false;
 		String firstWT = first.getWeeklyTally();
 		String firstMT = first.getMonthlyTally();
@@ -203,35 +209,32 @@ public class GenerateView
 		double FTL = Double.parseDouble(firstTL);
 		double STL = Double.parseDouble(secondTL);
 		
-		if(FWT == SWT)
-		{
-			if(FMT < SMT)
-			{
+		if(FWT == SWT){
+			if(FMT < SMT){
 				flag = true;
 			}
-			if(FMT == SMT)
-			{
-				if(FTL < STL)
-				{
-					flag = true;
-				}
-			}
-		}	
-		if(FWT < SWT)
-		{
-			if(FMT < SMT)
-			{
-				flag = true;
-			}
-			if(FMT == SMT)
-			{
-				if(FTL < STL)
-				{
+			if(FMT == SMT){
+				if(FTL < STL){
 					flag = true;
 				}
 			}
 		}
+		
+		if(FWT < SWT){
+			if(FMT < SMT){
+				flag = true;
+			}
+			if(FMT == SMT){
+				if(FTL < STL){
+					flag = true;
+				}
+			}
+		}
+	
 		return flag;
 	}
+	
+	
+	
 	
 }
