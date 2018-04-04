@@ -20,11 +20,12 @@ public abstract class Teacher
 	{
 		return ID;
 	}
+	
 	public String toString()
 	{
 		String result = "ID: " +  ID + " NAME: " + NAME;
 		
 		return result;
-		
 	}
+	
 }

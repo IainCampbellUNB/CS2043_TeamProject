@@ -10,9 +10,11 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class GUIAlgorithmIntegrationTestDriver {
+public class GUIAlgorithmIntegrationTestDriver 
+{
 
-	public static void main(String args[]) throws IOException, ParseException{
+	public static void main(String args[]) throws IOException, ParseException
+	{
 	
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
 		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
@@ -30,7 +32,8 @@ public class GUIAlgorithmIntegrationTestDriver {
 		c.set(iyear,imonth-1,iday);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 	
-		if(dayOfWeek == 2){
+		if(dayOfWeek == 2)
+		{
 			String forSheetLookUp = date;
 		}
 		String dateToPass = sdf.format(c.getTime());
@@ -41,9 +44,6 @@ public class GUIAlgorithmIntegrationTestDriver {
 		//Sunday is 1.
 		dateToPass = s.format(c.getTime());
 		System.out.println(dateToPass);
-		
-		
-		
 		
 		/*File absenceFile = new File("AbsenceWorkBook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
@@ -107,8 +107,5 @@ public class GUIAlgorithmIntegrationTestDriver {
 		*/
 		
 	}
-	
-	
-	
-	
+		
 }

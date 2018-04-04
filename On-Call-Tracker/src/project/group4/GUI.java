@@ -52,16 +52,20 @@ public class GUI extends JFrame
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) 
+		} 
+		catch (ClassNotFoundException e) 
 		{
 			e.printStackTrace();
-		} catch (InstantiationException e)
+		} 
+		catch (InstantiationException e)
 		{
 			e.printStackTrace();
-		} catch (IllegalAccessException e)
+		} 
+		catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e)
+		} 
+		catch (UnsupportedLookAndFeelException e)
 		{
 			e.printStackTrace();
 		}
@@ -235,15 +239,16 @@ public class GUI extends JFrame
 			private static final long serialVersionUID = 8650052207374641604L;
 
 			public boolean isCellEditable(int row, int column)
-		       {
-		          return false;
-		       }
+		    {
+				return false;
+		    }
 		};
 		
 		String[] title = {"Name","Spare","Week","Month","Total/term"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) {
+		for(String item: title) 
+		{
 			titleVector.add(item);
 		}
 		
@@ -280,15 +285,16 @@ public class GUI extends JFrame
 			private static final long serialVersionUID = 5234114342913495413L;
 
 			public boolean isCellEditable(int row, int column)
-		       {
-		          return false;
-		       }
+		    {
+				return false;
+		    }
 		};
 		
 		String[] title = {"Period","Week","Month","Who's next in line?"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) {
+		for(String item: title) 
+		{
 			titleVector.add(item);
 		}
 		
@@ -310,8 +316,7 @@ public class GUI extends JFrame
 	    TitledBorder border2 = new TitledBorder("Availability Counts");
 	    scrollTable2.setBorder(border2);
 		
-		mainCenterPanel.add(scrollTable2, gbc);
-		
+		mainCenterPanel.add(scrollTable2, gbc);	
 	}
 
 	private void constructViewThree(Vector<Vector<String>> teacherData) 
@@ -325,15 +330,16 @@ public class GUI extends JFrame
 			private static final long serialVersionUID = 3072435220329162498L;
 
 			public boolean isCellEditable(int row, int column)
-		       {
-		          return false;
-		       }
+		    {
+				return false;
+		    }
 		};
 		
 		String[] title = {"Period","Absentee","Covered by", "Room Number"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) {
+		for(String item: title) 
+		{
 			titleVector.add(item);
 		}
 		
@@ -370,7 +376,6 @@ public class GUI extends JFrame
 				textArea.setText("");
 				return;
 			}
-			
 			if(e.getSource() == selectFileButton)
 			{
 				if(fileList.size() >= 2)
@@ -395,13 +400,11 @@ public class GUI extends JFrame
 				}
 				return;
 			}
-			
 			if(fileList.size() != 2) 
 			{
 				JOptionPane.showMessageDialog(null, "You must first select two excel files", null, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
-			
 			if(e.getSource() == updateOnCalls) 
 			{
 				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),"Monday", "2018-03-16");
@@ -412,10 +415,13 @@ public class GUI extends JFrame
 				DataProccess data = new DataProccess(AWreader,TWreader);
 				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
 				ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
-				try {
+				try 
+				{
 					teacherList = data.createTeacherTermSchedule();
 					supplyList = data.createSupplyList();
-				} catch (IOException | ParseException e1) {
+				} 
+				catch (IOException | ParseException e1) 
+				{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -443,7 +449,6 @@ public class GUI extends JFrame
 				
 				return;
 			}
-
 			if(e.getSource() == printButton)	printRequest();
 		}
 
@@ -478,8 +483,8 @@ public class GUI extends JFrame
 				{
 					JOptionPane.showMessageDialog(null, "Failed To Print...", null, JOptionPane.INFORMATION_MESSAGE);
 				}
-				
-			}catch(PrinterException pe)
+			}
+			catch(PrinterException pe)
 			{
 				JOptionPane.showMessageDialog(null, pe.getCause(), null, JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -492,7 +497,8 @@ public class GUI extends JFrame
 		private static final long serialVersionUID = -1342133979182047460L;
 		JTextArea textArea;
 	
-		public TextAreaRenderer() {
+		public TextAreaRenderer() 
+		{
 			textArea = new JTextArea();
 			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
@@ -503,25 +509,28 @@ public class GUI extends JFrame
 		                                  boolean isSelected, boolean hasFocus,
 		                                  int row, int column)
 		   {
-		      if (isSelected) {
+		      if (isSelected) 
+		      {
 		         setForeground(table.getSelectionForeground());
 		         setBackground(table.getSelectionBackground());
 		         textArea.setForeground(table.getSelectionForeground());
 		         textArea.setBackground(table.getSelectionBackground());
-		      } else {
+		      } 
+		      else 
+		      {
 		         setForeground(table.getForeground());
 		         setBackground(table.getBackground());
 		         textArea.setForeground(table.getForeground());
 		         textArea.setBackground(table.getBackground());
 		      }
-		  
 		      textArea.setText((String) value);
 		      textArea.setCaretPosition(0);
 		      return this;
 		   }
 	}
 	
-	public static void main(String [] args) {
+	public static void main(String [] args)
+	{
 		new GUI();
 	}
 }
