@@ -13,7 +13,7 @@ import java.util.Vector;
 public class GUIAlgorithmIntegrationTestDriver {
 
 	public static void main(String args[]) throws IOException, ParseException{
-		new GUI();
+		//new GUI();
 		/*SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
 		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
 		String date = "2018-03-13";
@@ -46,10 +46,10 @@ public class GUIAlgorithmIntegrationTestDriver {
 		*/
 		
 		
-		/*File absenceFile = new File("AbsenceWorkbook.xls");
+		File absenceFile = new File("AbsenceWorkbook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
-		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
-		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-03-16");
+		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-04-02");
+		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-04-02");
 		
 		
 		DataProccess data = new DataProccess(AWreader,TWreader);
