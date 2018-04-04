@@ -142,7 +142,7 @@ public class AbsenceWorkbookReader extends WorkBook
 		return allData;	
 	}
 	
-<<<<<<< HEAD
+
 	public void writeToAbsenceTracker(ArrayList<OnCallTeacher> teacherList) throws IOException{
 		
 		HSSFWorkbook workbook = null;
@@ -183,10 +183,8 @@ public class AbsenceWorkbookReader extends WorkBook
 	
 	
 	public static int searchRowIndex(String searchWord, HSSFSheet sheet){
-=======
-	public static int searchRowIndex(String searchWord, HSSFSheet sheet)
-	{
->>>>>>> refs/remotes/origin/V4
+
+
 		boolean done = false;
 		int row = 0;
 		while(!done)
@@ -212,17 +210,11 @@ public class AbsenceWorkbookReader extends WorkBook
 	{
 		boolean done = false;
 		int col = 0;
-<<<<<<< HEAD
-		while(!done){
-			String value1 = sheet.getRow(0).getCell(col).toString();
-			System.out.println(value1);
-			if(sheet.getRow(0).getCell(col) == null){
-=======
 		while(!done)
 		{
 			if(sheet.getRow(0).getCell(col) == null)
 			{
->>>>>>> refs/remotes/origin/V4
+
 				done = true;
 				break;
 			}
