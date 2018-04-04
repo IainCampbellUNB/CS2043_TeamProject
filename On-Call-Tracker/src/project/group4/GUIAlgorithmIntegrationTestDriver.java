@@ -10,11 +10,19 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class GUIAlgorithmIntegrationTestDriver {
+public class GUIAlgorithmIntegrationTestDriver 
+{
 
+<<<<<<< HEAD
 	public static void main(String args[]) throws IOException, ParseException{
 		new GUI();
 		/*SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+=======
+	public static void main(String args[]) throws IOException, ParseException
+	{
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+>>>>>>> refs/remotes/origin/V4
 		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
 		String date = "2018-03-13";
 		Scanner sc = new Scanner(date);
@@ -30,8 +38,13 @@ public class GUIAlgorithmIntegrationTestDriver {
 		c.set(iyear,imonth-1,iday);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 	
+<<<<<<< HEAD
 		
 		if(dayOfWeek == 2){
+=======
+		if(dayOfWeek == 2)
+		{
+>>>>>>> refs/remotes/origin/V4
 			String forSheetLookUp = date;
 		}
 		String dateToPass = sdf.format(c.getTime());
@@ -43,10 +56,14 @@ public class GUIAlgorithmIntegrationTestDriver {
 		dateToPass = s.format(c.getTime());
 		System.out.println(dateToPass);
 		
+<<<<<<< HEAD
 		*/
 		
 		
 		/*File absenceFile = new File("AbsenceWorkbook.xls");
+=======
+		/*File absenceFile = new File("AbsenceWorkBook.xls");
+>>>>>>> refs/remotes/origin/V4
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-03-16");
@@ -107,8 +124,5 @@ public class GUIAlgorithmIntegrationTestDriver {
 		*/
 		
 	}
-	
-	
-	
-	
+		
 }
