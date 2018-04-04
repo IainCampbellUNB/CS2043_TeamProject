@@ -32,7 +32,7 @@ public class GUI extends JFrame
 	
 	private JPanel mainPanel, mainCenterPanel, southPanel;
 	private JTable table1, table2, table3;
-	private JComboBox<String> printOptions;
+	private JComboBox<String> printOptions, daySelector;
 	private JLabel dateLabel;
 	private JButton printButton, updateOnCalls, selectFileButton, clearButton;
 	private JFileChooser fileChooser;
@@ -127,7 +127,7 @@ public class GUI extends JFrame
 		mainSouthPanel.setBackground(Color.DARK_GRAY);
 		mainPanel.add(mainSouthPanel, BorderLayout.SOUTH);
 		
-		JPanel subWestPanel = new JPanel();
+		JPanel subWestPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel subEastPanel = new JPanel();
 		JPanel subCenterPanel = new JPanel();
 		
@@ -139,12 +139,20 @@ public class GUI extends JFrame
 		dateLabel.setForeground(Color.WHITE);
 		dateLabel.setPreferredSize(new Dimension(260,25));
 		subEastPanel.add(dateLabel);
+		subEastPanel.setPreferredSize(new Dimension(260,25));
 		subEastPanel.setBackground(mainSouthPanel.getBackground());
+		
+		String [] dayOptions = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
+		daySelector = new JComboBox<String>(dayOptions);
+		daySelector.setPreferredSize(dim);
+		daySelector.setFont(new Font("Arial", Font.PLAIN, 18));
+		subCenterPanel.add(daySelector);
 		
 		updateOnCalls = new JButton("Update On-Calls");
 		updateOnCalls.setPreferredSize(dim);
 		updateOnCalls.addActionListener(new EventHandling());
 		subWestPanel.setBackground(mainSouthPanel.getBackground());
+		subWestPanel.setPreferredSize(new Dimension(260,25));
 		subWestPanel.add(updateOnCalls);
 		
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
@@ -161,7 +169,7 @@ public class GUI extends JFrame
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
 		
 		JTextArea info = new JTextArea("Once the excel files are saved, find the files, "
-				+ "select the date of interest, and press update\nOn-Calls. Select \"AbsenceWorkbook.xls\" and then \"TallyWorkbook.xls\" in that order.");
+				+ "select the day of interest, and press update\nOn-Calls. Select \"AbsenceWorkbook.xls\" and then \"TallyWorkbook.xls\", in that order.");
 		
 		JPanel northPanel = new JPanel();
 		TitledBorder infoBorder = new TitledBorder("Instructions");
