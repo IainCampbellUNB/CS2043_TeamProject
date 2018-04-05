@@ -78,7 +78,6 @@ public class AbsenceWorkbookReader extends WorkBook
 		
 		workbook.close();
 		return allData;
-		
 	}
 	
 	public  ArrayList<ArrayList<String>> readAbsenceTracker() throws IOException, ParseException 
@@ -170,6 +169,7 @@ public class AbsenceWorkbookReader extends WorkBook
 	public static int searchRowIndex(String searchWord, HSSFSheet sheet)
 	{
 		int row = 0;
+		
 		while(true)
 		{
 			if(sheet.getRow(row).getCell(0) == null)
@@ -190,6 +190,7 @@ public class AbsenceWorkbookReader extends WorkBook
 	public static int searchColIndex(String searchWord, HSSFSheet sheet)
 	{
 		int col = 0;
+		
 		while(true)
 		{
 			String value1 = sheet.getRow(0).getCell(col).toString();
