@@ -10,24 +10,30 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 
-public class TallyWorkbookReader extends WorkBook {
+public class TallyWorkbookReader extends WorkBook 
+{
 	
-	public TallyWorkbookReader(File file, String selectedDate, String searchForSheetWithDate){	
+	public TallyWorkbookReader(File file, String selectedDate, String searchForSheetWithDate)
+	{	
 		super(file, selectedDate, searchForSheetWithDate);
 	}
 	
-	public  ArrayList<ArrayList<String>> readTallyCount() throws IOException, ParseException {
+	public  ArrayList<ArrayList<String>> readTallyCount() throws IOException, ParseException 
+	{
 
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));
-
-		//Get the sheet
-		HSSFSheet sheet = workbook.getSheet(getSheetWithDate());
+		HSSFSheet sheet = null;
+		try
+		{
+			sheet = workbook.getSheet(getSheetWithDate());
+		}
+		catch(NullPointerException e){
+            System.out.print("No such sheet found");
+        }
 		
-		//Include a NULLPOINTER TO CATCH NON-EXISTING ENTRY
 		int monday = searchColIndex(getDate(),sheet);
-		
 		int columnIndexWT = searchColIndex("Weekly Tally",sheet);
 		int columnIndexMT = searchColIndex("Month Tally",sheet);
 		int columnIndexTERM = searchColIndex("Per Term Tally",sheet);
@@ -54,10 +60,18 @@ public class TallyWorkbookReader extends WorkBook {
 		return allData;
 	}
 	
-	public void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList) throws IOException{
+	public void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList) throws IOException
+	{
 		FileInputStream file = new FileInputStream(getFile());
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet(getSheetWithDate());
+		HSSFSheet sheet = null;
+		try
+		{
+			sheet = workbook.getSheet(getSheetWithDate());
+		}
+		catch(NullPointerException e){
+            System.out.print("No such sheet found");
+        }
 		
 		int day = searchColIndex(getDate(),sheet);
 		int week = searchColIndex("Weekly Tally" ,sheet);
@@ -65,8 +79,10 @@ public class TallyWorkbookReader extends WorkBook {
 		int term = searchColIndex("Per Term Tally", sheet);
 		
 		
-		for(int i = 0; i < teacherList.size(); i++){
-			 if(teacherList.get(i).getHasBeenAssigned()){	
+		for(int i = 0; i < teacherList.size(); i++)
+		{
+			 if(teacherList.get(i).getHasBeenAssigned())
+			 {	
 				 int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
 				 String weekValue = teacherList.get(i).getWeeklyTally();
 				 String monthValue = teacherList.get(i).getMonthlyTally();
@@ -88,11 +104,14 @@ public class TallyWorkbookReader extends WorkBook {
         workbook.close();
 	}
 	
-	public static int searchColIndex(String searchWord, HSSFSheet sheet){
+	public static int searchColIndex(String searchWord, HSSFSheet sheet)
+	{
 		boolean done = false;
 		int col = 0;
-		while(!done){
-			if(sheet.getRow(0).getCell(col) == null){
+		while(!done)
+		{
+			if(sheet.getRow(0).getCell(col) == null)
+			{
 				done = true;
 				break;
 			}
@@ -109,11 +128,14 @@ public class TallyWorkbookReader extends WorkBook {
 		return col;
 	}
 	
-	public static int searchRowIndex(String searchWord, HSSFSheet sheet){
+	public static int searchRowIndex(String searchWord, HSSFSheet sheet)
+	{
 		boolean done = false;
 		int row = 0;
-		while(!done){
-			if(sheet.getRow(row).getCell(0) == null){
+		while(!done)
+		{
+			if(sheet.getRow(row).getCell(0) == null)
+			{
 				done = true;
 				break;
 			}
@@ -132,8 +154,10 @@ public class TallyWorkbookReader extends WorkBook {
 	
 	public void printData(ArrayList<ArrayList<String>> allData)
 	{
-		for(int i = 0; i < allData.size(); i++){
-			for(int j = 0; j < allData.get(i).size(); j++){
+		for(int i = 0; i < allData.size(); i++)
+		{
+			for(int j = 0; j < allData.get(i).size(); j++)
+			{
 			System.out.print(" " + allData.get(i).get(j));
 			}
 			System.out.println("");

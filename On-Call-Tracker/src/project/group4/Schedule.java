@@ -3,53 +3,59 @@ package project.group4;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Schedule{
+public class Schedule
+{
 
   private String spare;
   private int spareIndex;
   private ArrayList<String> schedule;
   private String skill;
-
   private Scanner scan;
-  
+  private int lunchIndex;
   
  
-  public Schedule(String p1, String p2, String p3a, String p3b, String p4)
-  {
-
-    schedule = new ArrayList<String>(6);
-    schedule.add(p1);
-    schedule.add(p2);
-    schedule.add(p3a);
-    schedule.add(p3b);
-    schedule.add(p4);
-    spareIndex = determineSparePeriodByIndex();
-    spare = convertIndexToPeriod(spareIndex);
-    skill = determineSkill();
-  }
+	  public Schedule(String p1, String p2, String p3a, String p3b, String p4)
+	  {
+	    schedule = new ArrayList<String>(6);
+	    schedule.add(p1);
+	    schedule.add(p2);
+	    schedule.add(p3a);
+	    schedule.add(p3b);
+	    schedule.add(p4);
+	    spareIndex = determineSparePeriodByIndex();
+	    spare = convertIndexToPeriod(spareIndex);
+	    lunchIndex = determineLunchPeriodByIndex();
+	    skill = determineSkill();
+	  }
   
 
-  public String getSpareByString(){
+  public String getSpareByString()
+  {
 	  return spare;
   }
   
   
-  public String getSkill(){
+  public String getSkill()
+  {
 	  return this.skill;
   }
   
-  public boolean isLunchPeriod(int index){
+  public boolean isLunchPeriod(int index)
+  {
 	  boolean value = false;
-	  if(schedule.get(index).equals("Lunch")){
+	  if(schedule.get(index).equals("Lunch"))
+	  {
 		  value = true;
 	  } 
 	  return value;
   }
   
   
-  public boolean isSparePeriod(int index){
+  public boolean isSparePeriod(int index)
+  {
 	  boolean value = false;
-	  if(schedule.get(index).equals("Spare")){
+	  if(schedule.get(index).equals("Spare"))
+	  {
 		  value = true;
 	  } 
 	  return value;
@@ -58,12 +64,14 @@ public class Schedule{
   //NOTE** if the teacher has more than one possibility of a skill
   //		for example they don't teach the same subject twice
   //		then for now it just uses the first subject
-  private String determineSkill(){
+  private String determineSkill()
+  {
 	  
 	  //Transforms the schedule arrayList into an array
 	  String[] arraySched = new String[5];
 	  
-	  for(int i = 0; i < 5; i++) {
+	  for(int i = 0; i < 5; i++) 
+	  {
 		  arraySched[i] = getSubject(i);
 	  }
 
@@ -74,15 +82,17 @@ public class Schedule{
 	  int count = 0;
 	  
 	  //two for loops used to determine the skill
-	  for(int indexOne = 0; indexOne < 5; indexOne++) {
-		  
-		 for(int indexTwo = indexOne + 1; indexTwo < 5; indexTwo++) {
-			 
-			 if(arraySched[indexOne].equals(arraySched[indexTwo])) {
+	  for(int indexOne = 0; indexOne < 5; indexOne++) 
+	  {
+		 for(int indexTwo = indexOne + 1; indexTwo < 5; indexTwo++) 
+		 {
+			 if(arraySched[indexOne].equals(arraySched[indexTwo])) 
+			 {
 				 count++;		 
 			 }
 		 }
-		 if(count > biggestCount) {
+		 if(count > biggestCount) 
+		 {
 			 biggestCount = count;
 			 biggestIndex = indexOne;
 		 }
@@ -94,7 +104,8 @@ public class Schedule{
 	  
   }
   
-  public String getSubject(int index){
+  public String getSubject(int index)
+  {
 	  String subject  = "";
 	  scan = new Scanner(schedule.get(index));
 	  scan.useDelimiter("/");
@@ -104,7 +115,8 @@ public class Schedule{
 	  
   }
   
-  public String getRoomNumber(int index){
+  public String getRoomNumber(int index)
+  {
 	  String roomNumber = "";
 	  scan = new Scanner(schedule.get(index));
 	  scan.useDelimiter("/");
@@ -115,17 +127,32 @@ public class Schedule{
   
   
   
-  public int determineSparePeriodByIndex(){
+  public int determineSparePeriodByIndex()
+  {
 	  int period = 0;
-	  for(int index = 0; index < 5; index++){
-		  if(schedule.get(index).equals("Spare")){
+	  for(int index = 0; index < 5; index++)
+	  {
+		  if(schedule.get(index).equals("Spare"))
+		  {
 			  period = index;
 		  } 
 	  }
 		  
 	  return period;
   }
-  
+  public int determineLunchPeriodByIndex()
+  {
+	  int period = 0;
+	  for(int index = 0; index < 5; index++)
+	  {
+		  if(schedule.get(index).equalsIgnoreCase("Lunch"))
+		  {
+			  period = index;
+		  } 
+	  }
+		  
+	  return period;
+  }
  
   public String convertIndexToPeriod(int index)
   {

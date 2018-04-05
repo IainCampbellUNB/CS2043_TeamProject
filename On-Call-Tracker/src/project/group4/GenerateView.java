@@ -3,15 +3,19 @@ package project.group4;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class GenerateView {
+public class GenerateView 
+{
 
-	public static Vector<Vector<String>> generateCoverageView(ArrayList<OnCallTeacher> teacherList, ArrayList<Teacher> supplyList){
+	public static Vector<Vector<String>> generateCoverageView(ArrayList<OnCallTeacher> teacherList, ArrayList<Teacher> supplyList)
+	{
 		Vector<Vector<String>> allData = new Vector<Vector<String>>();
 		Vector<String> perRowData; 
 		Schedule schedule = new Schedule("p1", "p2", "p3a", "p3b", "p4");
-		for(int i = 0; i < teacherList.size(); i++){
+		for(int i = 0; i < teacherList.size(); i++)
+		{
 			perRowData = new Vector<String>();
-			if(teacherList.get(i).getAbsentStatus()){
+			if(teacherList.get(i).getAbsentStatus())
+			{
 
 				OnCallTeacher teacher = teacherList.get(i);
 				AbsenceTracker obj1 = teacher.getSubmittedAbsenceSchedule();
@@ -22,31 +26,46 @@ public class GenerateView {
 				{
 					perRowData = new Vector<String>();
 					String value = obj1.getPeriodValueAtIndex(periodIndex);
-					if(!(value.equals("0.0")) && !(value.equals("X")) &&!(value.equals("SP")) &&!(value.equals("LU"))){
-						if(value.charAt(0) == 'A'){
-							for(int k = 0; k < teacherList.size();k++){
-								if(teacherList.get(k).getID().equals(value)){
-									coveredBy = teacherList.get(k).getName();
-								}	
+					int spare = teacher.getSparePeriodByIndex();
+					int lunch = teacher.getLunchPeriodByIndex();
+					if(spare != periodIndex && lunch != periodIndex)
+					{
+						if(!(value.equals("0.0")) && !(value.equals("X")) &&!(value.equals("SP")) &&!(value.equals("LU")))
+						{
+							if(value.charAt(0) == 'A')
+							{
+								for(int k = 0; k < teacherList.size();k++)
+								{
+									if(teacherList.get(k).getID().equals(value))
+									{
+										coveredBy = teacherList.get(k).getName();
+									}	
+								}
 							}
-						}
-						
-						else {
-							for(int k = 0; k < supplyList.size();k++){
-								if(supplyList.get(k).getID().equals(value)){
-									coveredBy = supplyList.get(k).getName();
-								}	
+							else 
+							{
+								for(int k = 0; k < supplyList.size();k++)
+								{
+									if(supplyList.get(k).getID().equals(value))
+									{
+										coveredBy = supplyList.get(k).getName();
+									}	
+								}
 							}
+							if(value.equalsIgnoreCase("NaN"))
+							{
+								coveredBy = "No one was available";
+							}
+							perRowData.add(schedule.convertIndexToPeriod(periodIndex));
+							perRowData.add(teacherList.get(i).getName());
+							String subject = teacherList.get(i).getSchedule().getSubject(periodIndex);
+							String roomNum = teacherList.get(i).getSchedule().getRoomNumber(periodIndex);
+							perRowData.add(coveredBy);
+							perRowData.add(roomNum);	
+							allData.add(perRowData);
 						}
-					
-						perRowData.add(schedule.convertIndexToPeriod(periodIndex));
-						perRowData.add(teacherList.get(i).getName());
-						String subject = teacherList.get(i).getSchedule().getSubject(periodIndex);
-						String roomNum = teacherList.get(i).getSchedule().getRoomNumber(periodIndex);
-						perRowData.add(coveredBy);
-						perRowData.add(roomNum);	
-						allData.add(perRowData);
 					}
+
 					periodIndex++;
 				}
 			}

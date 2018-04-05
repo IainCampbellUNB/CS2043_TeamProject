@@ -22,20 +22,29 @@ public class OnCallTeacher extends Teacher
 			spareIndex = -1;
 		}
 		
-		public void hasBeenAssigned(){
+		public void hasBeenAssigned()
+		{
 			this.assigned = true;
 		}
 		
 		
-		public boolean getHasBeenAssigned(){
+		public boolean getHasBeenAssigned()
+		{
 			return this.assigned;
 		}
 		
-		public int getSparePeriodByIndex(){
+		public int getSparePeriodByIndex()
+		{
 			return spareIndex = this.dailySchedule.determineSparePeriodByIndex();
 		}
 		
-		public String getSparePeriodByValue(){
+		public int getLunchPeriodByIndex()
+		{
+			return spareIndex = this.dailySchedule.determineLunchPeriodByIndex();
+		}
+		
+		public String getSparePeriodByValue()
+		{
 			return this.dailySchedule.getSpareByString();
 		}
 		
