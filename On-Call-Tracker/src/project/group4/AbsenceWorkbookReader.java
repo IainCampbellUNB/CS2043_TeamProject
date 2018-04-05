@@ -94,8 +94,8 @@ public class AbsenceWorkbookReader extends WorkBook
 		}
 		catch(NullPointerException e)
 		{
-            System.out.print("No such sheet found");
-        }
+			System.out.print("No such sheet found");
+		}
 		
 		String searchWord = getDate();
 		int day = searchColIndex(searchWord,sheet);
@@ -136,8 +136,8 @@ public class AbsenceWorkbookReader extends WorkBook
 		}
 		catch(NullPointerException e)
 		{
-            System.out.print("No such date found");
-        }
+			System.out.print("No such date found");
+        	}
 		
 		String searchWord = getDate();
 		int day = searchColIndex(searchWord,sheet);
@@ -159,12 +159,11 @@ public class AbsenceWorkbookReader extends WorkBook
 			}
 		}
 		
-		file1.close();
+	file1.close();
         FileOutputStream fileOut = new FileOutputStream(getFile());
         workbook.write(fileOut);
         workbook.close();
 	}
-	
 	
 	public static int searchRowIndex(String searchWord, HSSFSheet sheet)
 	{
