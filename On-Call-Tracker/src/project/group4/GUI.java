@@ -236,7 +236,6 @@ public class GUI extends JFrame
 	
 	private void centerPanelSetup()
 	{
-		//Absent teacher info will be placed inside the .setDataVector methods
 		mainCenterPanel.removeAll();
 		mainCenterPanel.setBackground(new Color(80,90,175));
 		mainCenterPanel.setLayout(new GridBagLayout());
@@ -359,7 +358,8 @@ public class GUI extends JFrame
 		String[] title = {"Period","Absentee","Covered by", "Room Number"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) {
+		for(String item: title) 
+		{
 			titleVector.add(item);
 		}
 		
@@ -556,7 +556,8 @@ public class GUI extends JFrame
 		   }
 	}
 	
-	public static void main(String [] args) {
+	public static void main(String [] args) 
+	{
 		new GUI();
 	}
 }
