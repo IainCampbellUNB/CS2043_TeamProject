@@ -1,42 +1,44 @@
-
 package project.group4;
 
 import java.util.ArrayList;
 
 public class AssignmentAlgorithm 
 {
-	
-	final private ArrayList<OnCallTeacher> teacher;
+	private final ArrayList<OnCallTeacher> teacher;
 	private ArrayList<ArrayList<OnCallTeacher>> allTeachers;
 		
 	public AssignmentAlgorithm(ArrayList<OnCallTeacher> teacherList)
 	{
-			allTeachers = new ArrayList<ArrayList <OnCallTeacher>>();
-			this.teacher = teacherList;
-			findAvailablePeriod();
-			sortByTallies();
+		allTeachers = new ArrayList<ArrayList <OnCallTeacher>>();
+		this.teacher = teacherList;
+		findAvailablePeriod();
+		sortByTallies();
 	}
+	
 	public void printData()
 	{
 		for(int i = 0; i < allTeachers.size(); i++)
 		{
 			for(int j = 0; j < allTeachers.get(i).size(); j++)
 			{
-			System.out.print("e" + allTeachers.get(i).get(j));
+				System.out.print("e" + allTeachers.get(i).get(j));
 			}
 			System.out.println("");
 		}
 	}
+	
 	private void findAvailablePeriod()
 	{
-		System.out.println("Working");
 		ArrayList<OnCallTeacher> holder = new ArrayList<OnCallTeacher>();
+		
 		for(int period = 0; period < 5; period++)
 		{
 			holder = new ArrayList<OnCallTeacher>();
+			
 			for(int i = 0; i < teacher.size(); i++)
 			{
 				int spareIndex = teacher.get(i).getSparePeriodByIndex();
+				
 				if(spareIndex == period)
 				{
 					if(!teacher.get(i).getAbsentStatus() &&!(teacher.get(i).hasReachedMonthlyMax()) && !(teacher.get(i).hasReachedweeklyMax()))
@@ -47,16 +49,17 @@ public class AssignmentAlgorithm
 			}
 			allTeachers.add(holder);
 		}
-		
 	}
 	
-	private  void sortByTallies(){
+	private  void sortByTallies()
+	{
 		ArrayList<OnCallTeacher> holder;
 
 		for(int period = 0; period < allTeachers.size(); period++)
 		{
 			holder = new ArrayList<OnCallTeacher>();
 			holder = allTeachers.get(period);
+			
 			for(int i = 0; i < holder.size()-1; i++)
 			{
 				int min_idx = i;
@@ -74,7 +77,8 @@ public class AssignmentAlgorithm
 		}
 	}
 	
-	public void assignOnCallTeacher(){
+	public void assignOnCallTeacher()
+	{
 		ArrayList<AbsenceTracker> absencesList = new ArrayList<AbsenceTracker>();
 		
 		for(int i = 0; i < teacher.size(); i++)
@@ -86,6 +90,7 @@ public class AssignmentAlgorithm
 		}
  		
 		ArrayList<OnCallTeacher> holder;
+		
 		for(int period = 0; period < 5; period++)
 		{
 			holder = new ArrayList<OnCallTeacher>();
@@ -95,33 +100,38 @@ public class AssignmentAlgorithm
 				String value = absencesList.get(i).getPeriodValueAtIndex(period);
 			
 				if(value.equals("X"))
-				{		
+				{
 					String teacherToAssignValues = absencesList.get(i).getTeacherName();
-						if(!isLunchOrSpare(teacherToAssignValues, period) && holder.size() != 0)
+					
+					if(!isLunchOrSpare(teacherToAssignValues, period) && holder.size() != 0)
+					{
+						for(int j = 0; j < holder.size(); j++)
 						{
-							for(int j = 0; j < holder.size(); j++)
+							String skill = holder.get(j).getSchedule().getSkill();
+							String ID = holder.get(j).getID();
+							String name = holder.get(j).getName();
+							
+							if(findSkillsMatch(teacherToAssignValues, period, skill))
 							{
-								String skill = holder.get(j).getSchedule().getSkill();
-								String ID = holder.get(j).getID();
-								String name = holder.get(j).getName();
-								if(findSkillsMatch(teacherToAssignValues, period, skill))
-								{
-									findTeacherAndSetValues(teacherToAssignValues,ID,name,period);
-									assignTeacher(name);
-								
-									holder.remove(j);
-									continue;
-								}
+								findTeacherAndSetValues(teacherToAssignValues,ID,name,period);
+								assignTeacher(name);
+							
+								holder.remove(j);
+								continue;
 							}
 						}
+					}
 				}
-				
 			}
+			
 			for(int i = 0; i < absencesList.size(); i++)
 			{
 				String value = absencesList.get(i).getPeriodValueAtIndex(period);
-				if(value.equals("X")){	
+				
+				if(value.equals("X"))
+				{	
 					String teacherToAssignValues = absencesList.get(i).getTeacherName();
+					
 					if(holder.size() != 0)
 					{
 						String ID = holder.get(0).getID();
@@ -129,18 +139,17 @@ public class AssignmentAlgorithm
 						findTeacherAndSetValues(teacherToAssignValues,ID,name,period);
 						assignTeacher(name);
 						holder.remove(0);
-					}
-					else
+					}else
 					{
 						markAsUnavailable(teacherToAssignValues, period);
 					}
 				}
-			}	
+			}
 		}
 	}
+	
 	private boolean findSkillsMatch(String name, int period, String skill )
 	{
-		boolean flag = false;
 		for(int i = 0; i < teacher.size(); i++)
 		{
 			if(teacher.get(i).getName().equals(name))
@@ -149,11 +158,11 @@ public class AssignmentAlgorithm
 				System.out.println("Subject" + subject);
 				if(subject.equals(skill))
 				{
-					flag = true;
+					return true;
 				}
 			}
 		}
-		return flag;
+		return false;
 	}
 	
 	private void assignTeacher(String name)
@@ -178,16 +187,13 @@ public class AssignmentAlgorithm
 		{
 			if(teacher.get(i).getName().equals(teacherToAssignValues))
 			{
-					teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, "NAN");
+				teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, "NAN");
 			}
 		}
-
 	}
-	
 	
 	private boolean isLunchOrSpare(String teacherToAssignValues, int index)
 	{
-		boolean flag = false;
 		for(int i = 0; i < teacher.size(); i++)
 		{
 			if(teacher.get(i).getName().equals(teacherToAssignValues))
@@ -195,16 +201,17 @@ public class AssignmentAlgorithm
 				if(teacher.get(i).getSchedule().isLunchPeriod(index))
 				{
 					teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, "LU");
-					flag = true;
+					return true;
 				}
+				
 				if(teacher.get(i).getSchedule().isSparePeriod(index))
 				{
 					teacher.get(i).getSubmittedAbsenceSchedule().setValueByIndex(index, "SP");
-					flag = true;
+					return true;
 				}
 			}
 		}
-		return flag;
+		return false;
 	}
 	
 	private void findTeacherAndSetValues(String teacherToAssignValues, String ID, String name, int index)
@@ -225,7 +232,7 @@ public class AssignmentAlgorithm
 		{
 			for(int j = 0; j < allData.get(i).size(); j++)
 			{
-			System.out.print(" " + allData.get(i).get(j));
+				System.out.print(" " + allData.get(i).get(j));
 			}
 			System.out.println("");
 		}
@@ -233,7 +240,6 @@ public class AssignmentAlgorithm
 
 	private boolean compareTallysBetweenTeachers(OnCallTeacher first,  OnCallTeacher second)
 	{
-		boolean flag = false;
 		String firstWT = first.getWeeklyTally();
 		String firstMT = first.getMonthlyTally();
 		String secondWT = second.getWeeklyTally();
@@ -252,13 +258,13 @@ public class AssignmentAlgorithm
 		{
 			if(FMT < SMT)
 			{
-				flag = true;
+				return true;
 			}
 			if(FMT == SMT)
 			{
 				if(FTL < STL)
 				{
-					flag = true;
+					return true;
 				}
 			}
 		}
@@ -267,17 +273,17 @@ public class AssignmentAlgorithm
 		{
 			if(FMT < SMT)
 			{
-				flag = true;
+				return true;
 			}
 			if(FMT == SMT)
 			{
 				if(FTL < STL)
 				{
-					flag = true;
+					return true;
 				}
 			}
 		}
-		return flag;
+		return false;
 	}
 
 }
