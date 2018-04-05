@@ -45,7 +45,7 @@ public class GUIAlgorithmIntegrationTestDriver {
 		
 		
 		
-		/*File absenceFile = new File("AbsenceWorkBook.xls");
+		File absenceFile = new File("AbsenceWorkbook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-03-16");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-03-16");
@@ -79,7 +79,7 @@ public class GUIAlgorithmIntegrationTestDriver {
 	//test.printData();
 		
 		
-		 * This is to test the GenerateViews
+		 // This is to test the GenerateViews
 		 
 		
 		Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
@@ -104,7 +104,7 @@ public class GUIAlgorithmIntegrationTestDriver {
 		String name = GenerateView.determineWhoIsNext(teacherList, 2);
 		System.out.println(name);
 		
-		*/
+		
 		
 	}
 	
