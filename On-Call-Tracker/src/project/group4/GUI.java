@@ -450,7 +450,7 @@ public class GUI extends JFrame
 				try 
 				{
 					AWreader.writeToAbsenceTracker(teacherList);
-					TWreader.writeToTallyCoutner(teacherList);
+					TWreader.writeToTallyCounter(teacherList);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

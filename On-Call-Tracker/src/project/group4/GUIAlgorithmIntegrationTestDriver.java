@@ -15,10 +15,10 @@ public class GUIAlgorithmIntegrationTestDriver
 
 	public static void main(String args[]) throws IOException, ParseException
 	{
-		new GUI();
+		//new GUI();
 		
 		
-		/*File absenceFile = new File("AbsenceWorkbook.xls");
+		File absenceFile = new File("AbsenceWorkbook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Wednesday", "2018-04-02");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Wednesday", "2018-04-02");
@@ -31,19 +31,9 @@ public class GUIAlgorithmIntegrationTestDriver
 		supplyList = data.createSupplyList();
 	
 		
-		for(int i = 0; i < teacherList.size(); i++)
-		{
-			System.out.println(teacherList.get(i).toString());
-		}
-		
-		for(int i = 0; i < supplyList.size(); i++)
-		{
-			System.out.println(supplyList.get(i).toString());
-		}
 
 		AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
 		
-
 		test.assignOnCallTeacher();
 		for(int i = 0; i < teacherList.size(); i++){
 			System.out.println(teacherList.get(i).toString());
@@ -51,7 +41,7 @@ public class GUIAlgorithmIntegrationTestDriver
 	
 		
 		
-		Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
+		/*Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
 		GenerateView.printData(coverageViewData);
 		
@@ -71,8 +61,10 @@ public class GUIAlgorithmIntegrationTestDriver
 		}
 		String name = GenerateView.determineWhoIsNext(teacherList, 2);
 		System.out.println(name);
-		
-	*/
+		for(int i = 0; i < teacherList.size(); i++){
+			System.out.println(teacherList.get(i).toString());
+		}*/
+	TWreader.writeToTallyCounter(teacherList);
 	}
 	
 	

@@ -52,6 +52,7 @@ public class AssignmentAlgorithm
 	
 	private  void sortByTallies(){
 		ArrayList<OnCallTeacher> holder;
+
 		for(int period = 0; period < allTeachers.size(); period++)
 		{
 			holder = new ArrayList<OnCallTeacher>();
@@ -92,6 +93,7 @@ public class AssignmentAlgorithm
 			for(int i = 0; i < absencesList.size(); i++)
 			{
 				String value = absencesList.get(i).getPeriodValueAtIndex(period);
+			
 				if(value.equals("X"))
 				{		
 					String teacherToAssignValues = absencesList.get(i).getTeacherName();
@@ -160,7 +162,7 @@ public class AssignmentAlgorithm
 		{
 			if(teacher.get(i).getName().equals(name))
 			{
-				System.out.println(name);
+				System.out.println("assigned" + name);
 				teacher.get(i).hasBeenAssigned();
 				teacher.get(i).incrementMonthlyTally();
 				teacher.get(i).incrementWeeklyTally();

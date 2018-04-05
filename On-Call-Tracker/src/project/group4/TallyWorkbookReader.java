@@ -7,7 +7,10 @@ import java.io.IOException;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Scanner;
 
 
 public class TallyWorkbookReader extends WorkBook 
@@ -60,7 +63,7 @@ public class TallyWorkbookReader extends WorkBook
 		return allData;
 	}
 	
-	public void writeToTallyCoutner(ArrayList<OnCallTeacher> teacherList) throws IOException
+	public void writeToTallyCounter(ArrayList<OnCallTeacher> teacherList) throws IOException
 	{
 		FileInputStream file = new FileInputStream(getFile());
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -72,29 +75,72 @@ public class TallyWorkbookReader extends WorkBook
 		catch(NullPointerException e){
             System.out.print("No such sheet found");
         }
+		int sheetnum = workbook.getNumberOfSheets();
+		int index = workbook.getSheetIndex(sheet);
+		
+		
+		System.out.println(sheetnum + "  " + index);
 		
 		int day = searchColIndex(getDate(),sheet);
 		int week = searchColIndex("Weekly Tally" ,sheet);
 		int month = searchColIndex("Month Tally", sheet);
 		int term = searchColIndex("Per Term Tally", sheet);
 		
+		String monthCheck =  getMonth(getSheetWithDate());
 		
+		
+		
+		HSSFSheet sheet2 = null;
 		for(int i = 0; i < teacherList.size(); i++)
 		{
-			 if(teacherList.get(i).getHasBeenAssigned())
-			 {	
+			System.out.println(teacherList.get(i).getName() + " " + teacherList.get(i).getHasBeenAssigned());
+		
+				 
 				 int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
 				 String weekValue = teacherList.get(i).getWeeklyTally();
 				 String monthValue = teacherList.get(i).getMonthlyTally();
 				 String termValue = teacherList.get(i).getTermTally();
 				 sheet.getRow(findRowIndexForTeacher).getCell(week).setCellValue(weekValue);
 				 sheet.getRow(findRowIndexForTeacher).getCell(month).setCellValue(monthValue);
+				 /*
+				  * Finishing this bit 
+				  */
+				 String nextdate = calculateFutureDates(getSheetWithDate());
+					String newValue = getMonth(nextdate);
+					if(newValue.equals(monthCheck))
+					{
+						
+						try
+						{
+							sheet2 = workbook.getSheet(nextdate);
+						}
+						catch(NullPointerException e)
+						{
+								System.out.print("No such sheet found");
+						}
+						if(sheet2 != null){
+							 System.out.println("month Term Assigned");
+							 sheet2.getRow(findRowIndexForTeacher).getCell(month).setCellValue(monthValue);
+						}
+					}
+			
+				 
 				 sheet.getRow(findRowIndexForTeacher).getCell(term).setCellValue(termValue);
-				 int col = teacherList.get(i).getSparePeriodByIndex();
-				 int insertAt = col + day;
-				 sheet.getRow(findRowIndexForTeacher).getCell(insertAt).setCellValue("1");
-			}
-		}
+				 
+				 for(int j = index+1; j < sheetnum; j++)
+				 {
+					 System.out.println("Term Assigned");
+					 HSSFSheet sheet1 = workbook.getSheetAt(j);
+					 sheet1.getRow(findRowIndexForTeacher).getCell(term).setCellValue(termValue);
+				 }
+				
+					if(teacherList.get(i).getHasBeenAssigned())
+					{	
+						 int col = teacherList.get(i).getSparePeriodByIndex();
+						 int insertAt = col + day;
+						sheet.getRow(findRowIndexForTeacher).getCell(insertAt).setCellValue("1");
+					}
+				}
 		
 		
        file.close();
@@ -151,6 +197,36 @@ public class TallyWorkbookReader extends WorkBook
 		return row;
 	}
 	
+	private String getMonth(String date)
+	{
+		
+		Scanner sc = new Scanner(date);
+		sc.useDelimiter("-");
+		String year = sc.next();
+		String monthi = sc.next();
+		
+		return monthi;
+	}
+	
+	private String calculateFutureDates(String date)
+	{
+		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+		Scanner sc = new Scanner(date);
+		sc.useDelimiter("-");
+		String year = sc.next();
+		int iyear = Integer.parseInt(year);
+		String monthi = sc.next();
+		int imonth = Integer.parseInt(monthi);
+		String dayi = sc.next();
+		int iday = Integer.parseInt(dayi);
+		sc.close();
+		Calendar c = Calendar.getInstance();
+		c.set(iyear,imonth-1,iday);
+		c.add(Calendar.WEEK_OF_MONTH, 1);
+		
+		String dateToPass = s.format(c.getTime());
+		return dateToPass;
+	}
 	
 	public void printData(ArrayList<ArrayList<String>> allData)
 	{

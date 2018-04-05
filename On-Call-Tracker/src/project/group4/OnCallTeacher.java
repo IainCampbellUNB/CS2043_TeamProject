@@ -79,25 +79,29 @@ public class OnCallTeacher extends Teacher
 			 monthlyTallyCount = count;
 		}
 		
-		public void setTermTally(String count) {
+		public void setTermTally(String count) 
+		{
 			 termTallyCount = count;
 		}
 	
-		public void incrementWeeklyTally(){
+		public void incrementWeeklyTally()
+		{
 			
 			double i = Double.parseDouble(weeklyTallyCount);
 			i++;
 			setWeeklyTally(String.valueOf(i));
 		}
 		
-		public void incrementMonthlyTally(){
+		public void incrementMonthlyTally()
+		{
 			
 			double i = Double.parseDouble(monthlyTallyCount);
 			i++;
 			setMonthlyTally(String.valueOf(i));
 		}
 		
-		public void incrementTermTally(){
+		public void incrementTermTally()
+		{
 			
 			double i = Double.parseDouble(termTallyCount);
 			i++;
@@ -145,6 +149,7 @@ public class OnCallTeacher extends Teacher
 			result += "\nCOUNTS: WeeklyTally: " + weeklyTallyCount + " ";
 			result += "MonltyTally: " + monthlyTallyCount + " ";
 			result += "TermTally: " + termTallyCount +" \n";
+			result += "Assigned" + getHasBeenAssigned();
 			return result;
 		}
 }
