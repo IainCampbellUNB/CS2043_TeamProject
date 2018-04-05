@@ -25,18 +25,20 @@ public class AbsenceWorkbookReader extends WorkBook
 		HSSFSheet sheet = workbook.getSheetAt(0);
 		
 		int lastcol = searchColIndex("P4",sheet);
-		boolean done = false;
 		int i = 1;
 		lastcol++;
-		while(!done)
+		
+		while(true)
 		{
 			if(sheet.getRow(i) == null)
 			{
-				done = true;
 				break;
 			}
+			
 			perRowData = new ArrayList<String>();
-			for(int j = 0; j < (lastcol); j++) {
+			
+			for(int j = 0; j < (lastcol); j++) 
+			{
 				perRowData.add(sheet.getRow(i).getCell(j).toString());
 			}
 			
@@ -49,24 +51,23 @@ public class AbsenceWorkbookReader extends WorkBook
 	}
 	
 	
-	public  ArrayList<ArrayList<String>> readSupplyList() throws IOException, ParseException {
-
+	public  ArrayList<ArrayList<String>> readSupplyList() throws IOException, ParseException 
+	{
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(getFile()));
 		HSSFSheet sheet = workbook.getSheetAt(1);
 		
-		boolean done = false;
 		int i = 1;
-		while(!done)
+		while(true)
 		{
 			if(sheet.getRow(i) == null)
 			{
-				done = true;
 				break;
 			}
 			perRowData = new ArrayList<String>();
+			
 			for(int j = 0; j < 2; j++) 
 			{
 				perRowData.add(sheet.getRow(i).getCell(j).toString());
@@ -82,36 +83,37 @@ public class AbsenceWorkbookReader extends WorkBook
 	
 	public  ArrayList<ArrayList<String>> readAbsenceTracker() throws IOException, ParseException 
 	{
-
 		ArrayList<ArrayList<String>> allData = new ArrayList<ArrayList<String>>();
 		ArrayList<String> perRowData = new ArrayList<String>();
 		HSSFWorkbook workbook = null;
 		workbook = new HSSFWorkbook(new FileInputStream(getFile()));
 		HSSFSheet sheet = null;
+		
 		try
 		{
 			sheet = workbook.getSheet(getSheetWithDate());
-			
 		}
-		catch(NullPointerException e){
+		catch(NullPointerException e)
+		{
             System.out.print("No such sheet found");
         }
+		
 		String searchWord = getDate();
 		int day = searchColIndex(searchWord,sheet);
 		
-		boolean done = false;
 		int i = 2;
-		while(!done)
+		
+		while(true)
 		{
-			
 			if(sheet.getRow(i) == null)
 			{
-				done = true;
 				break;
 			}
 			perRowData = new ArrayList<String>();
 			perRowData.add(sheet.getRow(i).getCell(0).toString());
-			for(int j = day; j < day+5; j++){
+			
+			for(int j = day; j < day+5; j++)
+			{
 				perRowData.add(sheet.getRow(i).getCell(j).toString());
 			}
 			allData.add(perRowData);
@@ -120,7 +122,6 @@ public class AbsenceWorkbookReader extends WorkBook
 
 		workbook.close();
 		return allData;
-		
 	}
 	
 	public void writeToAbsenceTracker(ArrayList<OnCallTeacher> teacherList) throws IOException
@@ -133,7 +134,6 @@ public class AbsenceWorkbookReader extends WorkBook
 		try
 		{
 			sheet = workbook.getSheet(getSheetWithDate());
-			
 		}
 		catch(NullPointerException e)
 		{
@@ -150,6 +150,7 @@ public class AbsenceWorkbookReader extends WorkBook
 				int findRowIndexForTeacher = searchRowIndex(teacherList.get(i).getName(),sheet);
 				AbsenceTracker schedule = teacherList.get(i).getSubmittedAbsenceSchedule();
 				int c = 0;
+				
 				for(int j = day; j < day+5; j++)
 				{
 					String value = schedule.getPeriodValueAtIndex(c);
@@ -168,20 +169,17 @@ public class AbsenceWorkbookReader extends WorkBook
 	
 	public static int searchRowIndex(String searchWord, HSSFSheet sheet)
 	{
-		boolean done = false;
 		int row = 0;
-		while(!done)
+		while(true)
 		{
 			if(sheet.getRow(row).getCell(0) == null)
 			{
-				done = true;
 				break;
 			}
 			String value = sheet.getRow(row).getCell(0).toString();
 		
 			if(value.equals(searchWord))
 			{
-				done = true;
 				break;
 			}
 			row++;
@@ -191,22 +189,21 @@ public class AbsenceWorkbookReader extends WorkBook
 	
 	public static int searchColIndex(String searchWord, HSSFSheet sheet)
 	{
-		boolean done = false;
 		int col = 0;
-		while(!done)
+		while(true)
 		{
 			String value1 = sheet.getRow(0).getCell(col).toString();
 			System.out.println(value1);
+			
 			if(sheet.getRow(0).getCell(col) == null)
 			{
-				done = true;
 				break;
 			}
+			
 			String value = sheet.getRow(0).getCell(col).toString();
 		
 			if(value.equals(searchWord))
 			{
-				done = true;
 				break;
 			}
 			col++;
@@ -218,10 +215,11 @@ public class AbsenceWorkbookReader extends WorkBook
 	
 	public void printData(ArrayList<ArrayList<String>> allData)
 	{
-		for(int i = 0; i < allData.size(); i++){
+		for(int i = 0; i < allData.size(); i++)
+		{
 			for(int j = 0; j < allData.get(i).size(); j++)
 			{
-			System.out.print(" " + allData.get(i).get(j));
+				System.out.print(" " + allData.get(i).get(j));
 			}
 			System.out.println("");
 		}
