@@ -20,8 +20,8 @@ public class GUIAlgorithmIntegrationTestDriver
 		
 		File absenceFile = new File("AbsenceWorkbook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
-		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Wednesday", "2018-04-02");
-		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Wednesday", "2018-04-02");
+		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-04-02");
+		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-04-02");
 		
 		
 		DataProccess data = new DataProccess(AWreader,TWreader);
@@ -32,12 +32,12 @@ public class GUIAlgorithmIntegrationTestDriver
 	
 		
 
-		AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
+		//AssignmentAlgorithm test = new AssignmentAlgorithm(teacherList);
 		
-		test.assignOnCallTeacher();
-		for(int i = 0; i < teacherList.size(); i++){
-			System.out.println(teacherList.get(i).toString());
-		}
+		//test.assignOnCallTeacher();*/
+		//for(int i = 0; i < teacherList.size(); i++){
+		//	System.out.println(teacherList.get(i).toString());
+		//}
 	
 		
 		
@@ -55,16 +55,16 @@ public class GUIAlgorithmIntegrationTestDriver
 		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
 		GenerateView.printData(availabilityViewData);
 
-		ArrayList<OnCallTeacher> potentials = GenerateView.findPotentialNextInLines(teacherList, 2);
+		*/
+		ArrayList<OnCallTeacher> potentials = GenerateView.findPotentialNextInLines(teacherList, 0);
+	
+		String name = GenerateView.determineWhoIsNext(teacherList, 0);
 		for(int i = 0; i < potentials.size(); i++){
 			System.out.println(potentials.get(i).toString());
 		}
-		String name = GenerateView.determineWhoIsNext(teacherList, 2);
 		System.out.println(name);
-		for(int i = 0; i < teacherList.size(); i++){
-			System.out.println(teacherList.get(i).toString());
-		}*/
-	TWreader.writeToTallyCounter(teacherList);
+	
+	//TWreader.writeToTallyCounter(teacherList);
 	}
 	
 	

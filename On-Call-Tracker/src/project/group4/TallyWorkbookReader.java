@@ -104,27 +104,37 @@ public class TallyWorkbookReader extends WorkBook
 			/*
 			* Finishing this bit 
 			*/
-			String nextdate = calculateFutureDates(getSheetWithDate());
-			String newValue = getMonth(nextdate);
-			
-			if(newValue.equals(monthCheck))
+			boolean done = false;
+			String nextdate = calculateFutureDates(getSheetWithDate());	
+			while(!done)
 			{
-				try
-				{
-					sheet2 = workbook.getSheet(nextdate);
-				}
-				catch(NullPointerException e)
-				{
-						System.out.print("No such sheet found");
-				}
 				
-				if(sheet2 != null)
+				 System.out.println("Next Date" + nextdate);
+				String newValue = getMonth(nextdate);
+				
+				if(newValue.equals(monthCheck))
 				{
-					 System.out.println("month Term Assigned");
-					 sheet2.getRow(findRowIndexForTeacher).getCell(month).setCellValue(monthValue);
+					try
+					{
+						sheet2 = workbook.getSheet(nextdate);
+					}
+					catch(NullPointerException e)
+					{
+							System.out.print("No such sheet found");
+					}
+					
+					if(sheet2 != null)
+					{
+						
+						 sheet2.getRow(findRowIndexForTeacher).getCell(month).setCellValue(monthValue);
+					}
 				}
+				else
+				{
+					done = true;
+				}
+				nextdate = calculateFutureDates(nextdate);	
 			}
-		
 			sheet.getRow(findRowIndexForTeacher).getCell(term).setCellValue(termValue);
 			 
 			for(int j = index+1; j < sheetnum; j++)

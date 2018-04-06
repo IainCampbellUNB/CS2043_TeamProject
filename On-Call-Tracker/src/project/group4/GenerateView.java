@@ -226,7 +226,7 @@ public class GenerateView
 			int min_idx = i;
 		    for (int j = i+1; j < potentials.size(); j++)
 		    {
-		    	if (compareTallysBetweenTeachers(potentials.get(j), potentials.get(min_idx)))
+		    	if (compareTallysBetweenTeachers(potentials.get(min_idx), potentials.get(j)))
 		    	{
 		    		 min_idx = j;
 		    	}
