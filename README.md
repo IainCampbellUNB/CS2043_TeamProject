@@ -1,7 +1,7 @@
 # CS2043_Team Project Deliverable 4 
 
 Repository for the CS2043 team project.
-
+![Optional Text](../On-Call-Tracker/mainIcon.png)
 ![alt text] (https://raw.githubusercontent.com/IainCampbellUNB/CS2043_TeamProject/FinalV4.1/On-Call-Tracker/mainIcon.png)
 
 ## Description
