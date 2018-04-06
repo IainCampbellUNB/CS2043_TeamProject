@@ -27,22 +27,24 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 
 ### Dependencies files
 
-Apache Poi files
-poi-3.17.jar
-poi-examples-3.17.jar
-poi-excellent-3.17.jar
-poi-ooxml-3.17.jar
-poi-ooxml-schemas-3.17.jar
-poi-scratchpad-3-17.jar
-&&
-Common-collections-4-4.1.jar
-### Instructions
+## Apache Poi files
+- poi-3.17.jar
+- poi-examples-3.17.jar
+- poi-excellent-3.17.jar
+- poi-ooxml-3.17.jar
+- poi-ooxml-schemas-3.17.jar
+- poi-scratchpad-3-17.jar
 
-### Author
+## Common-collections
+- Common-collections-4-4.1.jar
 
-Members of Team 4!!!
-Craig Beaman 
-,Iain Campbell
-,Gabbie Dupuis
-,Catherine Higgins @chninja
+## Instructions
+
+## Author
+
+- Members of Team 4!!!
+- Craig Beaman Role: Tech Lead
+- Iain Campbell Role: Project Manager
+- Gabbie Dupuis Role: Documentation Lead
+- Catherine Higgins @chninja Role: Progress Facilator
 
