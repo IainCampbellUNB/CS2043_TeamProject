@@ -2,7 +2,7 @@
 
 Repository for the CS2043 team project.
 
-![alt tag] (IainCampbellUNB/CS2043_TeamProject/FinalV4.1/On-Call-Tracker/mainIcon.png "hello")
+![alt tag] (./mainIcon.png "hello")
 
 ## Description
 
