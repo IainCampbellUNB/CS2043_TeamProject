@@ -15,7 +15,7 @@ public class GUIAlgorithmIntegrationTestDriver
 
 	public static void main(String args[]) throws IOException, ParseException
 	{
-		//new GUI();
+		new GUI();
 		
 		
 		/*File absenceFile = new File("AbsenceWorkbook.xls");
