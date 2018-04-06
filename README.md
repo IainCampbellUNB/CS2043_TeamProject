@@ -18,8 +18,8 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 
 |    **INPUT**        | **OUTPUT**              |
 |---------------------|-------------------------|
-| AbsenceWorkbook.xls | :AbsenceWorkbook.xls :  |
-| TallyWorkbook.xls   | :AbsenceWorkbook.xls :  |
+| AbsenceWorkbook.xls | AbsenceWorkbook.xls  |
+| TallyWorkbook.xls   | TallyWorkbook.xls  |
 
 
 * Data is overwritten so tester must go back into excel files and re-enter values or use a back up version.
