@@ -11,20 +11,18 @@ public abstract class Teacher
 		this.ID = ID;
 	}
 	
-	public String getName() 
+	public String getName()
 	{
 		return NAME;
 	}
 	
-	public String getID() 
+	public String getID()
 	{
 		return ID;
 	}
+	
 	public String toString()
 	{
-		String result = "ID: " +  ID + " NAME: " + NAME;
-		
-		return result;
-		
+		return "ID: " +  ID + " NAME: " + NAME;
 	}
 }
