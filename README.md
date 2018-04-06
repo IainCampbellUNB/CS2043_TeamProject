@@ -10,7 +10,7 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 
 * A user of the system must have the right dependencies files
 
-* Input files must be entered in the right order
+* Input files must be entered in the right order :octocat: 
 
 * Selected dates must already exist in the input excel files
 
