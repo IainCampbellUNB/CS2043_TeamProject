@@ -1,7 +1,7 @@
 # CS2043_Team Project Deliverable 4 
 
 Repository for the CS2043 team project.
-
+![ScreenShot](mainIcon.png)
 ![alt tag] (./mainIcon.png "hello")
 
 ## Description
