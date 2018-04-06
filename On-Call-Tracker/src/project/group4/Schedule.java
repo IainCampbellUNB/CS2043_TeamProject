@@ -3,6 +3,7 @@ package project.group4;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Schedule
 {
 	private String spare;
@@ -10,7 +11,6 @@ public class Schedule
 	private ArrayList<String> schedule;
 	private String skill;
 	private Scanner scan;
-	
 	  
 	public Schedule(String p1, String p2, String p3a, String p3b, String p4)
 	{
@@ -46,13 +46,8 @@ public class Schedule
 		return schedule.get(index).equals("Spare");
 	}
 	  
-	//NOTE** if the teacher has more than one possibility of a skill
-	//		for example they don't teach the same subject twice
-	//		then for now it just uses the first subject
-	
-	private String determineSkill()
-	{
-		//Transforms the schedule arrayList into an array
+	  protected String determineSkill(){
+	  {
 		
 		String[] arraySched = new String[5];
 			  
@@ -61,12 +56,12 @@ public class Schedule
 			arraySched[i] = getSubject(i);
 		}
 		
-		//some int values to help determine the skill
+	
 		int biggestIndex = 0;
 		int biggestCount = 0;
 		int count = 0;
 			  
-		//two for loops used to determine the skill
+
 		for(int indexOne = 0; indexOne < 5; indexOne++) 
 		{
 			for(int indexTwo = indexOne + 1; indexTwo < 5; indexTwo++) 

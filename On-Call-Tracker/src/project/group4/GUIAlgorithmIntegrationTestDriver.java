@@ -18,7 +18,7 @@ public class GUIAlgorithmIntegrationTestDriver
 		new GUI();
 		
 		
-		/*File absenceFile = new File("AbsenceWorkbook.xls");
+	/*File absenceFile = new File("AbsenceWorkbook.xls");
 		File tallyFile = new File("TallyWorkbook.xls");
 		AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(absenceFile,"Monday", "2018-04-02");
 		TallyWorkbookReader TWreader = new TallyWorkbookReader(tallyFile, "Monday", "2018-04-02");
@@ -40,6 +40,7 @@ public class GUIAlgorithmIntegrationTestDriver
 		//}
 	
 		
+
 		
 		/*Vector<Vector<String>> coverageViewData = new Vector<Vector<String>>();
 		coverageViewData = GenerateView.generateCoverageView(teacherList, supplyList);
@@ -54,10 +55,22 @@ public class GUIAlgorithmIntegrationTestDriver
 		
 		availabilityViewData = GenerateView.generateAvailabilityView(teacherList);
 		GenerateView.printData(availabilityViewData);
+		
+		
+		ArrayList<OnCallTeacher> potentials = GenerateView.findPotentialNextInLines(teacherList, 2);
+		for(int i = 0; i < potentials.size(); i++){
+			System.out.println(potentials.get(i).toString());
+		}
+		String name = GenerateView.determineWhoIsNext(teacherList, 2);
+		System.out.println(name);
+		
+		
+		
 
 */
 	
 	//TWreader.writeToTallyCounter(teacherList);
+
 	}
 	
 	
