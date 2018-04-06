@@ -57,7 +57,7 @@ The objective of  the project is to design and build a software tool which will 
 
 ## Authors
 
-- **Members of Team 4!!!**
+- :raised_hands::raised_hands:**Members of Team 4!!!**:raised_hands::raised_hands:
 - Craig Beaman  **Role: Tech Lead**
 - Iain Campbell  **Role: Project Manager**
 - Gabbie Dupuis   **Role: Documentation Lead**
