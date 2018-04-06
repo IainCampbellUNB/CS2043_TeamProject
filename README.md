@@ -25,9 +25,9 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 * Data is overwritten so tester must go back into excel files and re-enter values or use a back up version.
 * In the absence tracker 0 must be filled where there are no absences. 0 must be used as the default value for empty fields.
 
-### Dependencies files
+## Dependencies files
 
-## Apache Poi files
+### Apache Poi files
 - poi-3.17.jar
 - poi-examples-3.17.jar
 - poi-excellent-3.17.jar
@@ -35,7 +35,7 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 - poi-ooxml-schemas-3.17.jar
 - poi-scratchpad-3-17.jar
 
-## Common-collections
+### Common-collections
 - Common-collections-4-4.1.jar
 
 ## Instructions
