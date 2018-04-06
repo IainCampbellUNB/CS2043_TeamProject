@@ -9,8 +9,8 @@ public class OnCallTeacher extends Teacher
 	private AbsenceTracker submittedAbsence;
 	private boolean absent;
 	private boolean assigned;
-	public static String weekMax;
-	public static String monthMax;
+	public static String weekMax = "2.0";
+	public static String monthMax = "4.0";
 	
 	public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) 
 	{

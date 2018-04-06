@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class AbsenceTracker
 {
 	private ArrayList<String> absences;
-	private static int absenceCounter = 0;
 	private String teacherName;
 	  
 	public AbsenceTracker( String p1, String p2, String p3a, String p3b, String p4)
@@ -22,12 +21,12 @@ public class AbsenceTracker
 	{
 		absences.set(index,value);
 	}
-	   
-	public static int getNumberOfAbsences()
+	
+	public String getAbsenceList(int index)
 	{
-		return AbsenceTracker.absenceCounter;
+		return absences.get(index);
 	}
-	 
+	
 	public void attachTeacherName(String name)
 	{
 		this.teacherName = name;

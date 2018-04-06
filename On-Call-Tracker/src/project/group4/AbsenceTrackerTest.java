@@ -14,10 +14,9 @@ public class AbsenceTrackerTest {
 		absTrack.setValueByIndex(1,"0.0");
 		absTrack.setValueByIndex(0,"X");
 		
-		assertTrue("0.0".equals(absTrack.absences.get(1)));
-		assertTrue("X".equals(absTrack.absences.get(0)));
+		assertTrue("0.0".equals(absTrack.getAbsenceList(1)));
+		assertTrue("X".equals(absTrack.getAbsenceList(0)));
 		
 	}
-
 
 }

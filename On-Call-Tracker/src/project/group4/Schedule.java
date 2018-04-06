@@ -46,8 +46,9 @@ public class Schedule
 		return schedule.get(index).equals("Spare");
 	}
 	  
-	  protected String determineSkill(){
+	  protected String determineSkill()
 	  {
+	  
 		
 		String[] arraySched = new String[5];
 			  
@@ -79,7 +80,7 @@ public class Schedule
 			} 
 			count = 0;
 		}
-		return arraySched[biggestIndex];  
+		return arraySched[biggestIndex];
 	}
 	  
 	public String getSubject(int index)
