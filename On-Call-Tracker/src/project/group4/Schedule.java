@@ -58,7 +58,7 @@ public class Schedule{
   //NOTE** if the teacher has more than one possibility of a skill
   //		for example they don't teach the same subject twice
   //		then for now it just uses the first subject
-  protected String determineSkill(){
+  public String determineSkill(){
 	  
 	  //Transforms the schedule arrayList into an array
 	  String[] arraySched = new String[5];

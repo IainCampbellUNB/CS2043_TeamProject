@@ -1,8 +1,8 @@
 package project.group4;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -150,17 +150,6 @@ public class ScheduleTest {
 		assertFalse("RM102".equals(sched.getRoomNumber(0)));
 	}
 	
-	//Test to see what happens when you try to find the Room of a spare or lunch 
-	@Test
-	public void testGetRoomSpareOrLunch() {
-		Schedule sched = new Schedule("BIOL/RM103","Spare","Lunch","MATH/RM102","MATH/RM104");
-		int spareIndex = sched.determineSparePeriodByIndex();
-		sched.convertIndexToPeriod(spareIndex);
-		sched.determineSkill();
-		
-		assertTrue("Spare".equals(sched.getRoomNumber(1)));
-		assertTrue("Lunch".equals(sched.getRoomNumber(2)));
-	}
 
 	//Test to see if the method returns the correct value
 	@Test
