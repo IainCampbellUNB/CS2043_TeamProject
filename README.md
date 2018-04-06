@@ -49,7 +49,7 @@ The objective of  the project is to design and build a software tool which will 
 5. See printing options to print
 6. Lastest data gets saved automatically on inputted excel files.
 
-## Cool features
+## Cool Features
 
 1. Max Tallies can be preset before each assignment. 
 2. Views from previous days can be viewed if already run in the system
