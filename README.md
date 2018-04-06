@@ -1,6 +1,6 @@
 # CS2043_Team Project Deliverable 4 
 ![ScreenShot](mainIcon.png)
-Repository for the CS2043 team project.
+
 ## Description
 
 This is a On-Call Tracker software system built for CS2043 Software Engineering project at the University of New Brunswick.
