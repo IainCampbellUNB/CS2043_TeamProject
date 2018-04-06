@@ -25,7 +25,7 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 | AbsenceWorkbook.xls | AbsenceWorkbook.xls  |
 | TallyWorkbook.xls   | TallyWorkbook.xls  |
 
-**Data is overwritten when test are run. It is encourage for testers to create duplicates before testing in order to have back up of original test data. **
+**Data is overwritten when test are run. It is encourage for testers to create duplicates before testing in order to have back up of original test data.**
 
 
 ## Dependencies files
@@ -53,8 +53,8 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 ## Author
 
 - **Members of Team 4!!!**
-- Craig Beaman **Role: Tech Lead**
-- Iain Campbell **Role: Project Manager**
-- Gabbie Dupuis **Role: Documentation Lead**
-- Catherine Higgins @chninja **Role: Progress Facilator**
+- Craig Beaman  **Role: Tech Lead**
+- Iain Campbell  **Role: Project Manager**
+- Gabbie Dupuis   **Role: Documentation Lead**
+- Catherine Higgins @chninja  **Role: Progress Facilator**
 
