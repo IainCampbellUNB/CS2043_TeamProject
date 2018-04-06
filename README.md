@@ -42,7 +42,12 @@ The objective of  the project is to design and build a software tool which will 
 - Common-collections-4-4.1.jar
 
 ## Instructions
-
+1. Select the files you need (remember the order matters!)
+2. Select the day of the week you want.
+3. Also change the tallies max if needed.
+4. Hit **Update On-Calls**
+5. See printing options to print
+6. Lastest data gets saved automatically on inputted excel files.
 
 ## Cool features
 
