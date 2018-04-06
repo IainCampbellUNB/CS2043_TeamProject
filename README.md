@@ -1,10 +1,11 @@
 # CS2043_Team Project Deliverable 4 
 
-Repository for the CS2043 team project.The objective of  the project is to design and build a software tool which will help a current school assign on-call teachers to classes that need coverage. 
+Repository for the CS2043 team project.
 
 ## Description
 
 This is a On-Call Tracker software system built for CS2043 Software Engineering project at the University of New Brunswick.
+The objective of  the project is to design and build a software tool which will help a current school assign on-call teachers to classes that need coverage. 
 
 ## System Considerations & Limitations:
 
