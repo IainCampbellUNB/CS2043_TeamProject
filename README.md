@@ -1,20 +1,26 @@
 # CS2043_Team Project Deliverable 4 
 
-Repository for the CS2043 team project.The project is to design and build a software tool will be built in order to help school administrators to keep track and assign on-calls to classes that need coverage.
+Repository for the CS2043 team project.The objective of  the project is to design and build a software tool which will help a current school assign on-call teachers to classes that need coverage. 
 
 ## Description
+
 This is a On-Call Tracker software system built for CS2043 Software Engineering project at the University of New Brunswick.
 
 ## System Considerations & Limitations:
-* For input and outputs excel, older excel formats must be used (i.e. xls). The system won't accept newer versions of excel (i.e. xlsx)
 
-* A user of the system must have the right dependencies files
+1.  Excel files for input and output must be older version **(i.e. xls)**. 
 
-* Input files must be entered in the right order :octocat: 
+2.  A user of the system must have the right dependencies files to read and write input (see dependencies files section below).
 
-* Selected dates must already exist in the input excel files
+3. Input files must be entered in the right order. AbsenceWorkbook followed by TallyWorkbook. :octocat: 
 
-## For testing
+4. Selected dates must already exist in the data excel files. The excel files sheets are labelled by the date of the monday of every week.
+
+5. For the system to work, the excel files must stay as they are. They are designed for our specific system. It is encourage that empty fields be non-empty. If a tally is 0, there should be a 0 in that cell. If a teacher is present and not missing a period, a 0 indicates the teachers is present. The system does catch for empty fields. However, further testing needs to be done to make sure nothing breaks!
+
+
+
+## Testing Files
 
 |    **INPUT**        | **OUTPUT**              |
 |---------------------|-------------------------|
@@ -22,8 +28,8 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 | TallyWorkbook.xls   | TallyWorkbook.xls  |
 
 
-* Data is overwritten so tester must go back into excel files and re-enter values or use a back up version.
-* In the absence tracker 0 must be filled where there are no absences. 0 must be used as the default value for empty fields.
+* Data is overwritten when test are run. It is encourage for testers to create duplicates before testing in order to have back up of original test data. 
+
 
 ## Dependencies files
 
@@ -39,6 +45,9 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 - Common-collections-4-4.1.jar
 
 ## Instructions
+
+
+## Cool features
 
 ## Author
 
