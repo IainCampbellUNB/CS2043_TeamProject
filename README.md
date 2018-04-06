@@ -43,8 +43,8 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 ## Author
 
 - Members of Team 4!!!
-- Craig Beaman Role: Tech Lead
-- Iain Campbell Role: Project Manager
-- Gabbie Dupuis Role: Documentation Lead
-- Catherine Higgins @chninja Role: Progress Facilator
+- Craig Beaman **Role**: Tech Lead
+- Iain Campbell **Role**: Project Manager
+- Gabbie Dupuis **Role**: Documentation Lead
+- Catherine Higgins @chninja **Role**: Progress Facilator
 
