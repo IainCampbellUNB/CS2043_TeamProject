@@ -27,15 +27,15 @@ public class DataProccess
 		for(int row = 0; row < termScheduleData.size(); row++)
 		{
 			String id = termScheduleData.get(row).get(0);
-		   	String name = termScheduleData.get(row).get(1);
-		    	String p1 = termScheduleData.get(row).get(2);
-		    	String p2 = termScheduleData.get(row).get(3);
-		    	String p3a = termScheduleData.get(row).get(4);
-		   	String p3b = termScheduleData.get(row).get(5);
-		    	String p4 = termScheduleData.get(row).get(6);
-		    	Schedule sched = new Schedule(p1,p2,p3a,p3b,p4); 
-		    	OnCallTeacher obj1 = new OnCallTeacher(id,name,sched);
-		    	teacherList.add(obj1);
+			String name = termScheduleData.get(row).get(1);
+	    	String p1 = termScheduleData.get(row).get(2);
+	    	String p2 = termScheduleData.get(row).get(3);
+	    	String p3a = termScheduleData.get(row).get(4);
+	    	String p3b = termScheduleData.get(row).get(5);
+	    	String p4 = termScheduleData.get(row).get(6);
+	    	Schedule sched = new Schedule(p1,p2,p3a,p3b,p4); 
+	    	OnCallTeacher obj1 = new OnCallTeacher(id,name,sched);
+	    	teacherList.add(obj1);
 		}
 		
 		assignAbsences();
@@ -97,10 +97,23 @@ public class DataProccess
 		
 		for(int row = 0; row < tallyCountData.size(); row++)
 		{
+			
 			String name = tallyCountData.get(row).get(0);
 			String weeklyTally = tallyCountData.get(row).get(1);
+			if(weeklyTally.equals(""))
+			{
+				weeklyTally = "0.0";
+			}
 			String monthTally = tallyCountData.get(row).get(2);
-			String TermTally = tallyCountData.get(row).get(3);
+			if(monthTally.equals(""))
+			{
+				monthTally = "0.0";
+			}
+			String termTally = tallyCountData.get(row).get(3);
+			if(termTally.equals(""))
+			{
+				termTally = "0.0";
+			}
 			
 			int i = 0;
 
@@ -110,7 +123,7 @@ public class DataProccess
 				{
 					teacherList.get(i).setWeeklyTally(weeklyTally);
 					teacherList.get(i).setMonthlyTally(monthTally);
-					teacherList.get(i).setTermTally(TermTally);
+					teacherList.get(i).setTermTally(termTally);
 					break;
 				}
 				i++;

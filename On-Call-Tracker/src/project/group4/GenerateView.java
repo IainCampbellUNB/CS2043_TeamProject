@@ -31,7 +31,7 @@ public class GenerateView
 					
 					if(spare != periodIndex && lunch != periodIndex)
 					{
-						if(!(value.equals("0.0")) && !(value.equals("X")) && !(value.equals("SP")) && !(value.equals("LU")))
+						if(!(value.equals("")) && !(value.equals("0.0")) && !(value.equals("X")) && !(value.equals("SP")) && !(value.equals("LU")))
 						{
 							if(value.charAt(0) == 'A')
 							{

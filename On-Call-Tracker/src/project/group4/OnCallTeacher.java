@@ -9,12 +9,26 @@ public class OnCallTeacher extends Teacher
 	private AbsenceTracker submittedAbsence;
 	private boolean absent;
 	private boolean assigned;
+	public static String weekMax;
+	public static String monthMax;
 	
-	public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) {
+	public OnCallTeacher(String NAME, String ID, Schedule dailySchedule) 
+	{
 		super(NAME,ID);
 		this.dailySchedule = dailySchedule;
 		this.absent = false;
 		this.assigned = false;
+	
+	}
+	
+	public static void setWeekMax(String num)
+	{
+		weekMax = num;
+	}
+	
+	public static void setMonthMax(String num)
+	{
+		monthMax = num;
 	}
 	
 	public void hasBeenAssigned()
@@ -123,11 +137,16 @@ public class OnCallTeacher extends Teacher
 	
 	public boolean hasReachedweeklyMax()
 	{
-		return weeklyTallyCount.equals("2.0");
+		double max = Double.parseDouble(weekMax);
+		double currentCount = Double.parseDouble(weeklyTallyCount);
+		return max <= currentCount;
 	}
 	
-	public boolean hasReachedMonthlyMax(){
-		return monthlyTallyCount.equals("4.0");
+	public boolean hasReachedMonthlyMax()
+	{
+		double max = Double.parseDouble(monthMax);
+		double currentCount = Double.parseDouble(monthlyTallyCount);
+		return max <= currentCount;
 	}
 	
 	public String toString()

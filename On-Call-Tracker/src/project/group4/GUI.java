@@ -31,7 +31,7 @@ public class GUI extends JFrame
 {
 	private static final long serialVersionUID = 7214392589058560804L;
 	
-	private JPanel mainPanel, mainCenterPanel, southPanel;
+	private JPanel mainPanel, mainCenterPanel, southPanel, westPanel;
 	private JTable table1, table2, table3;
 	private JComboBox<String> printOptions, daySelector;
 	private JLabel dateLabel;
@@ -39,12 +39,13 @@ public class GUI extends JFrame
 	private JFileChooser fileChooser;
 	private ArrayList<File> fileList = new ArrayList<File>();
 	private JTextArea textArea;
+	private JTextField maxWeeklyTallyField, maxMonthlyTallyField;
 	
 	private int rowHeight = 30;
 	private Dimension dim;
 	private DefaultTableModel model1, model2, model3;
 	private GridBagConstraints gbc;
-	private String dateToPass;
+	private String dateToPass, weeklyTally = "", monthlyTally = "";
 	
 	public GUI() 
 	{
@@ -69,13 +70,14 @@ public class GUI extends JFrame
 		}
 	
 		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.setPreferredSize(new Dimension(1200,750));
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		getContentPane().add(mainPanel);
 		dim = new Dimension(180,30);
 		
 		northPanelSetup();
 		southPanelSetup();
 		centerPanelInit();
+		westPanelSetup();
 	
 		pack();
 		setLocationRelativeTo(null);
@@ -155,7 +157,7 @@ public class GUI extends JFrame
 		updateOnCalls.setPreferredSize(dim);
 		updateOnCalls.addActionListener(new EventHandling());
 		subWestPanel.setBackground(mainSouthPanel.getBackground());
-		subWestPanel.setPreferredSize(new Dimension(260,25));
+		subWestPanel.setPreferredSize(new Dimension(260,30));
 		subWestPanel.add(updateOnCalls);
 		
 		mainSouthPanel.add(subWestPanel, BorderLayout.WEST);
@@ -195,7 +197,9 @@ public class GUI extends JFrame
 		mainCenterPanel.setPreferredSize(new Dimension(2200,1375));
 		
 		JTextArea info = new JTextArea("Once the excel files are saved, find the files, "
-				+ "select the day of interest, and press update\nOn-Calls. Select \"AbsenceWorkbook.xls\" and then \"TallyWorkbook.xls\", in that order.");
+				+ "select the day of interest, and press update\nOn-Calls. Select \"AbsenceWorkbook.xls\" and"
+				+ " then \"TallyWorkbook.xls\", in that order.\n Also input the weekly and monthly max tallies"
+				+ " for teachers.");
 		
 		JPanel northPanel = new JPanel();
 		TitledBorder infoBorder = new TitledBorder("Instructions");
@@ -229,9 +233,30 @@ public class GUI extends JFrame
 		border.setTitleJustification(TitledBorder.CENTER);
 		border.setTitleFont(new Font("Arial", Font.BOLD, 16));
 		textArea.setBorder(border);
-		
 		southPanel.add(textArea);
+		
 		mainCenterPanel.add(southPanel,BorderLayout.SOUTH);
+	}
+	
+	private void westPanelSetup() 
+	{
+		westPanel = new JPanel();
+		westPanel.setPreferredSize(new Dimension(180,1000));
+		westPanel.setBackground(southPanel.getBackground());
+		mainPanel.add(westPanel, BorderLayout.WEST);
+		
+		JLabel weekLabel = new JLabel("Enter max weekly tallies:");
+		JLabel monthlyLabel = new JLabel("Enter max monthly tallies:");
+		
+		maxWeeklyTallyField = new JTextField("2.0");
+		maxWeeklyTallyField.setPreferredSize(new Dimension(60,30));
+		westPanel.add(weekLabel);
+		westPanel.add(maxWeeklyTallyField);
+		
+		maxMonthlyTallyField = new JTextField("4.0");
+		maxMonthlyTallyField.setPreferredSize(new Dimension(60,30));
+		westPanel.add(monthlyLabel);
+		westPanel.add(maxMonthlyTallyField);
 	}
 	
 	private void centerPanelSetup()
@@ -268,7 +293,8 @@ public class GUI extends JFrame
 		String[] title = {"Name","Spare","Week","Month","Total/term"};
 		Vector<String> titleVector = new Vector<String>();
 		
-		for(String item: title) {
+		for(String item: title) 
+		{
 			titleVector.add(item);
 		}
 		
@@ -427,9 +453,22 @@ public class GUI extends JFrame
 				JOptionPane.showMessageDialog(null, "You must first select two excel files", null, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
-			
+				
 			if(e.getSource() == updateOnCalls) 
 			{
+				weeklyTally = maxWeeklyTallyField.getText();
+				monthlyTally = maxMonthlyTallyField.getText();
+				maxWeeklyTallyField.setText("");
+				maxMonthlyTallyField.setText("");
+				
+				if(weeklyTally.equals("") || monthlyTally.equals("")) 
+				{
+					JOptionPane.showMessageDialog(null, "You must first enter the max tallies", null, JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				
+				OnCallTeacher.setWeekMax(weeklyTally);
+				OnCallTeacher.setMonthMax(monthlyTally);
 				AbsenceWorkbookReader AWreader = new AbsenceWorkbookReader(fileList.get(0),(String) daySelector.getSelectedItem(), dateToPass);
 				TallyWorkbookReader TWreader = new TallyWorkbookReader(fileList.get(1),(String) daySelector.getSelectedItem(), dateToPass);
 				
@@ -437,10 +476,12 @@ public class GUI extends JFrame
 				ArrayList<OnCallTeacher> teacherList = new ArrayList<OnCallTeacher>();
 				ArrayList<Teacher> supplyList = new ArrayList<Teacher>();
 				
-				try {
+				try 
+				{
 					teacherList = data.createTeacherTermSchedule();
 					supplyList = data.createSupplyList();
-				} catch (IOException | ParseException e1) {
+				} catch (IOException | ParseException e1) 
+				{
 					e1.printStackTrace();
 				}
 				

@@ -9,6 +9,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class AbsenceWorkbookReader extends WorkBook 
 {
 	public AbsenceWorkbookReader(File file, String selectedDate, String searchForSheetWithDate)
@@ -94,7 +96,8 @@ public class AbsenceWorkbookReader extends WorkBook
 		}
 		catch(NullPointerException e)
 		{
-			System.out.print("No such sheet found");
+			JOptionPane.showMessageDialog(null, "No such sheet exists", null, JOptionPane.INFORMATION_MESSAGE);
+			workbook.close();
 		}
 		
 		String searchWord = getDate();
@@ -136,8 +139,9 @@ public class AbsenceWorkbookReader extends WorkBook
 		}
 		catch(NullPointerException e)
 		{
-			System.out.print("No such date found");
-        	}
+			JOptionPane.showMessageDialog(null, "No such date exists", null, JOptionPane.INFORMATION_MESSAGE);
+			workbook.close();
+        }
 		
 		String searchWord = getDate();
 		int day = searchColIndex(searchWord,sheet);

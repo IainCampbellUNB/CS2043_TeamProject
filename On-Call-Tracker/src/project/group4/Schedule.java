@@ -10,6 +10,7 @@ public class Schedule
 	private ArrayList<String> schedule;
 	private String skill;
 	private Scanner scan;
+	
 	  
 	public Schedule(String p1, String p2, String p3a, String p3b, String p4)
 	{

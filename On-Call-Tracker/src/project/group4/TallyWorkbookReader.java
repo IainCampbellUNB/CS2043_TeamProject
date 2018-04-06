@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 
 public class TallyWorkbookReader extends WorkBook 
 {
@@ -33,7 +35,8 @@ public class TallyWorkbookReader extends WorkBook
 		}
 		catch(NullPointerException e)
 		{
-            System.out.print("No such sheet found");
+			JOptionPane.showMessageDialog(null, "No such date exists", null, JOptionPane.INFORMATION_MESSAGE);
+			workbook.close();
         }
 		
 		int columnIndexWT = searchColIndex("Weekly Tally",sheet);
@@ -75,7 +78,8 @@ public class TallyWorkbookReader extends WorkBook
 		}
 		catch(NullPointerException e)
 		{
-            System.out.print("No such sheet found");
+			JOptionPane.showMessageDialog(null, "No such sheet exists", null, JOptionPane.INFORMATION_MESSAGE);
+			workbook.close();
         }
 		
 		int sheetnum = workbook.getNumberOfSheets();
@@ -101,15 +105,11 @@ public class TallyWorkbookReader extends WorkBook
 			String termValue = teacherList.get(i).getTermTally();
 			sheet.getRow(findRowIndexForTeacher).getCell(week).setCellValue(weekValue);
 			sheet.getRow(findRowIndexForTeacher).getCell(month).setCellValue(monthValue);
-			/*
-			* Finishing this bit 
-			*/
+	
 			boolean done = false;
 			String nextdate = calculateFutureDates(getSheetWithDate());	
 			while(!done)
 			{
-				
-				 System.out.println("Next Date" + nextdate);
 				String newValue = getMonth(nextdate);
 				
 				if(newValue.equals(monthCheck))
@@ -139,7 +139,7 @@ public class TallyWorkbookReader extends WorkBook
 			 
 			for(int j = index+1; j < sheetnum; j++)
 			{
-				System.out.println("Term Assigned");
+
 				HSSFSheet sheet1 = workbook.getSheetAt(j);
 				sheet1.getRow(findRowIndexForTeacher).getCell(term).setCellValue(termValue);
 			}
