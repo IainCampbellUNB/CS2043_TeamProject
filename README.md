@@ -50,7 +50,7 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 2. Views from previous days can be viewed if already run in the system
 3. Easy to use GUI!
 
-## Author
+## Authors
 
 - **Members of Team 4!!!**
 - Craig Beaman  **Role: Tech Lead**
