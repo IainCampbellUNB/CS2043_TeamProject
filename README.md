@@ -2,10 +2,10 @@
 
 Repository for the CS2043 team project.The project is to design and build a software tool will be built in order to help school administrators to keep track and assign on-calls to classes that need coverage.
 
-### Description
+## Description
 This is a On-Call Tracker software system built for CS2043 Software Engineering project at the University of New Brunswick.
 
-### System Considerations:
+## System Considerations & Limitations:
 * For input and outputs excel, older excel formats must be used (i.e. xls). The system won't accept newer versions of excel (i.e. xlsx)
 
 * A user of the system must have the right dependencies files
@@ -14,7 +14,7 @@ This is a On-Call Tracker software system built for CS2043 Software Engineering 
 
 * Selected dates must already exist in the input excel files
 
-### For testing
+## For testing
 
 |    **INPUT**        | **OUTPUT**              |
 |---------------------|-------------------------|
