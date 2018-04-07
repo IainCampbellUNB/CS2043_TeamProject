@@ -4,7 +4,7 @@
 ## Description
 
 This is a On-Call Tracker software system built for the CS2043 Software Engineering project at the University of New Brunswick.
-The objective of  the project is to design and build a software tool which will help a school assign on-call teachers to classes that need coverage due to absences. 
+The objective of  the project is to design and build a software tool which will help a school assign teachers to classes that need coverage due to absences. 
 
 ## System Considerations & Limitations:
 
