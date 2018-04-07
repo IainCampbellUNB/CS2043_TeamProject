@@ -28,7 +28,7 @@ The objective of  the project is to design and build a software tool which will 
 :bangbang:**Data is overwritten when test are run. It is encourage for testers to create duplicates before testing in order to have back up of original test data.**
 
 
-## Dependencies files
+## Dependency files
 
 ### Apache Poi files
 - poi-3.17.jar
