@@ -47,6 +47,7 @@ The objective of  the project is to design and build a software tool which will 
 3. (Optional) Change the max tallies if needed.
 4. Hit **Update On-Calls**
 5. See printing options to print any of the corresponding tables
+
 (The lastest data gets saved automatically to the selected excel files)
 
 ## Cool Features
